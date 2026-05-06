@@ -17,3 +17,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "proc-macro2-kotlin"
+
