@@ -4,14 +4,14 @@ Based on AST analysis, here are the concrete next steps.
 
 ## Summary
 
-- **Files Present:** 7/15 (46.7%)
-- **Function parity:** 53/319 matched (target 85) — 16.6%
-- **Class/type parity:** 11/46 matched (target 28) — 23.9%
-- **Combined symbol parity:** 64/365 matched (target 113) — 17.5%
-- **Average inline-code cosine:** 0.74 (function body across 6 matched files)
-- **Average documentation cosine:** 0.32 (doc text across 6 matched files)
+- **Files Present:** 11/15 (73.3%)
+- **Function parity:** 211/337 matched (target 393) — 62.6%
+- **Class/type parity:** 29/60 matched (target 55) — 48.3%
+- **Combined symbol parity:** 240/397 matched (target 448) — 60.5%
+- **Average inline-code cosine:** 0.65 (function body across 10 matched files)
+- **Average documentation cosine:** 0.37 (doc text across 10 matched files)
 - **Cheat-zeroed Files:** 0
-- **Critical Issues:** 2 files with <0.60 function similarity
+- **Critical Issues:** 5 files with <0.60 function similarity
 
 ## Priority 1: Fix Incomplete High-Dependency Files
 
@@ -27,7 +27,29 @@ No missing high-value files detected.
 
 Every matched file is listed below with function and type symbol parity.
 
-### 1. rustc_literal_escaper
+### 1. fallback
+
+- **Target:** `procmacro2.Fallback`
+- **Similarity:** 0.51
+- **Dependents:** 1
+- **Priority Score:** 1198504.9
+- **Functions:** 63/72 matched (target 123)
+- **Missing functions:** `push_negative_literal`, `drop`, `fmt`, `from`, `from_iter`, `extend`, `fileinfo_mut`, `eq`, `valid`
+- **Types:** 3/13 matched (target 9)
+- **Missing types:** `TokenStream`, `LexError`, `TokenTreeIter`, `Item`, `IntoIter`, `Span`, `Group`, `Ident`, `Literal`, `FromStr2`
+
+### 2. lib
+
+- **Target:** `procmacro2.Lib`
+- **Similarity:** 0.43
+- **Dependents:** 0
+- **Priority Score:** 166905.7
+- **Functions:** 42/55 matched (target 124)
+- **Missing functions:** `default`, `from_str`, `from`, `extend`, `from_iter`, `fmt`, `unwrap`, `unstable`, `eq`, `partial_cmp`, `cmp`, `hash`, `into_iter`
+- **Types:** 11/14 matched
+- **Missing types:** `Err`, `IntoIter`, `Item`
+
+### 3. rustc_literal_escaper
 
 - **Target:** `procmacro2.RustcLiteralEscaper`
 - **Similarity:** 0.66
@@ -38,18 +60,40 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 3/8 matched (target 18)
 - **Missing types:** `CheckRaw`, `RawUnit`, `Error`, `Unescape`, `Unit`
 
-### 2. rcvec
+### 4. extra
+
+- **Target:** `procmacro2.Extra`
+- **Similarity:** 0.38
+- **Dependents:** 0
+- **Priority Score:** 40806.2
+- **Functions:** 3/6 matched (target 5)
+- **Missing functions:** `invalidate_current_thread_spans`, `new`, `fmt`
+- **Types:** 1/2 matched (target 1)
+- **Missing types:** `DelimSpanEnum`
+
+### 5. rcvec
 
 - **Target:** `procmacro2.Rcvec`
 - **Similarity:** 0.72
 - **Dependents:** 0
 - **Priority Score:** 22302.8
-- **Functions:** 17/17 matched (target 20)
+- **Functions:** 17/17 matched (target 24)
 - **Missing functions:** _none_
 - **Types:** 4/6 matched (target 5)
 - **Missing types:** `Item`, `IntoIter`
 
-### 3. detection
+### 6. parse
+
+- **Target:** `procmacro2.Parse`
+- **Similarity:** 0.72
+- **Dependents:** 0
+- **Priority Score:** 5302.8
+- **Functions:** 50/50 matched (target 52)
+- **Missing functions:** _none_
+- **Types:** 3/3 matched
+- **Missing types:** _none_
+
+### 7. detection
 
 - **Target:** `procmacro2.Detection`
 - **Similarity:** 0.70
@@ -60,7 +104,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 1/1 matched (target 2)
 - **Missing types:** _none_
 
-### 4. num
+### 8. num
 
 - **Target:** `procmacro2.Num`
 - **Similarity:** 0.60
@@ -72,7 +116,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Missing types:** _none_
 - **TODOs:** 1
 
-### 5. location
+### 9. location
 
 - **Target:** `procmacro2.Location`
 - **Similarity:** 0.73
@@ -83,7 +127,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 1/1 matched
 - **Missing types:** _none_
 
-### 6. marker
+### 10. marker
 
 - **Target:** `procmacro2.Marker`
 - **Similarity:** 1.00
@@ -94,7 +138,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 1/1 matched
 - **Missing types:** _none_
 
-### 7. probe
+### 11. probe
 
 - **Target:** `procmacro2.Probe [STUB]`
 - **Similarity:** 1.00
@@ -124,16 +168,3 @@ cd tools/ast_distance
 # Get next high-priority task
 ./ast_distance --assign tasks.json <agent-id>
 ```
-## Reexport / Wiring Modules
-
-These files match `reexport_modules` patterns in `.ast_distance_config.json`. They are filtered out of
-normal priority and missing-file ladders because they are wiring
-modules, not direct logic ports. Consult them for call-site routing;
-do not treat them as the next implementation target by default.
-
-### Missing
-
-| Source | Expected target | Deps | Source path | Expected path |
-|--------|-----------------|------|-------------|---------------|
-| `lib` | `Lib` | 0 | `lib.rs` | `Lib.kt` |
-

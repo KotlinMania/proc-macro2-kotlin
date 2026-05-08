@@ -52,7 +52,7 @@ internal class RcVec<T> internal constructor(
 
 internal class RcVecBuilder<T> internal constructor(
     internal val inner: MutableList<T>,
-) {
+) : Iterable<T> {
     internal companion object {
         internal fun <T> new(): RcVecBuilder<T> {
             return RcVecBuilder(mutableListOf())
@@ -82,6 +82,10 @@ internal class RcVecBuilder<T> internal constructor(
     internal fun intoIter(): RcVecIntoIter<T> {
         return RcVecIntoIter(inner)
     }
+
+    override fun iterator(): RcVecIntoIter<T> {
+        return intoIter()
+    }
 }
 
 internal class RcVecMut<T> internal constructor(
@@ -108,12 +112,16 @@ internal class RcVecMut<T> internal constructor(
 
 internal class RcVecIntoIter<T>(
     private val inner: MutableList<T>,
-) {
+) : Iterator<T> {
     private var index: Int = 0
 
-    internal fun next(): T? {
-        if (index >= inner.size) {
-            return null
+    override fun hasNext(): Boolean {
+        return index < inner.size
+    }
+
+    override fun next(): T {
+        if (!hasNext()) {
+            throw NoSuchElementException()
         }
         val item = inner[index]
         index += 1
@@ -123,6 +131,14 @@ internal class RcVecIntoIter<T>(
     internal fun sizeHint(): Pair<Int, Int?> {
         val remaining = inner.size - index
         return Pair(remaining, remaining)
+    }
+
+    internal fun remaining(): List<T> {
+        return inner.subList(index, inner.size).toList()
+    }
+
+    internal fun clone(): RcVecIntoIter<T> {
+        return RcVecIntoIter(remaining().toMutableList())
     }
 }
 
