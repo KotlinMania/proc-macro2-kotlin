@@ -4,12 +4,12 @@ Based on AST analysis, here are the concrete next steps.
 
 ## Summary
 
-- **Files Present:** 6/15 (40.0%)
-- **Function parity:** 25/331 matched (target 39) — 7.6%
-- **Class/type parity:** 8/46 matched (target 10) — 17.4%
-- **Combined symbol parity:** 33/377 matched (target 49) — 8.8%
-- **Average inline-code cosine:** 0.75 (function body across 5 matched files)
-- **Average documentation cosine:** 0.20 (doc text across 5 matched files)
+- **Files Present:** 7/15 (46.7%)
+- **Function parity:** 53/319 matched (target 85) — 16.6%
+- **Class/type parity:** 11/46 matched (target 28) — 23.9%
+- **Combined symbol parity:** 64/365 matched (target 113) — 17.5%
+- **Average inline-code cosine:** 0.74 (function body across 6 matched files)
+- **Average documentation cosine:** 0.32 (doc text across 6 matched files)
 - **Cheat-zeroed Files:** 0
 - **Critical Issues:** 2 files with <0.60 function similarity
 
@@ -27,18 +27,29 @@ No missing high-value files detected.
 
 Every matched file is listed below with function and type symbol parity.
 
-### 1. rcvec
+### 1. rustc_literal_escaper
+
+- **Target:** `procmacro2.RustcLiteralEscaper`
+- **Similarity:** 0.66
+- **Dependents:** 0
+- **Priority Score:** 53603.4
+- **Functions:** 28/28 matched (target 51)
+- **Missing functions:** _none_
+- **Types:** 3/8 matched (target 18)
+- **Missing types:** `CheckRaw`, `RawUnit`, `Error`, `Unescape`, `Unit`
+
+### 2. rcvec
 
 - **Target:** `procmacro2.Rcvec`
-- **Similarity:** 0.73
+- **Similarity:** 0.72
 - **Dependents:** 0
-- **Priority Score:** 22302.7
-- **Functions:** 17/17 matched (target 25)
+- **Priority Score:** 22302.8
+- **Functions:** 17/17 matched (target 20)
 - **Missing functions:** _none_
 - **Types:** 4/6 matched (target 5)
 - **Missing types:** `Item`, `IntoIter`
 
-### 2. detection
+### 3. detection
 
 - **Target:** `procmacro2.Detection`
 - **Similarity:** 0.70
@@ -49,7 +60,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 1/1 matched (target 2)
 - **Missing types:** _none_
 
-### 3. num
+### 4. num
 
 - **Target:** `procmacro2.Num`
 - **Similarity:** 0.60
@@ -61,7 +72,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Missing types:** _none_
 - **TODOs:** 1
 
-### 4. location
+### 5. location
 
 - **Target:** `procmacro2.Location`
 - **Similarity:** 0.73
@@ -72,7 +83,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 1/1 matched
 - **Missing types:** _none_
 
-### 5. marker
+### 6. marker
 
 - **Target:** `procmacro2.Marker`
 - **Similarity:** 1.00
@@ -83,7 +94,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 1/1 matched
 - **Missing types:** _none_
 
-### 6. probe
+### 7. probe
 
 - **Target:** `procmacro2.Probe [STUB]`
 - **Similarity:** 1.00
