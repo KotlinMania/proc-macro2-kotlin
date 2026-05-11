@@ -1,12 +1,38 @@
 // port-lint: source fallback.rs
+
+/**
+ * Standalone (non-compiler-backed) implementation of the proc-macro surface.
+ *
+ * In upstream Rust this module is the *fallback* arm of the Compiler/Fallback
+ * dispatch in `wrapper.rs`. The Kotlin port has no embedding compiler, so
+ * every public type in [Lib.kt] stores a `Fallback*` directly and this module
+ * is reached without any dispatch step.
+ *
+ * The internal types declared here (`FallbackTokenStream`, `FallbackSpan`,
+ * `FallbackGroup`, `FallbackIdent`, `FallbackLiteral`, `FallbackLexError`) are
+ * named after their public counterparts in [Lib.kt] with a `Fallback` prefix
+ * to disambiguate; upstream uses `crate::fallback::TokenStream` etc.
+ */
 package io.github.kotlinmania.procmacro2
 
-/** Force use of the fallback implementation of the API for now. */
+/**
+ * Force use of proc-macro2's fallback implementation of the API for now, even
+ * if the compiler's implementation is available.
+ *
+ * The Kotlin port is always in fallback mode, so this call is observably a
+ * no-op beyond resetting the detection flag.
+ */
 fun force() {
     Detection.forceFallback()
 }
 
-/** Resume using the compiler implementation of the API if it is available. */
+/**
+ * Resume using the compiler's implementation of the proc macro API if it is
+ * available.
+ *
+ * The Kotlin port has no compiler implementation to resume, so this remains
+ * in fallback mode after the call.
+ */
 fun unforce() {
     Detection.unforceFallback()
 }
@@ -89,6 +115,16 @@ internal class FallbackLexError(
     override fun toString(): String = "cannot parse string into token stream"
 }
 
+/**
+ * Pushes a token onto the builder vec, splitting negative numeric literals
+ * into a leading `-` [Punct] and a positive [Literal] so the printed token
+ * stream survives lossless round-tripping. See
+ * https://github.com/dtolnay/proc-macro2/issues/235.
+ *
+ * The upstream Rust version factors the split path into a nested `#[cold]`
+ * helper `push_negative_literal`; the Kotlin port inlines it because Kotlin
+ * lacks a `#[cold]` placement hint and the inline form is equivalent.
+ */
 private fun pushTokenFromProcMacro(vec: RcVecMut<TokenTree>, token: TokenTree) {
     if (token is TokenTree.Literal && token.value.inner.repr.startsWith('-')) {
         val literal = token.value.inner.clone()
@@ -177,6 +213,11 @@ private data class FileInfo(
     }
 }
 
+/**
+ * Computes the offsets of each line in the given source string and the total
+ * number of characters. Used by [SourceMap.addFile] to build the per-file
+ * line-table.
+ */
 private fun linesOffsets(s: String): Pair<Int, List<Int>> {
     val lines = mutableListOf(0)
     var total = 0
@@ -189,7 +230,17 @@ private fun linesOffsets(s: String): Pair<Int, List<Int>> {
     return total to lines
 }
 
+/**
+ * Process-wide registry of parsed source files, used to translate a
+ * [FallbackSpan]'s `(lo, hi)` byte offsets back into the originating file's
+ * text, line/column, and byte range. In upstream Rust this is a
+ * `thread_local!` static so each thread sees an independent map; the Kotlin
+ * port shares one map across threads, which limits cross-thread sharing of
+ * spans from concurrently-parsed sources but matches single-threaded use.
+ */
 private object SourceMap {
+    // Start with a single dummy file which all `callSite()` and `defSite()`
+    // spans reference. Real files are appended on parse.
     private val files = mutableListOf(
         FileInfo(
             sourceText = "",
@@ -202,6 +253,8 @@ private object SourceMap {
         files.subList(1, files.size).clear()
     }
 
+    // Add 1 so there's always space between files; we'll always have at least
+    // 1 file, as the list is initialized with a dummy file above.
     private fun nextStartPos(): Int = files.last().span.hi + 1
 
     fun addFile(src: String): FallbackSpan {
@@ -306,6 +359,13 @@ internal data class FallbackGroup(
         this.span = span
     }
 
+    // We attempt to match libproc_macro's formatting.
+    //   Empty parens:     ()
+    //   Nonempty parens:  (...)
+    //   Empty brackets:   []
+    //   Nonempty brackets: [...]
+    //   Empty braces:     { }
+    //   Nonempty braces:  { ... }
     override fun toString(): String {
         val open: String
         val close: String
