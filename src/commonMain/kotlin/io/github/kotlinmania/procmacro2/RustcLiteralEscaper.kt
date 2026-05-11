@@ -1,13 +1,13 @@
 // port-lint: source rustc_literal_escaper.rs
-package io.github.kotlinmania.procmacro2
 
 // Vendored from rustc-literal-escaper v0.0.5.
 // https://github.com/rust-lang/literal-escaper/tree/v0.0.5
 
 /**
- * Utilities for validating raw string, char, and byte literals and turning
+ * Utilities for validating (raw) string, char, and byte literals and turning
  * escape sequences into the values they represent.
  */
+package io.github.kotlinmania.procmacro2
 
 /**
  * Errors and warnings that can occur during string, char, and byte unescaping.
@@ -94,17 +94,27 @@ enum class EscapeError {
     }
 }
 
+/** Half-open byte range into the source string, mirroring `Range<usize>`. */
 data class ByteRange(
     val start: Int,
     val end: Int,
 )
 
+/**
+ * Result of unescaping or checking a single unit of a literal. Equivalent to
+ * `Result<T, EscapeError>` in upstream; sealed here so callers can pattern-
+ * match in Kotlin.
+ */
 sealed class EscapeResult<out T> {
     data class Ok<T>(val value: T) : EscapeResult<T>()
 
     data class Err(val error: EscapeError) : EscapeResult<Nothing>()
 }
 
+/**
+ * The non-zero byte type, mirroring Rust's `core::num::NonZeroU8`. Used to
+ * carry the invariant that a byte literal's unescaped value is not `0`.
+ */
 class NonZeroU8 private constructor(private val value: Int) {
     companion object {
         fun new(byte: Int): NonZeroU8? {
@@ -175,6 +185,15 @@ fun checkRawCStr(
     checkRaw(src, ::cstr2rawUnit, callback)
 }
 
+/**
+ * Generic implementation of raw-literal checking, parameterised by the per-type
+ * conversion `char2RawUnit`. Mirrors the upstream `trait CheckRaw`'s default
+ * `check_raw` method whose impls for `str`, `[u8]`, and `CStr` differ only in
+ * the associated `RawUnit` type and the `char2raw_unit` conversion. Takes the
+ * contents of a raw literal (without quotes) and produces a sequence of
+ * results which are returned via `callback`. Does no escaping, but produces
+ * errors for bare carriage return.
+ */
 private fun <T> checkRaw(
     src: String,
     char2RawUnit: (Char) -> EscapeResult<T>,
@@ -195,14 +214,26 @@ private fun <T> checkRaw(
     }
 }
 
+/**
+ * `RawUnit` conversion for raw `str` literals: every char passes through.
+ * Equivalent to upstream `impl CheckRaw for str`.
+ */
 private fun char2rawUnit(c: Char): EscapeResult<Char> {
     return ok(c)
 }
 
+/**
+ * `RawUnit` conversion for raw byte string literals: chars are constrained
+ * to ASCII and emitted as bytes. Equivalent to upstream `impl CheckRaw for [u8]`.
+ */
 private fun byte2rawUnit(c: Char): EscapeResult<Int> {
     return char2byte(c)
 }
 
+/**
+ * `RawUnit` conversion for raw C string literals: chars must be non-NUL.
+ * Equivalent to upstream `impl CheckRaw for CStr`.
+ */
 private fun cstr2rawUnit(c: Char): EscapeResult<NonZeroChar> {
     return NonZeroChar.new(c)?.let(::ok) ?: err(EscapeError.NulInCStr)
 }
@@ -328,18 +359,31 @@ sealed class MixedUnit {
     }
 }
 
+/**
+ * Strategy interface for unescaping escape sequences in strings. Mirrors the
+ * upstream `trait Unescape`: each implementing object pins the associated
+ * `Unit` type (`Char` for string, `Int` for byte string, [MixedUnit] for C
+ * string) and supplies the conversions used by [unescapeSingle], [unescape1],
+ * and [unescape].
+ */
 private interface UnescapeStrategy<T> {
+    /** Result of unescaping the zero char (`\0`). */
     val zeroResult: EscapeResult<T>
 
+    /** Converts non-zero bytes to the unit type. */
     fun nonzeroByte2unit(b: NonZeroU8): T
 
+    /** Converts chars to the unit type. */
     fun char2unit(c: Char): EscapeResult<T>
 
+    /** Converts the byte of a hex escape to the unit type. */
     fun hex2unit(b: Int): EscapeResult<T>
 
+    /** Converts the result of a Unicode escape to the unit type. */
     fun unicode2unit(r: EscapeResult<Char>): EscapeResult<T>
 }
 
+/** Unescape a single unit (single-quote syntax). */
 private fun <T> unescapeSingle(
     chars: CharCursor,
     strategy: UnescapeStrategy<T>,
@@ -363,6 +407,7 @@ private fun <T> unescapeSingle(
     return ok(value)
 }
 
+/** Unescape the first unit of a string (double-quoted syntax). Previous char was a backslash. */
 private fun <T> unescape1(
     chars: CharCursor,
     strategy: UnescapeStrategy<T>,
@@ -394,6 +439,12 @@ private fun <T> unescape1(
     }
 }
 
+/**
+ * Unescape a string literal.
+ *
+ * Takes the contents of a raw string literal (without quotes) and produces a
+ * sequence of results which are returned via `callback`.
+ */
 private fun <T> unescape(
     src: String,
     strategy: UnescapeStrategy<T>,
@@ -440,6 +491,11 @@ private fun simpleEscape(c: Char): SimpleEscape {
     return SimpleEscape.Known(NonZeroU8.new(byte)!!)
 }
 
+/**
+ * Result of [simpleEscape]: either a recognised non-NUL escape ([Known]) or
+ * the unrecognised character to retry with another decoder ([Unknown]).
+ * Models upstream's `Result<NonZeroU8, char>`.
+ */
 private sealed class SimpleEscape {
     data class Known(val byte: NonZeroU8) : SimpleEscape()
 
@@ -495,7 +551,13 @@ private fun unicodeEscape(chars: CharCursor): EscapeResult<Int> {
     }
 }
 
-/** Interpret a string continuation escape. */
+/**
+ * Skip whitespace following a backslash-newline string continuation, calling
+ * `callback` with [EscapeError.MultipleSkippedLinesWarning] when more than one
+ * line is consumed and [EscapeError.UnskippedWhitespaceWarning] when non-ASCII
+ * whitespace was the first non-skipped character. See the Rust Reference's
+ * "String literals" section.
+ */
 private fun skipAsciiWhitespace(
     chars: CharCursor,
     start: Int,
@@ -529,6 +591,7 @@ private fun skipAsciiWhitespace(
     }
 }
 
+/** Unescape strategy for `str` literals. Equivalent to upstream `impl Unescape for str`. */
 private object CharUnescape : UnescapeStrategy<Char> {
     override val zeroResult: EscapeResult<Char> = ok('\u0000')
 
@@ -553,6 +616,7 @@ private object CharUnescape : UnescapeStrategy<Char> {
     }
 }
 
+/** Unescape strategy for byte string literals. Equivalent to upstream `impl Unescape for [u8]`. */
 private object ByteUnescape : UnescapeStrategy<Int> {
     override val zeroResult: EscapeResult<Int> = ok(0)
 
@@ -577,6 +641,7 @@ private object ByteUnescape : UnescapeStrategy<Int> {
     }
 }
 
+/** Unescape strategy for C string literals. Equivalent to upstream `impl Unescape for CStr`. */
 private object CStrUnescape : UnescapeStrategy<MixedUnit> {
     override val zeroResult: EscapeResult<MixedUnit> = err(EscapeError.NulInCStr)
 
@@ -726,6 +791,10 @@ fun checkForErrors(
     }
 }
 
+/**
+ * Promote a Unicode scalar value to a [Char], reporting the appropriate error
+ * for surrogate or out-of-range code points.
+ */
 private fun scalarValueToChar(value: Int): EscapeResult<Char> {
     return when {
         value > 0x10FFFF -> err(EscapeError.OutOfRangeUnicodeEscape)
@@ -735,14 +804,21 @@ private fun scalarValueToChar(value: Int): EscapeResult<Char> {
     }
 }
 
+/** Helper that wraps a value in [EscapeResult.Ok], shortening callsite syntax. */
 private fun <T> ok(value: T): EscapeResult<T> {
     return EscapeResult.Ok(value)
 }
 
+/** Helper that wraps an error in [EscapeResult.Err], shortening callsite syntax. */
 private fun err(error: EscapeError): EscapeResult.Err {
     return EscapeResult.Err(error)
 }
 
+/**
+ * Forward-only cursor over the chars of the source string, tracking both the
+ * UTF-16 char index (used for reading the next char) and the UTF-8 byte index
+ * (used for byte-range diagnostics that mirror upstream's `Range<usize>`).
+ */
 private class CharCursor(
     private val src: String,
 ) {
@@ -769,6 +845,7 @@ private class CharCursor(
     }
 }
 
+/** UTF-8 byte length of a single [Char], matching Rust's `char::len_utf8`. */
 private fun utf8Len(c: Char): Int {
     return c.toString().encodeToByteArray().size
 }
