@@ -8,10 +8,11 @@
  * every public type in [Lib.kt] stores a `Fallback*` directly and this module
  * is reached without any dispatch step.
  *
- * The internal types declared here (`FallbackTokenStream`, `FallbackSpan`,
- * `FallbackGroup`, `FallbackIdent`, `FallbackLiteral`, `FallbackLexError`) are
- * named after their public counterparts in [Lib.kt] with a `Fallback` prefix
- * to disambiguate; upstream uses `crate::fallback::TokenStream` etc.
+ * The internal types declared here ([FallbackTokenStream], [FallbackSpan],
+ * [FallbackGroup], [FallbackIdent], [FallbackLiteral], [FallbackLexError]) are
+ * named after their public counterparts in [Lib.kt] with a Fallback prefix
+ * to disambiguate; upstream places the same names inside a fallback module
+ * and uses the module path to disambiguate.
  */
 package io.github.kotlinmania.procmacro2
 
@@ -117,13 +118,13 @@ internal class FallbackLexError(
 
 /**
  * Pushes a token onto the builder vec, splitting negative numeric literals
- * into a leading `-` [Punct] and a positive [Literal] so the printed token
+ * into a leading minus [Punct] and a positive [Literal] so the printed token
  * stream survives lossless round-tripping. See
  * https://github.com/dtolnay/proc-macro2/issues/235.
  *
- * The upstream Rust version factors the split path into a nested `#[cold]`
- * helper `push_negative_literal`; the Kotlin port inlines it because Kotlin
- * lacks a `#[cold]` placement hint and the inline form is equivalent.
+ * The upstream version factors the negative-split path into a nested cold-
+ * path helper; the Kotlin port inlines it because there is no equivalent
+ * cold-path placement hint and the inline form is observably the same.
  */
 private fun pushTokenFromProcMacro(vec: RcVecMut<TokenTree>, token: TokenTree) {
     if (token is TokenTree.Literal && token.value.inner.repr.startsWith('-')) {
@@ -233,10 +234,11 @@ private fun linesOffsets(s: String): Pair<Int, List<Int>> {
 /**
  * Process-wide registry of parsed source files, used to translate a
  * [FallbackSpan]'s `(lo, hi)` byte offsets back into the originating file's
- * text, line/column, and byte range. In upstream Rust this is a
- * `thread_local!` static so each thread sees an independent map; the Kotlin
- * port shares one map across threads, which limits cross-thread sharing of
- * spans from concurrently-parsed sources but matches single-threaded use.
+ * text, line/column, and byte range. Upstream isolates one map per thread so
+ * each thread sees an independent registry; the Kotlin port shares one map
+ * across threads, which limits cross-thread sharing of spans from
+ * concurrently-parsed sources but is observably correct for single-threaded
+ * use.
  */
 private object SourceMap {
     // Start with a single dummy file which all `callSite()` and `defSite()`
@@ -359,7 +361,8 @@ internal data class FallbackGroup(
         this.span = span
     }
 
-    // We attempt to match libproc_macro's formatting.
+    // Match the formatting produced by the compiler's in-tree procedural
+    // macro library:
     //   Empty parens:     ()
     //   Nonempty parens:  (...)
     //   Empty brackets:   []

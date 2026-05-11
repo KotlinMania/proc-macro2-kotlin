@@ -2,8 +2,9 @@
 package io.github.kotlinmania.procmacro2
 
 /*
- * Items which do not have a correspondence to any API in the `proc_macro`
- * crate, but are necessary to include in proc-macro2.
+ * Items which do not have a correspondence to any API in the compiler's
+ * in-tree procedural macro crate, but are necessary to include in
+ * proc-macro2.
  */
 
 /**

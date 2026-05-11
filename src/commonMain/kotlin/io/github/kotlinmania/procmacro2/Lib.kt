@@ -1,24 +1,26 @@
 // port-lint: source lib.rs
 
 /**
- * Kotlin Multiplatform port of the upstream Rust crate
- * [`proc_macro2`](https://crates.io/crates/proc-macro2). In Rust, `proc_macro2`
- * is a wrapper around the procedural macro API of the compiler's `proc_macro`
- * crate. This library serves two purposes:
+ * Kotlin Multiplatform port of the upstream Rust
+ * [proc-macro2](https://crates.io/crates/proc-macro2) crate. The original
+ * library is a wrapper around the compiler's in-tree procedural macro API,
+ * exposed in Rust as the `proc-macro` crate. This library serves two purposes:
  *
  * - **Bring proc-macro-like functionality to other contexts like build scripts
- *   and regular `main` code.** Types from `proc_macro` are entirely specific to
- *   procedural macros and cannot ever exist in code outside of a procedural
- *   macro. Meanwhile `proc_macro2` types may exist anywhere including non-macro
- *   code. By developing foundational libraries like syn and quote against
- *   `proc_macro2` rather than `proc_macro`, the procedural macro ecosystem
- *   becomes easily applicable to many other use cases and the libraries can
- *   avoid reimplementing non-macro equivalents.
+ *   and regular application code.** Types from the in-tree procedural macro
+ *   crate are entirely specific to procedural macros and cannot exist in code
+ *   outside of a procedural macro. Meanwhile types in this library may exist
+ *   anywhere, including non-macro code. By developing foundational libraries
+ *   like syn and quote against this crate rather than the compiler's in-tree
+ *   crate, the procedural macro ecosystem becomes easily applicable to many
+ *   other use cases and the libraries can avoid reimplementing non-macro
+ *   equivalents.
  *
  * - **Make procedural macros unit testable.** As a consequence of being specific
- *   to procedural macros, nothing that uses `proc_macro` can be executed from a
- *   unit test. In order for helper libraries or components of a macro to be
- *   testable in isolation, they must be implemented using `proc_macro2`.
+ *   to procedural macros, nothing that uses the compiler's in-tree procedural
+ *   macro crate can be executed from a unit test. In order for helper libraries
+ *   or components of a macro to be testable in isolation, they must be
+ *   implemented using this library.
  *
  * ## Usage
  *
@@ -41,14 +43,15 @@
  *
  * ## Unstable features
  *
- * The default feature set of upstream `proc-macro2` tracks the most recent
- * stable compiler API; functionality in `proc_macro` that is not yet stable is
- * not exposed by default. In Rust, opting into the additional APIs available in
- * the most recent nightly compiler requires passing the `procmacro2_semver_exempt`
- * config flag to rustc and to any crate that depends on this one. Kotlin
- * Multiplatform has no equivalent feature-flag mechanism, so the port simply
- * exposes the always-stable surface plus whatever the fallback implementation
- * can compute on its own.
+ * The default feature set of upstream proc-macro2 tracks the most recent
+ * stable compiler API; functionality in the compiler's in-tree procedural
+ * macro crate that is not yet stable is not exposed by default. In the
+ * upstream library, opting into the additional APIs available in the most
+ * recent nightly compiler requires passing a dedicated semver-exempt config
+ * flag to the Rust compiler and to any crate that depends on this one.
+ * Kotlin Multiplatform has no equivalent feature-flag mechanism, so the port
+ * simply exposes the always-stable surface plus whatever the fallback
+ * implementation can compute on its own.
  *
  * ## Thread-safety
  *
@@ -183,7 +186,7 @@ class Span internal constructor(
          * The span located at the invocation of the procedural macro, but with
          * local variables, labels, and crate-relative paths resolved at the
          * definition site of the macro. This is the same hygiene behavior as
-         * `macro_rules` in Rust.
+         * Rust's declarative macros.
          */
         fun mixedSite(): Span = Span(FallbackSpan.mixedSite())
 
@@ -438,7 +441,7 @@ enum class Delimiter {
      *
      * Note: rustc currently can ignore the grouping of tokens delimited by
      * `None` in the output of a procedural macro. Only `None`-delimited groups
-     * created by a macro_rules macro in the input of a procedural macro are
+     * created by a declarative macro in the input of a procedural macro are
      * preserved, and only in very specific circumstances. Any `None`-delimited
      * groups (re)created by a procedural macro will therefore not preserve
      * operator priorities as indicated above. The other [Delimiter] variants
@@ -509,8 +512,8 @@ enum class Spacing {
     /**
      * E.g. `+` is [Joint] in `+=` or `'` is [Joint] in `'#`.
      *
-     * Additionally, single quote `'` can join with identifiers to form
-     * lifetimes `'ident`.
+     * Additionally, a single-quote [Punct] can join with an adjacent
+     * identifier to form a single labelled token of the form `'name`.
      */
     Joint,
 }
@@ -518,12 +521,12 @@ enum class Spacing {
 /**
  * A word of code, which may be a keyword or legal variable name.
  *
- * An identifier consists of at least one Unicode code point, the first of
- * which has the XID_Start property and the rest of which have the XID_Continue
- * property.
+ * An identifier consists of at least one Unicode code point matching the
+ * Unicode Standard Annex 31 identifier rules: a starter character followed
+ * by zero or more continue characters.
  *
  * - The empty string is not an identifier. Use a nullable [Ident] reference.
- * - A lifetime is not an identifier.
+ * - A leading-apostrophe labelled token is not an identifier.
  *
  * An identifier constructed with [Ident.new] is permitted to be a Rust
  * keyword, though parsing one rejects Rust keywords.
@@ -542,7 +545,7 @@ enum class Spacing {
  * A string representation of the ident is available through [toString]:
  *
  * ```
- * val ident = Ident.new("another_identifier", Span.callSite())
+ * val ident = Ident.new("calligraphy", Span.callSite())
  * val identString = ident.toString()
  * if (identString.length > 60) {
  *     println("Very long identifier: $identString")
