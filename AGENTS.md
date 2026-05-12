@@ -103,10 +103,6 @@ Use the path convention from `CLAUDE.md` or `.ast_distance_config.json`. Do not
 invent absolute upstream paths. If a repo requires an attribution line after the
 `port-lint` header, preserve it exactly.
 
-For files with no single Rust counterpart, use `// port-lint: ignore` only when
-repo docs allow it, and add the shortest possible upstream-derived or ledger
-note. Do not use ignored files as a place for translation rationale.
-
 ## Naming
 
 The translation direction is always Rust -> Kotlin.
