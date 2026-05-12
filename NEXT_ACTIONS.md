@@ -4,14 +4,14 @@ Based on AST analysis, here are the concrete next steps.
 
 ## Summary
 
-- **Files Present:** 15/15 (100.0%)
-- **Function parity:** 265/300 matched (target 516) — 88.3%
-- **Class/type parity:** 29/60 matched (target 62) — 48.3%
-- **Combined symbol parity:** 294/360 matched (target 578) — 81.7%
-- **Average inline-code cosine:** 0.62 (function body across 14 matched files)
-- **Average documentation cosine:** 0.26 (doc text across 14 matched files)
+- **Files Present:** 10/15 (66.7%)
+- **Function parity:** 211/337 matched (target 392) — 62.6%
+- **Class/type parity:** 28/60 matched (target 54) — 46.7%
+- **Combined symbol parity:** 239/397 matched (target 446) — 60.2%
+- **Average inline-code cosine:** 0.65 (function body across 10 matched files)
+- **Average documentation cosine:** 0.41 (doc text across 10 matched files)
 - **Cheat-zeroed Files:** 0
-- **Critical Issues:** 7 files with <0.60 function similarity
+- **Critical Issues:** 4 files with <0.60 function similarity
 
 ## Priority 1: Fix Incomplete High-Dependency Files
 
@@ -38,51 +38,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 3/13 matched (target 9)
 - **Missing types:** `TokenStream`, `LexError`, `TokenTreeIter`, `Item`, `IntoIter`, `Span`, `Group`, `Ident`, `Literal`, `FromStr2`
 
-### 2. probe.proc_macro_span
-
-- **Target:** `probe.ProcMacroSpan`
-- **Similarity:** 0.65
-- **Dependents:** 1
-- **Priority Score:** 1000903.4
-- **Functions:** 9/9 matched
-- **Missing functions:** _none_
-- **Types:** 0/0 matched
-- **Missing types:** _none_
-
-### 3. probe.proc_macro_span_location
-
-- **Target:** `probe.ProcMacroSpanLocation`
-- **Similarity:** 0.55
-- **Dependents:** 1
-- **Priority Score:** 1000404.4
-- **Functions:** 4/4 matched
-- **Missing functions:** _none_
-- **Types:** 0/0 matched
-- **Missing types:** _none_
-
-### 4. probe.proc_macro_span_file
-
-- **Target:** `probe.ProcMacroSpanFile`
-- **Similarity:** 0.68
-- **Dependents:** 1
-- **Priority Score:** 1000203.2
-- **Functions:** 2/2 matched
-- **Missing functions:** _none_
-- **Types:** 0/0 matched
-- **Missing types:** _none_
-
-### 5. wrapper
-
-- **Target:** `procmacro2.Wrapper`
-- **Similarity:** 0.29
-- **Dependents:** 0
-- **Priority Score:** 205907.1
-- **Functions:** 39/49 matched (target 108)
-- **Missing functions:** `evaluate_now`, `into_token_stream`, `fmt`, `from`, `into_compiler_token`, `from_iter`, `extend`, `into_iter`, `eq`, `invalidate_current_thread_spans`
-- **Types:** 0/10 matched (target 7)
-- **Missing types:** `TokenStream`, `DeferredTokenStream`, `LexError`, `TokenTreeIter`, `Item`, `IntoIter`, `Span`, `Group`, `Ident`, `Literal`
-
-### 6. lib
+### 2. lib
 
 - **Target:** `procmacro2.Lib`
 - **Similarity:** 0.43
@@ -93,7 +49,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 11/14 matched
 - **Missing types:** `Err`, `IntoIter`, `Item`
 
-### 7. rustc_literal_escaper
+### 3. rustc_literal_escaper
 
 - **Target:** `procmacro2.RustcLiteralEscaper`
 - **Similarity:** 0.66
@@ -104,7 +60,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 3/8 matched (target 18)
 - **Missing types:** `CheckRaw`, `RawUnit`, `Error`, `Unescape`, `Unit`
 
-### 8. extra
+### 4. extra
 
 - **Target:** `procmacro2.Extra`
 - **Similarity:** 0.38
@@ -115,7 +71,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 1/2 matched (target 1)
 - **Missing types:** `DelimSpanEnum`
 
-### 9. rcvec
+### 5. rcvec
 
 - **Target:** `procmacro2.Rcvec`
 - **Similarity:** 0.72
@@ -126,7 +82,18 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 4/6 matched (target 5)
 - **Missing types:** `Item`, `IntoIter`
 
-### 10. parse
+### 6. detection
+
+- **Target:** `procmacro2.Detection`
+- **Similarity:** 0.70
+- **Dependents:** 0
+- **Priority Score:** 10503.0
+- **Functions:** 4/4 matched (target 5)
+- **Missing functions:** _none_
+- **Types:** 0/1 matched
+- **Missing types:** `PanicHook`
+
+### 7. parse
 
 - **Target:** `procmacro2.Parse`
 - **Similarity:** 0.72
@@ -137,18 +104,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 3/3 matched
 - **Missing types:** _none_
 
-### 11. detection
-
-- **Target:** `procmacro2.Detection`
-- **Similarity:** 0.70
-- **Dependents:** 0
-- **Priority Score:** 503.0
-- **Functions:** 4/4 matched (target 6)
-- **Missing functions:** _none_
-- **Types:** 1/1 matched (target 2)
-- **Missing types:** _none_
-
-### 12. num
+### 8. num
 
 - **Target:** `procmacro2.Num`
 - **Similarity:** 0.60
@@ -160,7 +116,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Missing types:** _none_
 - **TODOs:** 1
 
-### 13. location
+### 9. location
 
 - **Target:** `procmacro2.Location`
 - **Similarity:** 0.73
@@ -171,7 +127,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 1/1 matched
 - **Missing types:** _none_
 
-### 14. marker
+### 10. marker
 
 - **Target:** `procmacro2.Marker`
 - **Similarity:** 1.00
@@ -180,17 +136,6 @@ Every matched file is listed below with function and type symbol parity.
 - **Functions:** 0/0 matched
 - **Missing functions:** _none_
 - **Types:** 1/1 matched
-- **Missing types:** _none_
-
-### 15. probe
-
-- **Target:** `procmacro2.Probe [STUB]`
-- **Similarity:** 1.00
-- **Dependents:** 0
-- **Priority Score:** 0.0
-- **Functions:** 0/0 matched
-- **Missing functions:** _none_
-- **Types:** 0/0 matched
 - **Missing types:** _none_
 
 ## Success Criteria

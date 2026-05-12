@@ -92,8 +92,6 @@ package io.github.kotlinmania.procmacro2
 
 This is how `ast_distance` tracks provenance. Never remove or alter unless the file is being re-targeted to a different Rust source.
 
-For files that have no single Rust counterpart (re-homed from a `mod.rs`, or pure Kotlin glue), use `// port-lint: ignore` and a one-line prose note explaining what it does.
-
 ## Build
 
 ```bash
