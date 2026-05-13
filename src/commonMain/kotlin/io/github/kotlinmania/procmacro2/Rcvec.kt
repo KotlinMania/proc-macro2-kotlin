@@ -83,7 +83,9 @@ internal class RcVecBuilder<T> internal constructor(
         return RcVecIntoIter(inner)
     }
 
-    override fun iterator(): Iterator<T> = intoIter()
+    override fun iterator(): RcVecIntoIter<T> {
+        return intoIter()
+    }
 }
 
 internal class RcVecMut<T> internal constructor(

@@ -337,7 +337,6 @@ example:
 ```bash
 ./tools/ast_distance/ast_distance --deep <upstream-root> rust <kotlin-source-root> kotlin
 ```
-
 The exact paths come from `.ast_distance_config.json`, `CLAUDE.md`, or existing
 repo scripts. Use this scan as a progress dashboard for missing files/functions,
 header drift, and cheat detection. A file is not done merely because a
@@ -362,6 +361,5 @@ Read upstream again. Read the repo-local `CLAUDE.md` again. If a construct is
 not covered here, add the rule to project docs with the translation you chose.
 The goal is not to make Kotlin look like Rust; the goal is to preserve behavior
 while moving steadily toward Kotlin that Kotlin developers can maintain.
-
 - One Rust file → one Kotlin file. No exceptions.
 - Test files port too. Every `#[test]` becomes a `@Test`.
