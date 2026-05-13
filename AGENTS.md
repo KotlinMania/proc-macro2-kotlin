@@ -358,12 +358,10 @@ upstream behavior is truly public runtime behavior.
 
 ## When unsure
 
-<<<<<<< main
 Read upstream again. Read the repo-local `CLAUDE.md` again. If a construct is
 not covered here, add the rule to project docs with the translation you chose.
 The goal is not to make Kotlin look like Rust; the goal is to preserve behavior
 while moving steadily toward Kotlin that Kotlin developers can maintain.
-=======
+
 - One Rust file → one Kotlin file. No exceptions.
 - Test files port too. Every `#[test]` becomes a `@Test`.
->>>>>>> flatten/2026-05-09
