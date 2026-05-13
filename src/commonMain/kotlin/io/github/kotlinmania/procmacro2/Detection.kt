@@ -4,7 +4,6 @@ package io.github.kotlinmania.procmacro2
 import kotlin.concurrent.atomics.AtomicLong
 import kotlin.concurrent.atomics.ExperimentalAtomicApi
 
-<<<<<<< main
 /**
  * Tracks whether proc-macro2 should defer to the embedding compiler's procedural
  * macro API or to its standalone fallback implementation. The Kotlin port has no
@@ -12,8 +11,7 @@ import kotlin.concurrent.atomics.ExperimentalAtomicApi
  * false; the machinery is retained so [forceFallback] and [unforceFallback]
  * remain available to callers that want to assert a particular mode.
  */
-=======
->>>>>>> flatten/2026-05-09
+
 @OptIn(ExperimentalAtomicApi::class)
 internal object Detection {
     private val works = AtomicLong(0)
@@ -42,8 +40,6 @@ internal object Detection {
         works.store(1)
     }
 
-<<<<<<< main
-=======
     // Swap in a null panic hook to avoid printing "thread panicked" to stderr,
     // then use catchUnwind to determine whether the compiler's proc macro is
     // working. When proc-macro2 is used from outside of a procedural macro all
@@ -81,7 +77,6 @@ internal object Detection {
         originalHook()
     }
 
->>>>>>> flatten/2026-05-09
     private fun callOnce(init: () -> Unit) {
         if (initialized.load() == 2L) {
             return
@@ -97,8 +92,6 @@ internal object Detection {
         }
     }
 }
-<<<<<<< main
-=======
 
 private typealias PanicHook = () -> Unit
->>>>>>> flatten/2026-05-09
+

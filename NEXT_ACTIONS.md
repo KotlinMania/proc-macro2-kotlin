@@ -4,7 +4,6 @@ Based on AST analysis, here are the concrete next steps.
 
 ## Summary
 
-<<<<<<< main
 - **Files Present:** 10/15 (66.7%)
 - **Function parity:** 211/337 matched (target 392) — 62.6%
 - **Class/type parity:** 28/60 matched (target 54) — 46.7%
@@ -13,16 +12,6 @@ Based on AST analysis, here are the concrete next steps.
 - **Average documentation cosine:** 0.41 (doc text across 10 matched files)
 - **Cheat-zeroed Files:** 0
 - **Critical Issues:** 4 files with <0.60 function similarity
-=======
-- **Files Present:** 6/15 (40.0%)
-- **Function parity:** 25/331 matched (target 39) — 7.6%
-- **Class/type parity:** 8/46 matched (target 10) — 17.4%
-- **Combined symbol parity:** 33/377 matched (target 49) — 8.8%
-- **Average inline-code cosine:** 0.75 (function body across 5 matched files)
-- **Average documentation cosine:** 0.20 (doc text across 5 matched files)
-- **Cheat-zeroed Files:** 0
-- **Critical Issues:** 2 files with <0.60 function similarity
->>>>>>> flatten/2026-05-09
 
 ## Priority 1: Fix Incomplete High-Dependency Files
 
@@ -38,7 +27,6 @@ No missing high-value files detected.
 
 Every matched file is listed below with function and type symbol parity.
 
-<<<<<<< main
 ### 1. fallback
 
 - **Target:** `procmacro2.Fallback`
@@ -90,29 +78,15 @@ Every matched file is listed below with function and type symbol parity.
 - **Dependents:** 0
 - **Priority Score:** 22302.8
 - **Functions:** 17/17 matched (target 24)
-=======
-### 1. rcvec
-
-- **Target:** `procmacro2.Rcvec`
-- **Similarity:** 0.73
-- **Dependents:** 0
-- **Priority Score:** 22302.7
-- **Functions:** 17/17 matched (target 25)
->>>>>>> flatten/2026-05-09
 - **Missing functions:** _none_
 - **Types:** 4/6 matched (target 5)
 - **Missing types:** `Item`, `IntoIter`
 
-<<<<<<< main
 ### 6. detection
-=======
-### 2. detection
->>>>>>> flatten/2026-05-09
 
 - **Target:** `procmacro2.Detection`
 - **Similarity:** 0.70
 - **Dependents:** 0
-<<<<<<< main
 - **Priority Score:** 10503.0
 - **Functions:** 4/4 matched (target 5)
 - **Missing functions:** _none_
@@ -131,15 +105,6 @@ Every matched file is listed below with function and type symbol parity.
 - **Missing types:** _none_
 
 ### 8. num
-=======
-- **Priority Score:** 503.0
-- **Functions:** 4/4 matched (target 6)
-- **Missing functions:** _none_
-- **Types:** 1/1 matched (target 2)
-- **Missing types:** _none_
-
-### 3. num
->>>>>>> flatten/2026-05-09
 
 - **Target:** `procmacro2.Num`
 - **Similarity:** 0.60
@@ -151,11 +116,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Missing types:** _none_
 - **TODOs:** 1
 
-<<<<<<< main
 ### 9. location
-=======
-### 4. location
->>>>>>> flatten/2026-05-09
 
 - **Target:** `procmacro2.Location`
 - **Similarity:** 0.73
@@ -166,11 +127,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 1/1 matched
 - **Missing types:** _none_
 
-<<<<<<< main
 ### 10. marker
-=======
-### 5. marker
->>>>>>> flatten/2026-05-09
 
 - **Target:** `procmacro2.Marker`
 - **Similarity:** 1.00
@@ -181,20 +138,6 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 1/1 matched
 - **Missing types:** _none_
 
-<<<<<<< main
-=======
-### 6. probe
-
-- **Target:** `procmacro2.Probe [STUB]`
-- **Similarity:** 1.00
-- **Dependents:** 0
-- **Priority Score:** 0.0
-- **Functions:** 0/0 matched
-- **Missing functions:** _none_
-- **Types:** 0/0 matched
-- **Missing types:** _none_
-
->>>>>>> flatten/2026-05-09
 ## Success Criteria
 
 For each file to be considered "complete":
@@ -214,8 +157,6 @@ cd tools/ast_distance
 # Get next high-priority task
 ./ast_distance --assign tasks.json <agent-id>
 ```
-<<<<<<< main
-=======
 ## Reexport / Wiring Modules
 
 These files match `reexport_modules` patterns in `.ast_distance_config.json`. They are filtered out of
@@ -229,4 +170,3 @@ do not treat them as the next implementation target by default.
 |--------|-----------------|------|-------------|---------------|
 | `lib` | `Lib` | 0 | `lib.rs` | `Lib.kt` |
 
->>>>>>> flatten/2026-05-09
