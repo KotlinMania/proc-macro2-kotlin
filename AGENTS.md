@@ -337,7 +337,6 @@ example:
 ```bash
 ./tools/ast_distance/ast_distance --deep <upstream-root> rust <kotlin-source-root> kotlin
 ```
-
 The exact paths come from `.ast_distance_config.json`, `CLAUDE.md`, or existing
 repo scripts. Use this scan as a progress dashboard for missing files/functions,
 header drift, and cheat detection. A file is not done merely because a
