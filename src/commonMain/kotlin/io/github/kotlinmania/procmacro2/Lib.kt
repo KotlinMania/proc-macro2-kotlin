@@ -796,6 +796,27 @@ class Literal internal constructor(
      */
     fun cstrValue(): Result<ByteArray> {
         val repr = toString()
+        if (repr.startsWith("c\"") && repr.endsWith('"') && repr.length >= 3) {
+            val quoted = repr.substring(2, repr.length - 1)
+            val value = mutableListOf<Byte>()
+            var error: EscapeError? = null
+            unescapeCStr(quoted) { _, res ->
+                when (res) {
+                    is EscapeResult.Ok -> when (res.value) {
+                        is MixedUnit.Char -> {
+                            val ch = res.value.value.get()
+                            val utf8 = ch.toString().encodeToByteArray()
+                            for (b in utf8) value.add(b)
+                        }
+                        is MixedUnit.HighByte -> value.add(res.value.value.get().toByte())
+                    }
+                    is EscapeResult.Err -> if (res.error.isFatal()) error = res.error
+                }
+            }
+            value.add(0)
+            return error?.let { Result.failure(ConversionErrorKind.FailedToUnescape(it)) }
+                ?: Result.success(value.toByteArray())
+        }
         if (repr.startsWith("cr")) {
             val raw = getRaw(repr.substring(2))
             if (raw != null) {
@@ -808,6 +829,19 @@ class Literal internal constructor(
     /** Returns the unescaped string value if this is a byte string literal. */
     fun byteStrValue(): Result<ByteArray> {
         val repr = toString()
+        if (repr.startsWith("b\"") && repr.endsWith('"') && repr.length >= 3) {
+            val quoted = repr.substring(2, repr.length - 1)
+            val value = mutableListOf<Byte>()
+            var error: EscapeError? = null
+            unescapeByteStr(quoted) { _, res ->
+                when (res) {
+                    is EscapeResult.Ok -> value.add(res.value.toByte())
+                    is EscapeResult.Err -> if (res.error.isFatal()) error = res.error
+                }
+            }
+            return error?.let { Result.failure(ConversionErrorKind.FailedToUnescape(it)) }
+                ?: Result.success(value.toByteArray())
+        }
         if (repr.startsWith("br")) {
             val raw = getRaw(repr.substring(2))
             if (raw != null) {

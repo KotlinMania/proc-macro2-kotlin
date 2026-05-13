@@ -108,6 +108,8 @@ internal class FallbackTokenStream internal constructor(
     }
 }
 
+internal typealias TokenTreeIter = RcVecIntoIter<TokenTree>
+
 internal class FallbackLexError(
     private val span: FallbackSpan,
 ) {
@@ -149,7 +151,21 @@ internal class TokenStreamBuilder private constructor(
     }
 
     fun pushTokenFromParser(tt: TokenTree) {
-        inner.push(tt)
+        when (tt) {
+            is TokenTree.Literal -> {
+                val literal = tt.value
+                if (literal.inner.repr.startsWith('-')) {
+                    literal.inner.repr = literal.inner.repr.substring(1)
+                    val punct = Punct('-', Spacing.Alone)
+                    punct.setSpan(Span.newFallback(literal.inner.span()))
+                    inner.push(TokenTree.Punct(punct))
+                    inner.push(tt)
+                } else {
+                    inner.push(tt)
+                }
+            }
+            else -> inner.push(tt)
+        }
     }
 
     fun build(): FallbackTokenStream = FallbackTokenStream(inner.build())
@@ -279,6 +295,8 @@ private object SourceMap {
     }
 
     fun fileinfo(span: FallbackSpan): FileInfo = files[find(span)]
+
+    fun fileinfoMut(span: FallbackSpan): FileInfo = files[find(span)]
 }
 
 internal data class FallbackSpan(
@@ -301,7 +319,7 @@ internal data class FallbackSpan(
         return if (isCallSite()) {
             0..0
         } else {
-            SourceMap.fileinfo(this).byteRange(this)
+            SourceMap.fileinfoMut(this).byteRange(this)
         }
     }
 
@@ -325,7 +343,7 @@ internal data class FallbackSpan(
         return if (isCallSite()) {
             null
         } else {
-            SourceMap.fileinfo(this).sourceText(this)
+            SourceMap.fileinfoMut(this).sourceText(this)
         }
     }
 
@@ -613,7 +631,24 @@ internal class FallbackLiteral internal constructor(
 
         fun cString(bytes: ByteArray): FallbackLiteral {
             val repr = StringBuilder("c\"")
-            escapeUtf8(bytes.decodeToString(), repr)
+            var offset = 0
+            while (offset < bytes.size) {
+                val validEnd = run {
+                    var i = offset
+                    while (i < bytes.size) {
+                        if (bytes[i].toInt() and 0xff > 0x7f || bytes[i].toInt() and 0xff < 0x20 && bytes[i].toInt() != 0.toByte().toInt()) break
+                        i++
+                    }
+                    i
+                }
+                if (validEnd > offset) {
+                    escapeUtf8(bytes.copyOfRange(offset, validEnd).decodeToString(), repr)
+                    offset = validEnd
+                } else {
+                    repr.append("\\x").append(hexByte(bytes[offset].toInt() and 0xff))
+                    offset++
+                }
+            }
             repr.append('"')
             return FallbackLiteral(repr.toString())
         }
@@ -651,7 +686,10 @@ private fun escapeUtf8(string: String, repr: StringBuilder) {
     while (chars.hasNext()) {
         val ch = chars.nextChar()
         when {
-            ch == '\u0000' -> repr.append("\\0")
+            ch == '\u0000' -> {
+                val nextIsOctal = chars.hasNext() && chars.nextChar() in '0'..'7'
+                repr.append(if (nextIsOctal) "\\x00" else "\\0")
+            }
             ch == '\'' -> repr.append(ch)
             else -> repr.append(ch.escapeDebug())
         }
@@ -668,6 +706,11 @@ private fun Char.escapeDebug(): String {
         '\\' -> "\\\\"
         else -> if (isISOControl()) "\\u{${code.toString(16)}}" else toString()
     }
+}
+
+private fun hexByte(value: Int): String {
+    val hex = "0123456789ABCDEF"
+    return "${hex[value shr 4 and 0xF]}${hex[value and 0xF]}"
 }
 
 private fun String.codePointByteOffsets(): List<Int> {
