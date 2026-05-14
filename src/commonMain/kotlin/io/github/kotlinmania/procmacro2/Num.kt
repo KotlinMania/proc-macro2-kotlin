@@ -1,7 +1,6 @@
 // port-lint: source num.rs
 package io.github.kotlinmania.procmacro2
 
-// TODO: use NonZero<Char> in Rust 1.89+
 class NonZeroChar private constructor(private val value: Char) {
     companion object {
         fun new(ch: Char): NonZeroChar? {
