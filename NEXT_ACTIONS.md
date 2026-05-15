@@ -4,14 +4,14 @@ Based on AST analysis, here are the concrete next steps.
 
 ## Summary
 
-- **Files Present:** 10/15 (66.7%)
+- **Files Present:** 11/15 (73.3%)
 - **Function parity:** 211/337 matched (target 392) — 62.6%
 - **Class/type parity:** 28/60 matched (target 54) — 46.7%
 - **Combined symbol parity:** 239/397 matched (target 446) — 60.2%
 - **Average inline-code cosine:** 0.65 (function body across 10 matched files)
 - **Average documentation cosine:** 0.41 (doc text across 10 matched files)
 - **Cheat-zeroed Files:** 0
-- **Critical Issues:** 4 files with <0.60 function similarity
+- **Critical Issues:** 5 files with <0.60 function similarity
 
 ## Priority 1: Fix Incomplete High-Dependency Files
 
@@ -138,6 +138,17 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 1/1 matched
 - **Missing types:** _none_
 
+### 11. probe
+
+- **Target:** `procmacro2.Probe [STUB]`
+- **Similarity:** 1.00
+- **Dependents:** 0
+- **Priority Score:** 0.0
+- **Functions:** 0/0 matched
+- **Missing functions:** _none_
+- **Types:** 0/0 matched
+- **Missing types:** _none_
+
 ## Success Criteria
 
 For each file to be considered "complete":
@@ -157,16 +168,3 @@ cd tools/ast_distance
 # Get next high-priority task
 ./ast_distance --assign tasks.json <agent-id>
 ```
-
-## Reexport / Wiring Modules
-
-These files match `reexport_modules` patterns in `.ast_distance_config.json`. They are filtered out of
-normal priority and missing-file ladders because they are wiring
-modules, not direct logic ports. Consult them for call-site routing;
-do not treat them as the next implementation target by default.
-
-### Missing
-
-| Source | Expected target | Deps | Source path | Expected path |
-|--------|-----------------|------|-------------|---------------|
-| `lib` | `Lib` | 0 | `lib.rs` | `Lib.kt` |

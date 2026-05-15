@@ -1,6 +1,6 @@
 # port-lint Proposed Changes
 
-**Generated:** 2026-05-10
+**Generated:** 2026-05-13
 **Source:** tmp/proc-macro2/src
 **Target:** src/commonMain/kotlin/io/github/kotlinmania/procmacro2
 
