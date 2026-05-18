@@ -40,6 +40,7 @@ kotlin {
     sourceSets.all {
         languageSettings.optIn("kotlin.time.ExperimentalTime")
         languageSettings.optIn("kotlin.concurrent.atomics.ExperimentalAtomicApi")
+        languageSettings.optIn("kotlin.ExperimentalUnsignedTypes")
     }
 
     compilerOptions {
@@ -47,17 +48,11 @@ kotlin {
         freeCompilerArgs.add("-Xexpect-actual-classes")
     }
 
-    // ---- Maximal Kotlin 2.3.21 target coverage ----
-
     val xcf = XCFramework("ProcMacro2")
 
-    // Apple desktop
     macosArm64 {
         binaries.framework { baseName = "ProcMacro2"; xcf.add(this) }
     }
-    // macosX64 was removed in Kotlin 2.3 — "Target is no longer available."
-
-    // iOS
     iosArm64 {
         binaries.framework { baseName = "ProcMacro2"; xcf.add(this) }
     }
@@ -68,16 +63,13 @@ kotlin {
         binaries.framework { baseName = "ProcMacro2"; xcf.add(this) }
     }
 
-    // tvOS
     tvosArm64 {
         binaries.framework { baseName = "ProcMacro2"; xcf.add(this) }
     }
     tvosSimulatorArm64 {
         binaries.framework { baseName = "ProcMacro2"; xcf.add(this) }
     }
-    // tvosX64 was removed in Kotlin 2.3 — "Target is no longer available."
 
-    // watchOS
     watchosArm32 {
         binaries.framework { baseName = "ProcMacro2"; xcf.add(this) }
     }
@@ -90,35 +82,25 @@ kotlin {
     watchosSimulatorArm64 {
         binaries.framework { baseName = "ProcMacro2"; xcf.add(this) }
     }
-    // watchosX64 was removed in Kotlin 2.3 — "Target is no longer available."
 
-    // Linux
     linuxX64()
     linuxArm64()
-
-    // Windows
     mingwX64()
 
-    // Android native (NDK targets — separate from the Android JVM library below)
     androidNativeArm32()
     androidNativeArm64()
     androidNativeX86()
     androidNativeX64()
 
-    // Web — JS (browser + nodejs runtimes on a single target)
     js {
         browser()
         nodejs()
     }
-
-    // Web — WasmJS
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
         browser()
         nodejs()
     }
-
-    // Web — WasmWASI (experimental; nodejs runtime via wasi-preview1)
     @OptIn(ExperimentalWasmDsl::class)
     wasmWasi {
         nodejs()
@@ -161,7 +143,6 @@ kotlin {
     jvmToolchain(21)
 }
 
-// Show every test event in the CI log so runs are auditable.
 tasks.withType<AbstractTestTask>().configureEach {
     testLogging {
         events(
@@ -263,9 +244,6 @@ mavenPublishing {
                 name.set("Sydney Renee")
                 email.set("sydney@solace.ofharmony.ai")
                 url.set("https://github.com/sydneyrenee")
-                organization.set("The Solace Project")
-                organizationUrl.set("https://github.com/KotlinMania")
-                roles.set(listOf("maintainer", "kotlin-port-author"))
             }
         }
 
@@ -353,7 +331,7 @@ val codeqlCompileJvm = tasks.register<JavaExec>("codeqlCompileJvm") {
         val commonSourceFiles = commonSources.files.toMutableList()
         val sourceFiles = sources.files.toMutableList()
         if (sourceFiles.isEmpty()) {
-            val sentinelFile = sentinelDir.get().asFile.resolve("io/github/kotlinmania/procmacro2/codeql/_CodeqlEmptySource.kt")
+            val sentinelFile = sentinelDir.get().asFile.resolve("io/github/kotlinmania/codeql/_CodeqlEmptySource.kt")
             sentinelFile.parentFile.mkdirs()
             sentinelFile.writeText(
                 """
@@ -385,6 +363,24 @@ val codeqlCompileJvm = tasks.register<JavaExec>("codeqlCompileJvm") {
     }
 }
 
+tasks.register<Exec>("setupAndroidSdk") {
+    group = "setup"
+    description = "Downloads and configures the project-local Android SDK."
+    commandLine("./setup-android-sdk.sh")
+}
+
+// Auto-install the project-local Android SDK before any Android compile
+// when it is not already present, so a fresh checkout builds without a
+// manual setup step.
+tasks.named("setupAndroidSdk").configure {
+    onlyIf {
+        androidSdkDir == null &&
+            !rootProject.file(".android-sdk/cmdline-tools/latest/bin/sdkmanager").exists()
+    }
+}
+tasks.matching { it.name.startsWith("compile") && it.name.contains("Android") }
+    .configureEach { dependsOn("setupAndroidSdk") }
+
 tasks.register("test") {
     group = "verification"
     description =
@@ -401,4 +397,38 @@ tasks.register("test") {
     )
 
     dependsOn(defaultTestTasks.mapNotNull { taskName -> tasks.findByName(taskName) })
+}
+
+// The generated Wasm-WASI Node test runner cannot see the filesystem unless
+// the project directory is preopened. Patch the runner before wasmWasiNodeTest.
+val patchWasmWasiNodePreopens = tasks.register("patchWasmWasiNodePreopens") {
+    description = "Preopen the project directory for the generated Wasm-WASI Node test runner."
+    group = "verification"
+    dependsOn("compileTestDevelopmentExecutableKotlinWasmWasi")
+    outputs.upToDateWhen { false }
+
+    doLast {
+        val runnerFile = layout.buildDirectory.file(
+            "compileSync/wasmWasi/test/testDevelopmentExecutable/kotlin/${rootProject.name}-test.mjs",
+        ).get().asFile
+        if (!runnerFile.exists()) {
+            // No Wasm-WASI test runner was generated (the repo has no
+            // wasmWasi test sources), so there is nothing to preopen.
+            return@doLast
+        }
+        val text = runnerFile.readText()
+        val withCwdImport = text.replace(
+            "import { argv, env } from 'node:process';",
+            "import { argv, env, cwd } from 'node:process';",
+        )
+        val patched = withCwdImport.replace(
+            "const wasi = new WASI({ version: 'preview1', args: argv, env, });",
+            "const wasi = new WASI({ version: 'preview1', args: argv, env, preopens: { '/': cwd() }, });",
+        )
+        runnerFile.writeText(patched)
+    }
+}
+
+tasks.named("wasmWasiNodeTest") {
+    dependsOn(patchWasmWasiNodePreopens)
 }
