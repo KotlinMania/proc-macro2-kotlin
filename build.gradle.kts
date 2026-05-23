@@ -209,10 +209,18 @@ kotlin {
         binaries.framework { baseName = "ProcMacro2"; xcf.add(this) }
     }
     iosSimulatorArm64 {
-        binaries.framework { baseName = "ProcMacro2"; xcf.add(this) }
+        binaries.framework {
+            baseName = "ProcMacro2"
+            isStatic = true
+            xcf.add(this)
+        }
     }
     iosX64 {
-        binaries.framework { baseName = "ProcMacro2"; xcf.add(this) }
+        binaries.framework {
+            baseName = "ProcMacro2"
+            isStatic = true
+            xcf.add(this)
+        }
     }
 
     tvosArm64 {
