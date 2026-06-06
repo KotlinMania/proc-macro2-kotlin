@@ -250,9 +250,8 @@ kotlin {
         languageVersion.set(KotlinVersion.KOTLIN_2_4)
         apiVersion.set(KotlinVersion.KOTLIN_2_4)
         allWarningsAsErrors.set(!isCodeqlBuild)
-        freeCompilerArgs.add("-Xsuppress-version-warnings")
         optIn.addAll(commonOptIns)
-        freeCompilerArgs.add("-Xexpect-actual-classes")
+        freeCompilerArgs.addAll("-Xexpect-actual-classes", "-Xsuppress-version-warnings")
     }
 
     val xcf = XCFramework(frameworkName)
@@ -349,8 +348,6 @@ kotlin {
     }
 }
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask<*>>().configureEach {
-}
 
 // ============================================================================
 // Test logging
@@ -418,6 +415,7 @@ tasks.named("check") {
     // wasmWasi). Test EXECUTION belongs to check; target BUILD coverage belongs
     // to the explicit all-target build set below.
     dependsOn("testAndroidHostTest")
+    dependsOn("hostTests")
     // Swift Export smoke test is required; it must not self-skip.
     dependsOn("swiftExportSmokeTest")
 }
