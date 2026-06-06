@@ -67,7 +67,7 @@ class CommentsTest {
 
     @Test
     fun incomplete() {
-        assertTrue(TokenStream.fromString("/*/").isFailure)
+        assertTrue(TokenStream.fromString("/*/").isFailure())
     }
 
     @Test
@@ -99,8 +99,8 @@ class CommentsTest {
         lit = litOfOuterDocComment(stream)
         assertEquals("\"\\r\\n\"", lit.toString())
 
-        assertTrue(TokenStream.fromString("///\r").isFailure)
-        assertTrue(TokenStream.fromString("///\r \n").isFailure)
-        assertTrue(TokenStream.fromString("/**\r \n*/").isFailure)
+        assertTrue(TokenStream.fromString("///\r").isFailure())
+        assertTrue(TokenStream.fromString("///\r \n").isFailure())
+        assertTrue(TokenStream.fromString("/**\r \n*/").isFailure())
     }
 }

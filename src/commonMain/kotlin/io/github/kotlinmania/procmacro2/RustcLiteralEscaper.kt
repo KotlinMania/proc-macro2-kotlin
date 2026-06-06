@@ -14,7 +14,7 @@ package io.github.kotlinmania.procmacro2
  *
  * Mostly relating to malformed escape sequences, but also a few other problems.
  */
-enum class EscapeError {
+internal enum class EscapeError {
     /** Expected 1 char, but 0 were found. */
     ZeroChars,
 
@@ -95,7 +95,7 @@ enum class EscapeError {
 }
 
 /** Half-open byte range into the source string. */
-data class ByteRange(
+internal data class ByteRange(
     val start: Int,
     val end: Int,
 )
@@ -105,17 +105,17 @@ data class ByteRange(
  * `Result<T, EscapeError>` in upstream; sealed here so callers can pattern-
  * match in Kotlin.
  */
-sealed class EscapeResult<out T> {
-    data class Ok<T>(val value: T) : EscapeResult<T>()
+internal sealed class EscapeResult<out T> {
+    internal data class Ok<T>(val value: T) : EscapeResult<T>()
 
-    data class Err(val error: EscapeError) : EscapeResult<Nothing>()
+    internal data class Err(val error: EscapeError) : EscapeResult<Nothing>()
 }
 
 /**
  * The non-zero byte type. Used to carry the invariant that a byte literal's
  * unescaped value is not zero.
  */
-class NonZeroU8 private constructor(private val value: Int) {
+internal class NonZeroU8 private constructor(private val value: Int) {
     companion object {
         fun new(byte: Int): NonZeroU8? {
             return if ((byte and 0xFF) == 0) {
@@ -150,7 +150,7 @@ class NonZeroU8 private constructor(private val value: Int) {
  * sequence of characters or errors, which are returned by invoking `callback`.
  * Does no escaping, but produces errors for bare carriage return.
  */
-fun checkRawStr(
+internal fun checkRawStr(
     src: String,
     callback: (ByteRange, EscapeResult<Char>) -> Unit,
 ) {
@@ -164,7 +164,7 @@ fun checkRawStr(
  * a sequence of bytes or errors, which are returned by invoking `callback`.
  * Does no escaping, but produces errors for bare carriage return.
  */
-fun checkRawByteStr(
+internal fun checkRawByteStr(
     src: String,
     callback: (ByteRange, EscapeResult<Int>) -> Unit,
 ) {
@@ -178,7 +178,7 @@ fun checkRawByteStr(
  * sequence of characters or errors, which are returned by invoking `callback`.
  * Does no escaping, but produces errors for bare carriage return.
  */
-fun checkRawCStr(
+internal fun checkRawCStr(
     src: String,
     callback: (ByteRange, EscapeResult<NonZeroChar>) -> Unit,
 ) {
@@ -257,7 +257,7 @@ private fun char2byte(c: Char): EscapeResult<Int> {
  * Takes the contents of a char literal, without quotes, and returns an
  * unescaped char or an error.
  */
-fun unescapeChar(src: String): EscapeResult<Char> {
+internal fun unescapeChar(src: String): EscapeResult<Char> {
     return unescapeSingle(CharCursor(src), CharUnescape)
 }
 
@@ -267,7 +267,7 @@ fun unescapeChar(src: String): EscapeResult<Char> {
  * Takes the contents of a byte literal, without quotes, and returns an
  * unescaped byte or an error.
  */
-fun unescapeByte(src: String): EscapeResult<Int> {
+internal fun unescapeByte(src: String): EscapeResult<Int> {
     return unescapeSingle(CharCursor(src), ByteUnescape)
 }
 
@@ -278,7 +278,7 @@ fun unescapeByte(src: String): EscapeResult<Int> {
  * sequence of escaped characters or errors, which are returned by invoking
  * `callback`.
  */
-fun unescapeStr(
+internal fun unescapeStr(
     src: String,
     callback: (ByteRange, EscapeResult<Char>) -> Unit,
 ) {
@@ -292,7 +292,7 @@ fun unescapeStr(
  * sequence of escaped bytes or errors, which are returned by invoking
  * `callback`.
  */
-fun unescapeByteStr(
+internal fun unescapeByteStr(
     src: String,
     callback: (ByteRange, EscapeResult<Int>) -> Unit,
 ) {
@@ -306,7 +306,7 @@ fun unescapeByteStr(
  * sequence of escaped mixed units or errors, which are returned by invoking
  * `callback`.
  */
-fun unescapeCStr(
+internal fun unescapeCStr(
     src: String,
     callback: (ByteRange, EscapeResult<MixedUnit>) -> Unit,
 ) {
@@ -319,7 +319,7 @@ fun unescapeCStr(
  * Used for mixed UTF-8 string literals, meaning those that allow both Unicode
  * chars and high bytes.
  */
-sealed class MixedUnit {
+internal sealed class MixedUnit {
     /**
      * Used for ASCII chars, written directly or via `\x00` through `\x7f`
      * escapes, and Unicode chars, written directly or via Unicode escapes.
@@ -670,7 +670,7 @@ private object CStrUnescape : UnescapeStrategy<MixedUnit> {
 }
 
 /** Enum of the different kinds of literal. */
-enum class Mode {
+internal enum class Mode {
     /** `'a'` */
     Char,
 
@@ -736,7 +736,7 @@ enum class Mode {
  *
  * Does not produce any output other than errors.
  */
-fun checkForErrors(
+internal fun checkForErrors(
     src: String,
     mode: Mode,
     errorCallback: (ByteRange, EscapeError) -> Unit,

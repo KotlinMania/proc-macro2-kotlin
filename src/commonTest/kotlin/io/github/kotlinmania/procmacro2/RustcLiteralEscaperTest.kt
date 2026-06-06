@@ -1,4 +1,4 @@
-// port-lint: ignore
+// port-lint: tests rustc_literal_escaper.rs
 // Focused coverage for the vendored literal escaper port.
 package io.github.kotlinmania.procmacro2
 

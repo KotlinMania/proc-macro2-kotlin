@@ -1,7 +1,7 @@
 // port-lint: source num.rs
 package io.github.kotlinmania.procmacro2
 
-class NonZeroChar private constructor(private val value: Char) {
+internal class NonZeroChar private constructor(private val value: Char) {
     companion object {
         fun new(ch: Char): NonZeroChar? {
             return if (ch == '\u0000') {
