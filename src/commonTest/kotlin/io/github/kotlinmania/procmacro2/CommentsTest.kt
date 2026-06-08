@@ -29,14 +29,15 @@ private fun litOfDocComment(tokens: TokenStream, inner: Boolean): Literal {
             else -> fail("wrong token $tokens")
         }
     }
-    iter = when (val token = iter.next()) {
-        is TokenTree.Group -> {
-            assertEquals(Delimiter.Bracket, token.value.delimiter())
-            assertFalse(iter.hasNext(), "unexpected token $tokens")
-            token.value.stream().iterator()
+    iter =
+        when (val token = iter.next()) {
+            is TokenTree.Group -> {
+                assertEquals(Delimiter.Bracket, token.value.delimiter())
+                assertFalse(iter.hasNext(), "unexpected token $tokens")
+                token.value.stream().iterator()
+            }
+            else -> fail("wrong token $tokens")
         }
-        else -> fail("wrong token $tokens")
-    }
     when (val token = iter.next()) {
         is TokenTree.Ident -> assertEquals("doc", token.value.toString())
         else -> fail("wrong token $tokens")
