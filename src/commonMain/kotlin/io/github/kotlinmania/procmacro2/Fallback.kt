@@ -460,6 +460,32 @@ internal fun isIdentStart(c: Char): Boolean = c == '_' || c == '$' || c.isLetter
 
 internal fun isIdentContinue(c: Char): Boolean = isIdentStart(c) || c.isDigit()
 
+// Code-point-aware identifier classification. BMP scalars defer to the Char-based
+// predicates above; supplementary-plane scalars (encoded as surrogate pairs) are
+// accepted as identifier characters. Kotlin's common stdlib exposes no code-point
+// letter classification, so this is intentionally permissive for astral scalars
+// rather than dropping legitimate identifiers such as Egyptian Hieroglyph letters.
+internal fun isIdentStartCodePoint(codePoint: Int): Boolean =
+    if (codePoint <= 0xFFFF) isIdentStart(codePoint.toChar()) else true
+
+internal fun isIdentContinueCodePoint(codePoint: Int): Boolean =
+    if (codePoint <= 0xFFFF) isIdentContinue(codePoint.toChar()) else true
+
+// Decodes the Unicode scalar at [index] (combining a surrogate pair into a single
+// code point); returns the scalar paired with the number of UTF-16 code units it
+// occupies (1 for BMP, 2 for supplementary).
+internal fun String.codePointAndWidthAt(index: Int): Pair<Int, Int> {
+    val high = this[index]
+    if (high.isHighSurrogate() && index + 1 < length) {
+        val low = this[index + 1]
+        if (low.isLowSurrogate()) {
+            val cp = 0x10000 + ((high.code - 0xD800) shl 10) + (low.code - 0xDC00)
+            return cp to 2
+        }
+    }
+    return high.code to 1
+}
+
 private fun validateIdent(string: String) {
     require(string.isNotEmpty()) { "Ident is not allowed to be empty; use nullable Ident" }
     require(!string.all { it in '0'..'9' }) { "Ident cannot be a number; use Literal instead" }
@@ -816,9 +842,22 @@ private fun hexByte(value: Int): String {
 private fun String.codePointByteOffsets(): List<Int> {
     val offsets = mutableListOf<Int>()
     var byteOffset = 0
-    for (ch in this) {
+    var i = 0
+    while (i < length) {
         offsets.add(byteOffset)
-        byteOffset += ch.toString().encodeToByteArray().size
+        val ch = this[i]
+        if (ch.isHighSurrogate() && i + 1 < length && this[i + 1].isLowSurrogate()) {
+            // A supplementary scalar occupies two UTF-16 code units but a single
+            // 4-byte UTF-8 sequence; encoding each half alone would yield U+FFFD
+            // replacement bytes and corrupt the offset table.
+            val pairBytes = substring(i, i + 2).encodeToByteArray().size
+            offsets.add(byteOffset + (pairBytes + 1) / 2)
+            byteOffset += pairBytes
+            i += 2
+        } else {
+            byteOffset += ch.toString().encodeToByteArray().size
+            i += 1
+        }
     }
     offsets.add(byteOffset)
     return offsets

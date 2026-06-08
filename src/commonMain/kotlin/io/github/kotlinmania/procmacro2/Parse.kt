@@ -251,19 +251,26 @@ private fun identAny(input: Cursor): PResult<Ident> {
 }
 
 private fun identNotRaw(input: Cursor): PResult<String> {
-    val chars = input.charIndices()
-    val first = chars.firstOrNull()
-    if (first == null || !isIdentStart(first.second)) {
+    val s = input.rest
+    if (s.isEmpty()) {
         return reject()
     }
-    var end = input.len()
-    for ((i, ch) in chars.drop(1)) {
-        if (!isIdentContinue(ch)) {
-            end = i
+    // Walk by Unicode scalar (not UTF-16 code unit) so supplementary-plane
+    // identifier characters such as Egyptian Hieroglyphs are not split across
+    // their surrogate halves and rejected.
+    val (firstCp, firstWidth) = s.codePointAndWidthAt(0)
+    if (!isIdentStartCodePoint(firstCp)) {
+        return reject()
+    }
+    var end = firstWidth
+    while (end < s.length) {
+        val (cp, width) = s.codePointAndWidthAt(end)
+        if (!isIdentContinueCodePoint(cp)) {
             break
         }
+        end += width
     }
-    return Result.success(input.advance(end) to input.rest.substring(0, end))
+    return Result.success(input.advance(end) to s.substring(0, end))
 }
 
 internal fun literal(input: Cursor): PResult<FallbackLiteral> {

@@ -150,8 +150,22 @@ class TestTest {
     fun literalStringValue() {
         for (string in listOf("", "...", "...\t...", "...\\...", "...\u0000...", "...\u0001...")) {
             assertEquals(string, Literal.string(string).strValue().getOrThrow())
-            assertEquals(string, Literal.fromString("r\"$string\"").getOrThrow().strValue().getOrThrow())
-            assertEquals(string, Literal.fromString("r##\"$string\"##").getOrThrow().strValue().getOrThrow())
+            assertEquals(
+                string,
+                Literal
+                    .fromString("r\"$string\"")
+                    .getOrThrow()
+                    .strValue()
+                    .getOrThrow(),
+            )
+            assertEquals(
+                string,
+                Literal
+                    .fromString("r##\"$string\"##")
+                    .getOrThrow()
+                    .strValue()
+                    .getOrThrow(),
+            )
         }
     }
 
