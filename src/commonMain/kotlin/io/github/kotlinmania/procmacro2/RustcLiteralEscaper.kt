@@ -14,7 +14,7 @@ package io.github.kotlinmania.procmacro2
  *
  * Mostly relating to malformed escape sequences, but also a few other problems.
  */
-enum class EscapeError {
+internal enum class EscapeError {
     /** Expected 1 char, but 0 were found. */
     ZeroChars,
 
@@ -89,13 +89,11 @@ enum class EscapeError {
     ;
 
     /** Returns true for actual errors, as opposed to warnings. */
-    fun isFatal(): Boolean {
-        return this != UnskippedWhitespaceWarning && this != MultipleSkippedLinesWarning
-    }
+    fun isFatal(): Boolean = this != UnskippedWhitespaceWarning && this != MultipleSkippedLinesWarning
 }
 
 /** Half-open byte range into the source string. */
-data class ByteRange(
+internal data class ByteRange(
     val start: Int,
     val end: Int,
 )
@@ -105,42 +103,39 @@ data class ByteRange(
  * `Result<T, EscapeError>` in upstream; sealed here so callers can pattern-
  * match in Kotlin.
  */
-sealed class EscapeResult<out T> {
-    data class Ok<T>(val value: T) : EscapeResult<T>()
+internal sealed class EscapeResult<out T> {
+    internal data class Ok<T>(
+        val value: T,
+    ) : EscapeResult<T>()
 
-    data class Err(val error: EscapeError) : EscapeResult<Nothing>()
+    internal data class Err(
+        val error: EscapeError,
+    ) : EscapeResult<Nothing>()
 }
 
 /**
  * The non-zero byte type. Used to carry the invariant that a byte literal's
  * unescaped value is not zero.
  */
-class NonZeroU8 private constructor(private val value: Int) {
+internal class NonZeroU8 private constructor(
+    private val value: Int,
+) {
     companion object {
-        fun new(byte: Int): NonZeroU8? {
-            return if ((byte and 0xFF) == 0) {
+        fun new(byte: Int): NonZeroU8? =
+            if ((byte and 0xFF) == 0) {
                 null
             } else {
                 NonZeroU8(byte and 0xFF)
             }
-        }
     }
 
-    fun get(): Int {
-        return value
-    }
+    fun get(): Int = value
 
-    override fun equals(other: Any?): Boolean {
-        return other is NonZeroU8 && value == other.value
-    }
+    override fun equals(other: Any?): Boolean = other is NonZeroU8 && value == other.value
 
-    override fun hashCode(): Int {
-        return value
-    }
+    override fun hashCode(): Int = value
 
-    override fun toString(): String {
-        return "NonZeroU8($value)"
-    }
+    override fun toString(): String = "NonZeroU8($value)"
 }
 
 /**
@@ -150,7 +145,7 @@ class NonZeroU8 private constructor(private val value: Int) {
  * sequence of characters or errors, which are returned by invoking `callback`.
  * Does no escaping, but produces errors for bare carriage return.
  */
-fun checkRawStr(
+internal fun checkRawStr(
     src: String,
     callback: (ByteRange, EscapeResult<Char>) -> Unit,
 ) {
@@ -164,7 +159,7 @@ fun checkRawStr(
  * a sequence of bytes or errors, which are returned by invoking `callback`.
  * Does no escaping, but produces errors for bare carriage return.
  */
-fun checkRawByteStr(
+internal fun checkRawByteStr(
     src: String,
     callback: (ByteRange, EscapeResult<Int>) -> Unit,
 ) {
@@ -178,7 +173,7 @@ fun checkRawByteStr(
  * sequence of characters or errors, which are returned by invoking `callback`.
  * Does no escaping, but produces errors for bare carriage return.
  */
-fun checkRawCStr(
+internal fun checkRawCStr(
     src: String,
     callback: (ByteRange, EscapeResult<NonZeroChar>) -> Unit,
 ) {
@@ -220,36 +215,29 @@ private fun <T> checkRaw(
  * Stands in for the upstream string-literal implementation of the raw-check
  * trait.
  */
-private fun char2rawUnit(c: Char): EscapeResult<Char> {
-    return ok(c)
-}
+private fun char2rawUnit(c: Char): EscapeResult<Char> = ok(c)
 
 /**
  * Per-char conversion for raw byte-string literals: chars are constrained to
  * ASCII and emitted as bytes. Stands in for the upstream byte-string-literal
  * implementation of the raw-check trait.
  */
-private fun byte2rawUnit(c: Char): EscapeResult<Int> {
-    return char2byte(c)
-}
+private fun byte2rawUnit(c: Char): EscapeResult<Int> = char2byte(c)
 
 /**
  * Per-char conversion for raw C-string literals: chars must be non-NUL.
  * Stands in for the upstream C-string-literal implementation of the raw-check
  * trait.
  */
-private fun cstr2rawUnit(c: Char): EscapeResult<NonZeroChar> {
-    return NonZeroChar.new(c)?.let(::ok) ?: err(EscapeError.NulInCStr)
-}
+private fun cstr2rawUnit(c: Char): EscapeResult<NonZeroChar> = NonZeroChar.new(c)?.let(::ok) ?: err(EscapeError.NulInCStr)
 
 /** Turn an ASCII char into a byte. */
-private fun char2byte(c: Char): EscapeResult<Int> {
-    return if (c.code <= 0x7F) {
+private fun char2byte(c: Char): EscapeResult<Int> =
+    if (c.code <= 0x7F) {
         ok(c.code)
     } else {
         err(EscapeError.NonAsciiCharInByte)
     }
-}
 
 /**
  * Unescape a char literal.
@@ -257,9 +245,7 @@ private fun char2byte(c: Char): EscapeResult<Int> {
  * Takes the contents of a char literal, without quotes, and returns an
  * unescaped char or an error.
  */
-fun unescapeChar(src: String): EscapeResult<Char> {
-    return unescapeSingle(CharCursor(src), CharUnescape)
-}
+internal fun unescapeChar(src: String): EscapeResult<Char> = unescapeSingle(CharCursor(src), CharUnescape)
 
 /**
  * Unescape a byte literal.
@@ -267,9 +253,7 @@ fun unescapeChar(src: String): EscapeResult<Char> {
  * Takes the contents of a byte literal, without quotes, and returns an
  * unescaped byte or an error.
  */
-fun unescapeByte(src: String): EscapeResult<Int> {
-    return unescapeSingle(CharCursor(src), ByteUnescape)
-}
+internal fun unescapeByte(src: String): EscapeResult<Int> = unescapeSingle(CharCursor(src), ByteUnescape)
 
 /**
  * Unescape a string literal.
@@ -278,7 +262,7 @@ fun unescapeByte(src: String): EscapeResult<Int> {
  * sequence of escaped characters or errors, which are returned by invoking
  * `callback`.
  */
-fun unescapeStr(
+internal fun unescapeStr(
     src: String,
     callback: (ByteRange, EscapeResult<Char>) -> Unit,
 ) {
@@ -292,7 +276,7 @@ fun unescapeStr(
  * sequence of escaped bytes or errors, which are returned by invoking
  * `callback`.
  */
-fun unescapeByteStr(
+internal fun unescapeByteStr(
     src: String,
     callback: (ByteRange, EscapeResult<Int>) -> Unit,
 ) {
@@ -306,7 +290,7 @@ fun unescapeByteStr(
  * sequence of escaped mixed units or errors, which are returned by invoking
  * `callback`.
  */
-fun unescapeCStr(
+internal fun unescapeCStr(
     src: String,
     callback: (ByteRange, EscapeResult<MixedUnit>) -> Unit,
 ) {
@@ -319,7 +303,7 @@ fun unescapeCStr(
  * Used for mixed UTF-8 string literals, meaning those that allow both Unicode
  * chars and high bytes.
  */
-sealed class MixedUnit {
+internal sealed class MixedUnit {
     /**
      * Used for ASCII chars, written directly or via `\x00` through `\x7f`
      * escapes, and Unicode chars, written directly or via Unicode escapes.
@@ -328,7 +312,9 @@ sealed class MixedUnit {
      * `MixedUnit.Char`, and it will be appended to the relevant byte string as
      * the two-byte UTF-8 sequence `0xc2 0xa5`.
      */
-    data class Char(val value: NonZeroChar) : MixedUnit()
+    data class Char(
+        val value: NonZeroChar,
+    ) : MixedUnit()
 
     /**
      * Used for high bytes, `\x80` through `\xff`.
@@ -337,24 +323,21 @@ sealed class MixedUnit {
      * `MixedUnit.HighByte`, and it will be appended to the relevant byte string
      * as the single byte `0xa5`.
      */
-    data class HighByte(val value: NonZeroU8) : MixedUnit()
+    data class HighByte(
+        val value: NonZeroU8,
+    ) : MixedUnit()
 
     companion object {
-        fun from(c: NonZeroChar): MixedUnit {
-            return Char(c)
-        }
+        fun from(c: NonZeroChar): MixedUnit = Char(c)
 
-        fun from(byte: NonZeroU8): MixedUnit {
-            return if (byte.get() <= 0x7F) {
+        fun from(byte: NonZeroU8): MixedUnit =
+            if (byte.get() <= 0x7F) {
                 Char(NonZeroChar.new(byte.get().toChar())!!)
             } else {
                 HighByte(byte)
             }
-        }
 
-        fun tryFrom(c: kotlin.Char): EscapeResult<MixedUnit> {
-            return NonZeroChar.new(c)?.let { ok(Char(it)) } ?: err(EscapeError.NulInCStr)
-        }
+        fun tryFrom(c: kotlin.Char): EscapeResult<MixedUnit> = NonZeroChar.new(c)?.let { ok(Char(it)) } ?: err(EscapeError.NulInCStr)
 
         fun tryFrom(byte: Int): EscapeResult<MixedUnit> {
             val nonzero = NonZeroU8.new(byte) ?: return err(EscapeError.NulInCStr)
@@ -501,9 +484,13 @@ private fun simpleEscape(c: Char): SimpleEscape {
  * Models upstream's two-arm result returned by the same helper.
  */
 private sealed class SimpleEscape {
-    data class Known(val byte: NonZeroU8) : SimpleEscape()
+    data class Known(
+        val byte: NonZeroU8,
+    ) : SimpleEscape()
 
-    data class Unknown(val char: Char) : SimpleEscape()
+    data class Unknown(
+        val char: Char,
+    ) : SimpleEscape()
 }
 
 /** Interpret a hexadecimal escape. */
@@ -599,78 +586,57 @@ private fun skipAsciiWhitespace(
 private object CharUnescape : UnescapeStrategy<Char> {
     override val zeroResult: EscapeResult<Char> = ok('\u0000')
 
-    override fun nonzeroByte2unit(b: NonZeroU8): Char {
-        return b.get().toChar()
-    }
+    override fun nonzeroByte2unit(b: NonZeroU8): Char = b.get().toChar()
 
-    override fun char2unit(c: Char): EscapeResult<Char> {
-        return ok(c)
-    }
+    override fun char2unit(c: Char): EscapeResult<Char> = ok(c)
 
-    override fun hex2unit(b: Int): EscapeResult<Char> {
-        return if (b <= 0x7F) {
+    override fun hex2unit(b: Int): EscapeResult<Char> =
+        if (b <= 0x7F) {
             ok(b.toChar())
         } else {
             err(EscapeError.OutOfRangeHexEscape)
         }
-    }
 
-    override fun unicode2unit(r: EscapeResult<Char>): EscapeResult<Char> {
-        return r
-    }
+    override fun unicode2unit(r: EscapeResult<Char>): EscapeResult<Char> = r
 }
 
 /** Unescape strategy for byte-string literals. Stands in for upstream's byte-string-literal unescape impl. */
 private object ByteUnescape : UnescapeStrategy<Int> {
     override val zeroResult: EscapeResult<Int> = ok(0)
 
-    override fun nonzeroByte2unit(b: NonZeroU8): Int {
-        return b.get()
-    }
+    override fun nonzeroByte2unit(b: NonZeroU8): Int = b.get()
 
-    override fun char2unit(c: Char): EscapeResult<Int> {
-        return char2byte(c)
-    }
+    override fun char2unit(c: Char): EscapeResult<Int> = char2byte(c)
 
-    override fun hex2unit(b: Int): EscapeResult<Int> {
-        return ok(b)
-    }
+    override fun hex2unit(b: Int): EscapeResult<Int> = ok(b)
 
-    override fun unicode2unit(r: EscapeResult<Char>): EscapeResult<Int> {
-        return when (r) {
+    override fun unicode2unit(r: EscapeResult<Char>): EscapeResult<Int> =
+        when (r) {
             is EscapeResult.Ok,
             is EscapeResult.Err,
             -> err(EscapeError.UnicodeEscapeInByte)
         }
-    }
 }
 
 /** Unescape strategy for C-string literals. Stands in for upstream's C-string-literal unescape impl. */
 private object CStrUnescape : UnescapeStrategy<MixedUnit> {
     override val zeroResult: EscapeResult<MixedUnit> = err(EscapeError.NulInCStr)
 
-    override fun nonzeroByte2unit(b: NonZeroU8): MixedUnit {
-        return MixedUnit.from(b)
-    }
+    override fun nonzeroByte2unit(b: NonZeroU8): MixedUnit = MixedUnit.from(b)
 
-    override fun char2unit(c: Char): EscapeResult<MixedUnit> {
-        return MixedUnit.tryFrom(c)
-    }
+    override fun char2unit(c: Char): EscapeResult<MixedUnit> = MixedUnit.tryFrom(c)
 
-    override fun hex2unit(b: Int): EscapeResult<MixedUnit> {
-        return MixedUnit.tryFrom(b)
-    }
+    override fun hex2unit(b: Int): EscapeResult<MixedUnit> = MixedUnit.tryFrom(b)
 
-    override fun unicode2unit(r: EscapeResult<Char>): EscapeResult<MixedUnit> {
-        return when (r) {
+    override fun unicode2unit(r: EscapeResult<Char>): EscapeResult<MixedUnit> =
+        when (r) {
             is EscapeResult.Ok -> char2unit(r.value)
             is EscapeResult.Err -> r
         }
-    }
 }
 
 /** Enum of the different kinds of literal. */
-enum class Mode {
+internal enum class Mode {
     /** `'a'` */
     Char,
 
@@ -696,8 +662,8 @@ enum class Mode {
     RawCStr,
     ;
 
-    fun inDoubleQuotes(): Boolean {
-        return when (this) {
+    fun inDoubleQuotes(): Boolean =
+        when (this) {
             Str,
             RawStr,
             ByteStr,
@@ -709,10 +675,9 @@ enum class Mode {
             Byte,
             -> false
         }
-    }
 
-    fun prefixNoraw(): String {
-        return when (this) {
+    fun prefixNoraw(): String =
+        when (this) {
             Char,
             Str,
             RawStr,
@@ -725,7 +690,6 @@ enum class Mode {
             RawCStr,
             -> "c"
         }
-    }
 }
 
 /**
@@ -736,7 +700,7 @@ enum class Mode {
  *
  * Does not produce any output other than errors.
  */
-fun checkForErrors(
+internal fun checkForErrors(
     src: String,
     mode: Mode,
     errorCallback: (ByteRange, EscapeError) -> Unit,
@@ -799,24 +763,19 @@ fun checkForErrors(
  * Promote a Unicode scalar value to a [Char], reporting the appropriate error
  * for surrogate or out-of-range code points.
  */
-private fun scalarValueToChar(value: Int): EscapeResult<Char> {
-    return when {
+private fun scalarValueToChar(value: Int): EscapeResult<Char> =
+    when {
         value > 0x10FFFF -> err(EscapeError.OutOfRangeUnicodeEscape)
         value in 0xD800..0xDFFF -> err(EscapeError.LoneSurrogateUnicodeEscape)
         value > Char.MAX_VALUE.code -> err(EscapeError.OutOfRangeUnicodeEscape)
         else -> ok(value.toChar())
     }
-}
 
 /** Helper that wraps a value in [EscapeResult.Ok], shortening callsite syntax. */
-private fun <T> ok(value: T): EscapeResult<T> {
-    return EscapeResult.Ok(value)
-}
+private fun <T> ok(value: T): EscapeResult<T> = EscapeResult.Ok(value)
 
 /** Helper that wraps an error in [EscapeResult.Err], shortening callsite syntax. */
-private fun err(error: EscapeError): EscapeResult.Err {
-    return EscapeResult.Err(error)
-}
+private fun err(error: EscapeError): EscapeResult.Err = EscapeResult.Err(error)
 
 /**
  * Forward-only cursor over the chars of the source string, tracking both the
@@ -840,16 +799,13 @@ private class CharCursor(
         return c
     }
 
-    fun peek(): Char? {
-        return if (index >= src.length) {
+    fun peek(): Char? =
+        if (index >= src.length) {
             null
         } else {
             src[index]
         }
-    }
 }
 
 /** UTF-8 byte length of a single [Char]. */
-private fun utf8Len(c: Char): Int {
-    return c.toString().encodeToByteArray().size
-}
+private fun utf8Len(c: Char): Int = c.toString().encodeToByteArray().size

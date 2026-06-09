@@ -4,17 +4,11 @@ package io.github.kotlinmania.procmacro2
 internal class RcVec<T> internal constructor(
     private var inner: SharedList<T>,
 ) {
-    internal fun isEmpty(): Boolean {
-        return inner.list.isEmpty()
-    }
+    internal fun isEmpty(): Boolean = inner.list.isEmpty()
 
-    internal fun len(): Int {
-        return inner.list.size
-    }
+    internal fun len(): Int = inner.list.size
 
-    internal fun iter(): Iterator<T> {
-        return inner.list.iterator()
-    }
+    internal fun iter(): Iterator<T> = inner.list.iterator()
 
     internal fun makeMut(): RcVecMut<T> {
         if (inner.refCount > 1) {
@@ -54,13 +48,9 @@ internal class RcVecBuilder<T> internal constructor(
     internal val inner: MutableList<T>,
 ) : Iterable<T> {
     internal companion object {
-        internal fun <T> new(): RcVecBuilder<T> {
-            return RcVecBuilder(mutableListOf())
-        }
+        internal fun <T> new(): RcVecBuilder<T> = RcVecBuilder(mutableListOf())
 
-        internal fun <T> withCapacity(cap: Int): RcVecBuilder<T> {
-            return RcVecBuilder(ArrayList(cap))
-        }
+        internal fun <T> withCapacity(cap: Int): RcVecBuilder<T> = RcVecBuilder(ArrayList(cap))
     }
 
     internal fun push(element: T) {
@@ -71,21 +61,13 @@ internal class RcVecBuilder<T> internal constructor(
         inner.addAll(iter)
     }
 
-    internal fun asMut(): RcVecMut<T> {
-        return RcVecMut(inner)
-    }
+    internal fun asMut(): RcVecMut<T> = RcVecMut(inner)
 
-    internal fun build(): RcVec<T> {
-        return RcVec(SharedList(inner, refCount = 1))
-    }
+    internal fun build(): RcVec<T> = RcVec(SharedList(inner, refCount = 1))
 
-    internal fun intoIter(): RcVecIntoIter<T> {
-        return RcVecIntoIter(inner)
-    }
+    internal fun intoIter(): RcVecIntoIter<T> = RcVecIntoIter(inner)
 
-    override fun iterator(): RcVecIntoIter<T> {
-        return intoIter()
-    }
+    override fun iterator(): RcVecIntoIter<T> = intoIter()
 }
 
 internal class RcVecMut<T> internal constructor(
@@ -99,9 +81,7 @@ internal class RcVecMut<T> internal constructor(
         inner.addAll(iter)
     }
 
-    internal fun asMut(): RcVecMut<T> {
-        return RcVecMut(inner)
-    }
+    internal fun asMut(): RcVecMut<T> = RcVecMut(inner)
 
     internal fun take(): RcVecBuilder<T> {
         val vec = inner.toMutableList()
@@ -115,9 +95,7 @@ internal class RcVecIntoIter<T>(
 ) : Iterator<T> {
     private var index: Int = 0
 
-    override fun hasNext(): Boolean {
-        return index < inner.size
-    }
+    override fun hasNext(): Boolean = index < inner.size
 
     override fun next(): T {
         if (!hasNext()) {
@@ -133,13 +111,9 @@ internal class RcVecIntoIter<T>(
         return Pair(remaining, remaining)
     }
 
-    internal fun remaining(): List<T> {
-        return inner.subList(index, inner.size).toList()
-    }
+    internal fun remaining(): List<T> = inner.subList(index, inner.size).toList()
 
-    internal fun clone(): RcVecIntoIter<T> {
-        return RcVecIntoIter(remaining().toMutableList())
-    }
+    internal fun clone(): RcVecIntoIter<T> = RcVecIntoIter(remaining().toMutableList())
 }
 
 internal class SharedList<T>(

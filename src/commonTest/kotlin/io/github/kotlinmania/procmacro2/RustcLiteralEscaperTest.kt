@@ -1,4 +1,4 @@
-// port-lint: ignore
+// port-lint: tests rustc_literal_escaper.rs
 // Focused coverage for the vendored literal escaper port.
 package io.github.kotlinmania.procmacro2
 
@@ -73,17 +73,15 @@ class RustcLiteralEscaperTest {
         return unit
     }
 
-    private fun <T> EscapeResult<T>.value(): T {
-        return when (this) {
+    private fun <T> EscapeResult<T>.value(): T =
+        when (this) {
             is EscapeResult.Ok -> value
             is EscapeResult.Err -> throw AssertionError("expected Ok, got $error")
         }
-    }
 
-    private fun EscapeResult<*>.error(): EscapeError {
-        return when (this) {
+    private fun EscapeResult<*>.error(): EscapeError =
+        when (this) {
             is EscapeResult.Ok -> throw AssertionError("expected Err, got $value")
             is EscapeResult.Err -> error
         }
-    }
 }
