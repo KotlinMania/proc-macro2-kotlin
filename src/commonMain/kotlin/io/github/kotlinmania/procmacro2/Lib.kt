@@ -62,6 +62,78 @@
  */
 package io.github.kotlinmania.procmacro2
 
+class TokenStreamParseResult internal constructor(
+    val value: TokenStream?,
+    val error: String?,
+) {
+    init {
+        require((value == null) != (error == null)) {
+            "TokenStreamParseResult must carry exactly one of value or error"
+        }
+    }
+
+    fun isSuccess(): Boolean = value != null
+
+    fun isFailure(): Boolean = error != null
+
+    fun getOrThrow(): TokenStream =
+        value ?: throw IllegalStateException(error)
+}
+
+class LiteralParseResult internal constructor(
+    val value: Literal?,
+    val error: String?,
+) {
+    init {
+        require((value == null) != (error == null)) {
+            "LiteralParseResult must carry exactly one of value or error"
+        }
+    }
+
+    fun isSuccess(): Boolean = value != null
+
+    fun isFailure(): Boolean = error != null
+
+    fun getOrThrow(): Literal =
+        value ?: throw IllegalStateException(error)
+}
+
+class StringParseResult internal constructor(
+    val value: String?,
+    val error: String?,
+) {
+    init {
+        require((value == null) != (error == null)) {
+            "StringParseResult must carry exactly one of value or error"
+        }
+    }
+
+    fun isSuccess(): Boolean = value != null
+
+    fun isFailure(): Boolean = error != null
+
+    fun getOrThrow(): String =
+        value ?: throw IllegalStateException(error)
+}
+
+class ByteArrayParseResult internal constructor(
+    val value: ByteArray?,
+    val error: String?,
+) {
+    init {
+        require((value == null) != (error == null)) {
+            "ByteArrayParseResult must carry exactly one of value or error"
+        }
+    }
+
+    fun isSuccess(): Boolean = value != null
+
+    fun isFailure(): Boolean = error != null
+
+    fun getOrThrow(): ByteArray =
+        value ?: throw IllegalStateException(error)
+}
+
 /**
  * An abstract stream of tokens, or more concretely a sequence of token trees.
  *
@@ -90,8 +162,13 @@ class TokenStream internal constructor(
          * [Result]. We reserve the right to change these errors into [LexError]s
          * later.
          */
-        fun fromString(src: String): Result<TokenStream> {
-            return FallbackTokenStream.fromStrChecked(src).map(::TokenStream)
+        fun fromString(src: String): TokenStreamParseResult {
+            val result = FallbackTokenStream.fromStrChecked(src)
+            return if (result.isSuccess) {
+                TokenStreamParseResult(TokenStream(result.getOrThrow()), null)
+            } else {
+                TokenStreamParseResult(null, result.exceptionOrNull()?.message ?: "cannot parse string into token stream")
+            }
         }
 
         /** Builds a single-token stream from one [TokenTree]. */
@@ -148,16 +225,24 @@ class TokenStream internal constructor(
      */
     override fun toString(): String = inner.toString()
 
-    override fun equals(other: Any?): Boolean {
-        return other is TokenStream &&
-            inner.iter().asSequence().toList() == other.inner.iter().asSequence().toList()
-    }
+    override fun equals(other: Any?): Boolean =
+        other is TokenStream &&
+            inner.iter().asSequence().toList() ==
+            other.inner
+                .iter()
+                .asSequence()
+                .toList()
 
-    override fun hashCode(): Int = inner.iter().asSequence().toList().hashCode()
+    override fun hashCode(): Int =
+        inner
+            .iter()
+            .asSequence()
+            .toList()
+            .hashCode()
 }
 
 /** Error returned from [TokenStream.fromString]. */
-class LexError internal constructor(
+internal class LexError internal constructor(
     internal val inner: FallbackLexError,
 ) : IllegalArgumentException("cannot parse string into token stream") {
     fun span(): Span = Span.newFallback(inner.span())
@@ -265,9 +350,7 @@ class Span internal constructor(
     /** Prints a span in a form convenient for debugging. */
     override fun toString(): String = inner.toString()
 
-    override fun equals(other: Any?): Boolean {
-        return other is Span && inner == other.inner
-    }
+    override fun equals(other: Any?): Boolean = other is Span && inner == other.inner
 
     override fun hashCode(): Int = inner.hashCode()
 }
@@ -290,7 +373,9 @@ sealed class TokenTree {
     abstract fun setSpan(span: Span): TokenTree
 
     /** A token stream surrounded by bracket delimiters. */
-    data class Group(val value: io.github.kotlinmania.procmacro2.Group) : TokenTree() {
+    data class Group(
+        val value: io.github.kotlinmania.procmacro2.Group,
+    ) : TokenTree() {
         override fun span(): Span = value.span()
 
         override fun setSpan(span: Span): TokenTree {
@@ -308,7 +393,9 @@ sealed class TokenTree {
     }
 
     /** An identifier. */
-    data class Ident(val value: io.github.kotlinmania.procmacro2.Ident) : TokenTree() {
+    data class Ident(
+        val value: io.github.kotlinmania.procmacro2.Ident,
+    ) : TokenTree() {
         override fun span(): Span = value.span()
 
         override fun setSpan(span: Span): TokenTree {
@@ -320,7 +407,9 @@ sealed class TokenTree {
     }
 
     /** A single punctuation character (`+`, `,`, `$`, etc.). */
-    data class Punct(val value: io.github.kotlinmania.procmacro2.Punct) : TokenTree() {
+    data class Punct(
+        val value: io.github.kotlinmania.procmacro2.Punct,
+    ) : TokenTree() {
         override fun span(): Span = value.span()
 
         override fun setSpan(span: Span): TokenTree {
@@ -332,7 +421,9 @@ sealed class TokenTree {
     }
 
     /** A literal character (`'a'`), string (`"hello"`), number (`2.3`), etc. */
-    data class Literal(val value: io.github.kotlinmania.procmacro2.Literal) : TokenTree() {
+    data class Literal(
+        val value: io.github.kotlinmania.procmacro2.Literal,
+    ) : TokenTree() {
         override fun span(): Span = value.span()
 
         override fun setSpan(span: Span): TokenTree {
@@ -412,9 +503,7 @@ class Group internal constructor(
 
     override fun toString(): String = inner.toString()
 
-    override fun equals(other: Any?): Boolean {
-        return other is Group && inner == other.inner
-    }
+    override fun equals(other: Any?): Boolean = other is Group && inner == other.inner
 
     override fun hashCode(): Int = inner.hashCode()
 }
@@ -492,9 +581,7 @@ class Punct(
      */
     override fun toString(): String = ch.toString()
 
-    override fun equals(other: Any?): Boolean {
-        return other is Punct && ch == other.ch && spacing == other.spacing
-    }
+    override fun equals(other: Any?): Boolean = other is Punct && ch == other.ch && spacing == other.spacing
 
     override fun hashCode(): Int = 31 * ch.hashCode() + spacing.hashCode()
 }
@@ -610,13 +697,12 @@ class Ident internal constructor(
      */
     override fun toString(): String = inner.toString()
 
-    override fun equals(other: Any?): Boolean {
-        return when (other) {
+    override fun equals(other: Any?): Boolean =
+        when (other) {
             is Ident -> inner == other.inner
             is String -> inner.contentEquals(other)
             else -> false
         }
-    }
 
     override fun hashCode(): Int = toString().hashCode()
 }
@@ -647,16 +733,27 @@ class Literal internal constructor(
         // by default, which can be configured with the [Literal.setSpan]
         // method below.
         fun u8Suffixed(n: UByte): Literal = Literal(FallbackLiteral.u8Suffixed(n))
+
         fun u16Suffixed(n: UShort): Literal = Literal(FallbackLiteral.u16Suffixed(n))
+
         fun u32Suffixed(n: UInt): Literal = Literal(FallbackLiteral.u32Suffixed(n))
+
         fun u64Suffixed(n: ULong): Literal = Literal(FallbackLiteral.u64Suffixed(n))
+
         fun u128Suffixed(n: ULong): Literal = Literal(FallbackLiteral.u128Suffixed(n))
+
         fun usizeSuffixed(n: ULong): Literal = Literal(FallbackLiteral.usizeSuffixed(n))
+
         fun i8Suffixed(n: Byte): Literal = Literal(FallbackLiteral.i8Suffixed(n))
+
         fun i16Suffixed(n: Short): Literal = Literal(FallbackLiteral.i16Suffixed(n))
+
         fun i32Suffixed(n: Int): Literal = Literal(FallbackLiteral.i32Suffixed(n))
+
         fun i64Suffixed(n: Long): Literal = Literal(FallbackLiteral.i64Suffixed(n))
+
         fun i128Suffixed(n: Long): Literal = Literal(FallbackLiteral.i128Suffixed(n))
+
         fun isizeSuffixed(n: Long): Literal = Literal(FallbackLiteral.isizeSuffixed(n))
 
         /**
@@ -688,16 +785,27 @@ class Literal internal constructor(
         // from negative numbers may not survive roundtrips through
         // [TokenStream] or strings.
         fun u8Unsuffixed(n: UByte): Literal = Literal(FallbackLiteral.u8Unsuffixed(n))
+
         fun u16Unsuffixed(n: UShort): Literal = Literal(FallbackLiteral.u16Unsuffixed(n))
+
         fun u32Unsuffixed(n: UInt): Literal = Literal(FallbackLiteral.u32Unsuffixed(n))
+
         fun u64Unsuffixed(n: ULong): Literal = Literal(FallbackLiteral.u64Unsuffixed(n))
+
         fun u128Unsuffixed(n: ULong): Literal = Literal(FallbackLiteral.u128Unsuffixed(n))
+
         fun usizeUnsuffixed(n: ULong): Literal = Literal(FallbackLiteral.usizeUnsuffixed(n))
+
         fun i8Unsuffixed(n: Byte): Literal = Literal(FallbackLiteral.i8Unsuffixed(n))
+
         fun i16Unsuffixed(n: Short): Literal = Literal(FallbackLiteral.i16Unsuffixed(n))
+
         fun i32Unsuffixed(n: Int): Literal = Literal(FallbackLiteral.i32Unsuffixed(n))
+
         fun i64Unsuffixed(n: Long): Literal = Literal(FallbackLiteral.i64Unsuffixed(n))
+
         fun i128Unsuffixed(n: Long): Literal = Literal(FallbackLiteral.i128Unsuffixed(n))
+
         fun isizeUnsuffixed(n: Long): Literal = Literal(FallbackLiteral.isizeUnsuffixed(n))
 
         /**
@@ -738,8 +846,13 @@ class Literal internal constructor(
          *
          * May fail for the same reasons [TokenStream.fromString] may fail.
          */
-        fun fromString(repr: String): Result<Literal> {
-            return FallbackLiteral.fromStrChecked(repr).map(::Literal)
+        fun fromString(repr: String): LiteralParseResult {
+            val result = FallbackLiteral.fromStrChecked(repr)
+            return if (result.isSuccess) {
+                LiteralParseResult(Literal(result.getOrThrow()), null)
+            } else {
+                LiteralParseResult(null, result.exceptionOrNull()?.message ?: "cannot parse string into literal")
+            }
         }
 
         /**
@@ -766,7 +879,7 @@ class Literal internal constructor(
     fun subspan(range: IntRange): Span? = inner.subspan(range)?.let(Span::newFallback)
 
     /** Returns the unescaped string value if this is a string literal. */
-    fun strValue(): Result<String> {
+    fun strValue(): StringParseResult {
         val repr = toString()
         if (repr.startsWith('"') && repr.endsWith('"') && repr.length >= 2) {
             val quoted = repr.substring(1, repr.length - 1)
@@ -778,23 +891,23 @@ class Literal internal constructor(
                     is EscapeResult.Err -> if (res.error.isFatal()) error = res.error
                 }
             }
-            return error?.let { Result.failure(ConversionErrorKind.FailedToUnescape(it)) }
-                ?: Result.success(value.toString())
+            return error?.let { StringParseResult(null, it.name) }
+                ?: StringParseResult(value.toString(), null)
         }
         if (repr.startsWith('r')) {
             val raw = getRaw(repr.substring(1))
             if (raw != null) {
-                return Result.success(raw)
+                return StringParseResult(raw, null)
             }
         }
-        return Result.failure(ConversionErrorKind.InvalidLiteralKind)
+        return StringParseResult(null, "invalid literal kind")
     }
 
     /**
      * Returns the unescaped string value (including nul terminator) if this is
      * a c-string literal.
      */
-    fun cstrValue(): Result<ByteArray> {
+    fun cstrValue(): ByteArrayParseResult {
         val repr = toString()
         if (repr.startsWith("c\"") && repr.endsWith('"') && repr.length >= 3) {
             val quoted = repr.substring(2, repr.length - 1)
@@ -802,32 +915,38 @@ class Literal internal constructor(
             var error: EscapeError? = null
             unescapeCStr(quoted) { _, res ->
                 when (res) {
-                    is EscapeResult.Ok -> when (res.value) {
-                        is MixedUnit.Char -> {
-                            val ch = res.value.value.get()
-                            val utf8 = ch.toString().encodeToByteArray()
-                            for (b in utf8) value.add(b)
+                    is EscapeResult.Ok ->
+                        when (res.value) {
+                            is MixedUnit.Char -> {
+                                val ch = res.value.value.get()
+                                val utf8 = ch.toString().encodeToByteArray()
+                                for (b in utf8) value.add(b)
+                            }
+                            is MixedUnit.HighByte ->
+                                value.add(
+                                    res.value.value
+                                        .get()
+                                        .toByte(),
+                                )
                         }
-                        is MixedUnit.HighByte -> value.add(res.value.value.get().toByte())
-                    }
                     is EscapeResult.Err -> if (res.error.isFatal()) error = res.error
                 }
             }
             value.add(0)
-            return error?.let { Result.failure(ConversionErrorKind.FailedToUnescape(it)) }
-                ?: Result.success(value.toByteArray())
+            return error?.let { ByteArrayParseResult(null, it.name) }
+                ?: ByteArrayParseResult(value.toByteArray(), null)
         }
         if (repr.startsWith("cr")) {
             val raw = getRaw(repr.substring(2))
             if (raw != null) {
-                return Result.success(raw.encodeToByteArray() + byteArrayOf(0))
+                return ByteArrayParseResult(raw.encodeToByteArray() + byteArrayOf(0), null)
             }
         }
-        return Result.failure(ConversionErrorKind.InvalidLiteralKind)
+        return ByteArrayParseResult(null, "invalid literal kind")
     }
 
     /** Returns the unescaped string value if this is a byte string literal. */
-    fun byteStrValue(): Result<ByteArray> {
+    fun byteStrValue(): ByteArrayParseResult {
         val repr = toString()
         if (repr.startsWith("b\"") && repr.endsWith('"') && repr.length >= 3) {
             val quoted = repr.substring(2, repr.length - 1)
@@ -839,34 +958,36 @@ class Literal internal constructor(
                     is EscapeResult.Err -> if (res.error.isFatal()) error = res.error
                 }
             }
-            return error?.let { Result.failure(ConversionErrorKind.FailedToUnescape(it)) }
-                ?: Result.success(value.toByteArray())
+            return error?.let { ByteArrayParseResult(null, it.name) }
+                ?: ByteArrayParseResult(value.toByteArray(), null)
         }
         if (repr.startsWith("br")) {
             val raw = getRaw(repr.substring(2))
             if (raw != null) {
-                return Result.success(raw.encodeToByteArray())
+                return ByteArrayParseResult(raw.encodeToByteArray(), null)
             }
         }
-        return Result.failure(ConversionErrorKind.InvalidLiteralKind)
+        return ByteArrayParseResult(null, "invalid literal kind")
     }
 
     override fun toString(): String = inner.toString()
 
-    override fun equals(other: Any?): Boolean {
-        return other is Literal && inner == other.inner
-    }
+    override fun equals(other: Any?): Boolean = other is Literal && inner == other.inner
 
     override fun hashCode(): Int = inner.hashCode()
 }
 
 /** Error when retrieving a string literal's unescaped value. */
-sealed class ConversionErrorKind(message: String) : IllegalArgumentException(message) {
+internal sealed class ConversionErrorKind(
+    message: String,
+) : IllegalArgumentException(message) {
     /**
      * The literal is of the right string kind, but its contents are malformed
      * in a way that cannot be unescaped to a value.
      */
-    data class FailedToUnescape(val error: EscapeError) : ConversionErrorKind(error.name)
+    data class FailedToUnescape(
+        val error: EscapeError,
+    ) : ConversionErrorKind(error.name)
 
     /**
      * The literal is not of the string kind whose value was requested, for
@@ -905,9 +1026,7 @@ class TokenStreamIntoIter internal constructor(
 
     override fun next(): TokenTree = inner.next()
 
-    fun sizeHint(): Pair<Int, Int?> = inner.sizeHint()
+    internal fun sizeHint(): Pair<Int, Int?> = inner.sizeHint()
 
-    override fun toString(): String {
-        return "TokenStream ${inner.remaining().joinToString(prefix = "[", postfix = "]")}"
-    }
+    override fun toString(): String = "TokenStream ${inner.remaining().joinToString(prefix = "[", postfix = "]")}"
 }

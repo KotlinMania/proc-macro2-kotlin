@@ -29,14 +29,15 @@ private fun litOfDocComment(tokens: TokenStream, inner: Boolean): Literal {
             else -> fail("wrong token $tokens")
         }
     }
-    iter = when (val token = iter.next()) {
-        is TokenTree.Group -> {
-            assertEquals(Delimiter.Bracket, token.value.delimiter())
-            assertFalse(iter.hasNext(), "unexpected token $tokens")
-            token.value.stream().iterator()
+    iter =
+        when (val token = iter.next()) {
+            is TokenTree.Group -> {
+                assertEquals(Delimiter.Bracket, token.value.delimiter())
+                assertFalse(iter.hasNext(), "unexpected token $tokens")
+                token.value.stream().iterator()
+            }
+            else -> fail("wrong token $tokens")
         }
-        else -> fail("wrong token $tokens")
-    }
     when (val token = iter.next()) {
         is TokenTree.Ident -> assertEquals("doc", token.value.toString())
         else -> fail("wrong token $tokens")
@@ -67,7 +68,7 @@ class CommentsTest {
 
     @Test
     fun incomplete() {
-        assertTrue(TokenStream.fromString("/*/").isFailure)
+        assertTrue(TokenStream.fromString("/*/").isFailure())
     }
 
     @Test
@@ -99,8 +100,8 @@ class CommentsTest {
         lit = litOfOuterDocComment(stream)
         assertEquals("\"\\r\\n\"", lit.toString())
 
-        assertTrue(TokenStream.fromString("///\r").isFailure)
-        assertTrue(TokenStream.fromString("///\r \n").isFailure)
-        assertTrue(TokenStream.fromString("/**\r \n*/").isFailure)
+        assertTrue(TokenStream.fromString("///\r").isFailure())
+        assertTrue(TokenStream.fromString("///\r \n").isFailure())
+        assertTrue(TokenStream.fromString("/**\r \n*/").isFailure())
     }
 }

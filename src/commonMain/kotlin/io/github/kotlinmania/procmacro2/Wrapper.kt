@@ -1,4 +1,4 @@
-// port-lint: ignore
+// port-lint: source wrapper.rs
 // Upstream wrapper exists solely to dispatch between two backing
 // implementations of every public type: a Compiler variant that delegates to
 // the in-tree procedural macro crate available inside a procedural macro, and
