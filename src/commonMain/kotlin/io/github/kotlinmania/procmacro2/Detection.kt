@@ -16,8 +16,8 @@ internal object Detection {
     private val works = AtomicLong(0)
     private val initialized = AtomicLong(0)
 
-    internal fun insideProcMacro(): Boolean {
-        return when (works.load()) {
+    internal fun insideProcMacro(): Boolean =
+        when (works.load()) {
             1L -> false
             2L -> true
             else -> {
@@ -25,7 +25,6 @@ internal object Detection {
                 insideProcMacro()
             }
         }
-    }
 
     internal fun forceFallback() {
         works.store(1)
@@ -38,6 +37,7 @@ internal object Detection {
     private fun initialize() {
         works.store(1)
     }
+
     private fun callOnce(init: () -> Unit) {
         if (initialized.load() == 2L) {
             return

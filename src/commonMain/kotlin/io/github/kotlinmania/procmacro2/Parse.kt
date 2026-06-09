@@ -31,13 +31,12 @@ internal data class Cursor(
 
     fun charIndices(): List<Pair<Int, Char>> = rest.mapIndexed { index, ch -> index to ch }
 
-    fun parse(tag: String): Result<Cursor> {
-        return if (startsWith(tag)) {
+    fun parse(tag: String): Result<Cursor> =
+        if (startsWith(tag)) {
             Result.success(advance(tag.length))
         } else {
             reject()
         }
-    }
 }
 
 private object Reject : Exception()
@@ -99,17 +98,20 @@ private fun blockComment(input: Cursor): PResult<String> {
         return reject()
     }
     var depth = 0
-    val bytes = input.bytes()
+    // Iterate by character, not by UTF-8 byte: the cursor's advance()/offset bookkeeping
+    // is character-based, so a byte index would over-run input.rest once the comment
+    // contains any multibyte character. The `/` and `*` markers are always ASCII.
+    val chars = input.rest
     var i = 0
-    val upper = bytes.size - 1
+    val upper = chars.length - 1
     while (i < upper) {
-        if (bytes[i] == '/'.code && bytes[i + 1] == '*'.code) {
+        if (chars[i] == '/' && chars[i + 1] == '*') {
             depth += 1
             i += 1
-        } else if (bytes[i] == '*'.code && bytes[i + 1] == '/'.code) {
+        } else if (chars[i] == '*' && chars[i + 1] == '/') {
             depth -= 1
             if (depth == 0) {
-                return Result.success(input.advance(i + 2) to input.rest.substring(0, i + 2))
+                return Result.success(input.advance(i + 2) to chars.substring(0, i + 2))
             }
             i += 1
         }
@@ -118,16 +120,13 @@ private fun blockComment(input: Cursor): PResult<String> {
     return reject()
 }
 
-private fun isWhitespace(ch: Char): Boolean {
-    return ch.isWhitespace() || ch == '\u200e' || ch == '\u200f'
-}
+private fun isWhitespace(ch: Char): Boolean = ch.isWhitespace() || ch == '\u200e' || ch == '\u200f'
 
-private fun wordBreak(input: Cursor): Result<Cursor> {
-    return when (val ch = input.rest.firstOrNull()) {
+private fun wordBreak(input: Cursor): Result<Cursor> =
+    when (val ch = input.rest.firstOrNull()) {
         null -> Result.success(input)
         else -> if (isIdentContinue(ch)) reject() else Result.success(input)
     }
-}
 
 private const val ERROR = "(/*ERROR*/)"
 
@@ -199,9 +198,7 @@ internal fun tokenStream(inputCursor: Cursor): Result<FallbackTokenStream> {
     }
 }
 
-private fun lexError(cursor: Cursor): FallbackLexError {
-    return FallbackLexError(FallbackSpan(cursor.off, cursor.off))
-}
+private fun lexError(cursor: Cursor): FallbackLexError = FallbackLexError(FallbackSpan(cursor.off, cursor.off))
 
 private fun leafToken(input: Cursor): PResult<TokenTree> {
     val lit = literal(input)
@@ -254,19 +251,26 @@ private fun identAny(input: Cursor): PResult<Ident> {
 }
 
 private fun identNotRaw(input: Cursor): PResult<String> {
-    val chars = input.charIndices()
-    val first = chars.firstOrNull()
-    if (first == null || !isIdentStart(first.second)) {
+    val s = input.rest
+    if (s.isEmpty()) {
         return reject()
     }
-    var end = input.len()
-    for ((i, ch) in chars.drop(1)) {
-        if (!isIdentContinue(ch)) {
-            end = i
+    // Walk by Unicode scalar (not UTF-16 code unit) so supplementary-plane
+    // identifier characters such as Egyptian Hieroglyphs are not split across
+    // their surrogate halves and rejected.
+    val (firstCp, firstWidth) = s.codePointAndWidthAt(0)
+    if (!isIdentStartCodePoint(firstCp)) {
+        return reject()
+    }
+    var end = firstWidth
+    while (end < s.length) {
+        val (cp, width) = s.codePointAndWidthAt(end)
+        if (!isIdentContinueCodePoint(cp)) {
             break
         }
+        end += width
     }
-    return Result.success(input.advance(end) to input.rest.substring(0, end))
+    return Result.success(input.advance(end) to s.substring(0, end))
 }
 
 internal fun literal(input: Cursor): PResult<FallbackLiteral> {
@@ -324,12 +328,12 @@ private fun cookedString(inputCursor: Cursor): Result<Cursor> {
                 val next = input.rest.getOrNull(i + 1) ?: return reject()
                 when (next) {
                     'x' -> {
-                        backslashXChar(input.rest, i + 2).getOrThrow()
+                        if (backslashXChar(input.rest, i + 2).isFailure) return reject()
                         i += 3
                     }
                     'n', 'r', 't', '\\', '\'', '"', '0' -> i += 1
                     'u' -> {
-                        val end = backslashU(input.rest, i + 2).getOrThrow().second
+                        val end = backslashU(input.rest, i + 2).getOrElse { return reject() }.second
                         i = end - 1
                     }
                     '\n', '\r' -> {
@@ -381,7 +385,10 @@ private fun byteString(input: Cursor): Result<Cursor> {
 private fun cookedByteString(inputCursor: Cursor): Result<Cursor> {
     var input = inputCursor
     var offset = 0
-    val bytes = input.bytes()
+    // `bytes` must track `input`: a string-continuation escape advances `input`, so
+    // the byte view has to be recomputed afterwards (otherwise the loop keeps reading
+    // the pre-continuation bytes and mis-parses the remainder).
+    var bytes = input.bytes()
     while (offset < bytes.size) {
         when (val b = bytes[offset]) {
             '"'.code -> return Result.success(literalSuffix(input.advance(offset + 1)))
@@ -390,7 +397,7 @@ private fun cookedByteString(inputCursor: Cursor): Result<Cursor> {
                 val next = bytes.getOrNull(offset + 1) ?: return reject()
                 when (next) {
                     'x'.code -> {
-                        backslashXByte(bytes, offset + 2).getOrThrow()
+                        if (backslashXByte(bytes, offset + 2).isFailure) return reject()
                         offset += 3
                     }
                     'n'.code, 'r'.code, 't'.code, '\\'.code, '0'.code, '\''.code, '"'.code -> offset += 1
@@ -399,6 +406,7 @@ private fun cookedByteString(inputCursor: Cursor): Result<Cursor> {
                         val trailed = trailingBackslash(input, next.toChar())
                         if (trailed.isFailure) return reject()
                         input = trailed.getOrThrow()
+                        bytes = input.bytes()
                         offset = -1
                     }
                     else -> return reject()
@@ -490,13 +498,13 @@ private fun cookedCString(inputCursor: Cursor): Result<Cursor> {
                 val next = input.rest.getOrNull(i + 1) ?: return reject()
                 when (next) {
                     'x' -> {
-                        backslashXNonzero(input.rest, i + 2).getOrThrow()
+                        if (backslashXNonzero(input.rest, i + 2).isFailure) return reject()
                         i += 3
                     }
                     'n', 'r', 't', '\\', '\'', '"' -> i += 1
                     'u' -> {
-                        val (chValue, end) = backslashU(input.rest, i + 2).getOrThrow()
-                        if (chValue == '\u0000') return reject()
+                        val (codePoint, end) = backslashU(input.rest, i + 2).getOrElse { return reject() }
+                        if (codePoint == 0) return reject()
                         i = end - 1
                     }
                     '\n', '\r' -> {
@@ -591,7 +599,11 @@ private fun backslashXNonzero(chars: String, start: Int): Result<Unit> {
     }
 }
 
-private fun backslashU(chars: String, start: Int): Result<Pair<Char, Int>> {
+// Returns the decoded Unicode scalar value (as an Int code point, since Kotlin's
+// Char cannot hold supplementary-plane scalars such as U+10FFFF) together with the
+// index just past the closing brace. Surrogates and out-of-range scalars are
+// rejected, matching the set of escapes the Rust lexer accepts.
+private fun backslashU(chars: String, start: Int): Result<Pair<Int, Int>> {
     if (chars.getOrNull(start) != '{') {
         return reject()
     }
@@ -610,7 +622,11 @@ private fun backslashU(chars: String, start: Int): Result<Pair<Char, Int>> {
                     continue
                 }
                 ch == '}' && len > 0 -> {
-                    return Char(value).let { Result.success(it to (index + 1)) }
+                    return if (value > 0x10FFFF || value in 0xD800..0xDFFF) {
+                        reject()
+                    } else {
+                        Result.success(value to (index + 1))
+                    }
                 }
                 else -> return reject()
             }
@@ -875,6 +891,4 @@ private fun takeUntilNewlineOrEof(input: Cursor): Pair<Cursor, String> {
     return input.advance(input.len()) to input.rest
 }
 
-private fun Char.isHexDigit(): Boolean {
-    return this in '0'..'9' || this in 'a'..'f' || this in 'A'..'F'
-}
+private fun Char.isHexDigit(): Boolean = this in '0'..'9' || this in 'a'..'f' || this in 'A'..'F'

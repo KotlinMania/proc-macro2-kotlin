@@ -1,22 +1,21 @@
 // port-lint: source num.rs
 package io.github.kotlinmania.procmacro2
 
-class NonZeroChar private constructor(private val value: Char) {
+internal class NonZeroChar private constructor(
+    private val value: Char,
+) {
     companion object {
-        fun new(ch: Char): NonZeroChar? {
-            return if (ch == '\u0000') {
+        fun new(ch: Char): NonZeroChar? =
+            if (ch == '\u0000') {
                 null
             } else {
                 NonZeroChar(ch)
             }
-        }
     }
 
     fun get(): Char = value
 
-    override fun equals(other: Any?): Boolean {
-        return other is NonZeroChar && value == other.value
-    }
+    override fun equals(other: Any?): Boolean = other is NonZeroChar && value == other.value
 
     override fun hashCode(): Int = value.hashCode()
 
