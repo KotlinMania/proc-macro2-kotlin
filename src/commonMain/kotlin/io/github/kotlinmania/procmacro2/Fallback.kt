@@ -130,19 +130,19 @@ internal class FallbackLexError(
  * cold-path placement hint and the inline form is observably the same.
  */
 private fun pushTokenFromProcMacro(vec: RcVecMut<TokenTree>, token: TokenTree) {
-    if (token is TokenTree.Literal &&
-        token.value.inner.repr
-            .startsWith('-')
-    ) {
-        val literal = token.value.inner.clone()
-        literal.repr = literal.repr.removePrefix("-")
-        val punct = Punct('-', Spacing.Alone)
-        punct.setSpan(Span.newFallback(literal.span()))
-        vec.push(TokenTree.Punct(punct))
-        vec.push(TokenTree.Literal(Literal.newFallback(literal)))
-    } else {
-        vec.push(token)
+    if (token is TokenTree.Literal) {
+        val wl = token.value.inner
+        if (wl is WrapperLiteral.Fallback && wl.literal.repr.startsWith('-')) {
+            val literal = wl.literal.clone()
+            literal.repr = literal.repr.removePrefix("-")
+            val punct = Punct('-', Spacing.Alone)
+            punct.setSpan(Span.newFallback(literal.span()))
+            vec.push(TokenTree.Punct(punct))
+            vec.push(TokenTree.Literal(Literal.newFallback(literal)))
+            return
+        }
     }
+    vec.push(token)
 }
 
 internal class TokenStreamBuilder private constructor(
@@ -157,11 +157,11 @@ internal class TokenStreamBuilder private constructor(
     fun pushTokenFromParser(tt: TokenTree) {
         when (tt) {
             is TokenTree.Literal -> {
-                val literal = tt.value
-                if (literal.inner.repr.startsWith('-')) {
-                    literal.inner.repr = literal.inner.repr.substring(1)
+                val wl = tt.value.inner
+                if (wl is WrapperLiteral.Fallback && wl.literal.repr.startsWith('-')) {
+                    wl.literal.repr = wl.literal.repr.substring(1)
                     val punct = Punct('-', Spacing.Alone)
-                    punct.setSpan(Span.newFallback(literal.inner.span()))
+                    punct.setSpan(Span.newFallback(wl.literal.span()))
                     inner.push(TokenTree.Punct(punct))
                     inner.push(tt)
                 } else {
@@ -524,7 +524,7 @@ internal class FallbackLiteral internal constructor(
             if (negative) {
                 cursor = cursor.advance(1)
                 if (!cursor.startsWithFn { it.isDigit() }) {
-                    return Result.failure(LexError(FallbackLexError(FallbackSpan.callSite())))
+                    return Result.failure(LexError(WrapperLexError.Fallback(FallbackLexError(FallbackSpan.callSite()))))
                 }
             }
             return literal(cursor).fold(
@@ -536,10 +536,10 @@ internal class FallbackLiteral internal constructor(
                         literal.span = FallbackSpan(lo, rest.off)
                         Result.success(literal)
                     } else {
-                        Result.failure(LexError(FallbackLexError(FallbackSpan.callSite())))
+                        Result.failure(LexError(WrapperLexError.Fallback(FallbackLexError(FallbackSpan.callSite()))))
                     }
                 },
-                onFailure = { Result.failure(LexError(FallbackLexError(FallbackSpan.callSite()))) },
+                onFailure = { Result.failure(LexError(WrapperLexError.Fallback(FallbackLexError(FallbackSpan.callSite())))) },
             )
         }
 

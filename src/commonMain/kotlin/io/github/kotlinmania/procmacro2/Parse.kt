@@ -150,7 +150,7 @@ internal fun tokenStream(inputCursor: Cursor): Result<FallbackTokenStream> {
             return if (stack.isEmpty()) {
                 Result.success(tokens.build())
             } else {
-                Result.failure(LexError(FallbackLexError(FallbackSpan(stack.last().first, stack.last().first))))
+                Result.failure(LexError(WrapperLexError.Fallback(FallbackLexError(FallbackSpan(stack.last().first, stack.last().first)))))
             }
         }
 
@@ -198,7 +198,7 @@ internal fun tokenStream(inputCursor: Cursor): Result<FallbackTokenStream> {
     }
 }
 
-private fun lexError(cursor: Cursor): FallbackLexError = FallbackLexError(FallbackSpan(cursor.off, cursor.off))
+private fun lexError(cursor: Cursor): WrapperLexError = WrapperLexError.Fallback(FallbackLexError(FallbackSpan(cursor.off, cursor.off)))
 
 private fun leafToken(input: Cursor): PResult<TokenTree> {
     val lit = literal(input)
