@@ -1,11 +1,14 @@
 // port-lint: source probe.rs
 package io.github.kotlinmania.procmacro2
 
-// Upstream probe.rs conditionally declares three submodules
-// (ProcMacroSpan, ProcMacroSpanFile, ProcMacroSpanLocation)
-// that exercise unstable compiler `Span` API surface
-// (byteRange, start, end, line, column, file, localFile, join, subspan).
-// These only exist inside the Rust compiler's procedural macro context.
+// Upstream probe.rs conditionally declares three submodules gated by
+// cfg(proc_macro_span), cfg(proc_macro_span_file), cfg(proc_macro_span_location).
+// These exercise unstable compiler Span API surface. The Kotlin port has no
+// cfg mechanism, and proc-macro-kotlin provides the Span/Literal surface
+// directly, so all three submodules are always available.
 //
-// The Kotlin port has no embedding compiler, so none of these probes
-// have a target to exercise. The submodules are structurally inapplicable.
+// Submodules:
+//   probe.ProcMacroSpan        — byteRange, start, end, line, column, file, localFile, join, subspan
+//   probe.ProcMacroSpanFile    — file, localFile
+//   probe.ProcMacroSpanLocation — start, end, line, column
+internal object ProbeModuleDescriptor

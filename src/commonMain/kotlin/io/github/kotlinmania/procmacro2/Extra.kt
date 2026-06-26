@@ -31,7 +31,7 @@ package io.github.kotlinmania.procmacro2
  * coroutineScope {
  *     for (krate in everyVersionOfEveryCrate()) {
  *         launch(Dispatchers.IO) {
- *             invalidateCurrentThreadSpanData()
+ *             invalidateCurrentThreadSpans()
  *
  *             for (entry in krate.entries()) {
  *                 val path = entry.path()
@@ -44,18 +44,13 @@ package io.github.kotlinmania.procmacro2
  * }
  * ```
  *
- * The Kotlin port exports this as [invalidateCurrentThreadSpanData] rather
- * than `invalidateCurrentThreadSpans` because the unprefixed name is already
- * taken at the same package level by the fallback-internal helper that this
- * function delegates to.
- *
  * ## Throws
  *
  * This function is not applicable to and will throw [IllegalStateException]
  * if called from a procedural macro context.
  */
-fun invalidateCurrentThreadSpanData() {
-    invalidateCurrentThreadSpans()
+fun invalidateCurrentThreadSpans() {
+    invalidateCurrentThreadSpansInternal()
 }
 
 /**
@@ -63,11 +58,9 @@ fun invalidateCurrentThreadSpanData() {
  * together in a more compact representation than holding those 2 spans
  * individually.
  *
- * The upstream Rust type carries a `DelimSpanEnum` with `Compiler` and
- * `Fallback` variants. The Kotlin port has no embedding compiler to defer to,
- * so only the fallback shape is retained; [open] and [close] are computed from
- * the group's joined span via [FallbackSpan.firstByte] and
- * [FallbackSpan.lastByte].
+ * Upstream DelimSpanEnum has Compiler and Fallback variants; the Compiler
+ * variant requires proc_macro::Span which is structurally absent, so only
+ * the Fallback shape is retained.
  */
 class DelimSpan internal constructor(
     private val span: Span,

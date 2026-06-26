@@ -217,6 +217,8 @@ class TokenStream internal constructor(
 
     override fun iterator(): TokenStreamIntoIter = TokenStreamIntoIter(inner.intoIter())
 
+    fun clone(): TokenStream = TokenStream(inner.clone())
+
     /**
      * Prints the token stream as a string that is supposed to be losslessly
      * convertible back into the same token stream (modulo spans), except for
@@ -250,7 +252,12 @@ internal class LexError internal constructor(
     override fun toString(): String = inner.toString()
 }
 
-/** A region of source code, along with macro expansion information. */
+/** A region of source code, along with macro expansion information.
+ *
+ * Span.unwrap and Span.unstable are cfg(wrap_proc_macro)-gated in upstream and
+ * delegate to proc_macro::Span; structurally inapplicable without an embedding
+ * compiler.
+ */
 class Span internal constructor(
     internal val inner: FallbackSpan,
 ) {

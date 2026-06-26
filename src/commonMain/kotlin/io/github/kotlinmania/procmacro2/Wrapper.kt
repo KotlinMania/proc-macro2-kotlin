@@ -1,13 +1,13 @@
 // port-lint: source wrapper.rs
-// Upstream wrapper exists solely to dispatch between two backing
-// implementations of every public type: a Compiler variant that delegates to
-// the in-tree procedural macro crate available inside a procedural macro, and
-// a Fallback variant that uses the standalone fallback implementation. Kotlin
-// Multiplatform has no embedding compiler to defer to, so the Compiler half
-// of every dispatch is structurally impossible; the wrapper collapses to the
-// identity function over the Fallback side, and Lib.kt therefore stores
-// FallbackTokenStream / FallbackSpan / FallbackGroup / FallbackIdent /
-// FallbackLiteral / FallbackLexError directly. This file remains as a
-// placeholder noting that intentional absence; the surface that the upstream
-// wrapper would expose is reachable through the corresponding Fallback types.
+// Upstream wrapper.rs dispatches between two backing implementations of
+// every public type: a Compiler variant that delegates to the in-tree
+// procedural macro crate, and a Fallback variant. Kotlin Multiplatform has
+// no embedding compiler to defer to, so the Compiler half is structurally
+// impossible. Lib.kt stores Fallback types directly:
+//   FallbackTokenStream, FallbackSpan, FallbackGroup, FallbackIdent,
+//   FallbackLiteral, FallbackLexError.
+// Wrapper dispatch is the identity function over the Fallback side; the
+// fallback module exposes the full public surface without a dispatch layer.
 package io.github.kotlinmania.procmacro2
+
+internal object WrapperModuleDescriptor

@@ -34,6 +34,9 @@ internal object Detection {
         initialize()
     }
 
+    // The cfg(no_is_available) branch in detection.rs:56-75 swaps a null panic
+    // hook to probe proc_macro::Span::call_site; the Kotlin port has no
+    // embedding compiler to probe, so this branch is structurally inapplicable.
     private fun initialize() {
         works.store(1)
     }

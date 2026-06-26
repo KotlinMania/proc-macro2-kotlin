@@ -16,6 +16,9 @@
  */
 package io.github.kotlinmania.procmacro2
 
+import io.github.kotlinmania.unicodeident.isXidContinue
+import io.github.kotlinmania.unicodeident.isXidStart
+
 /**
  * Force use of proc-macro2's fallback implementation of the API for now, even
  * if the compiler's implementation is available.
@@ -178,7 +181,7 @@ private fun getCursor(src: String): Cursor {
 }
 
 /** Invalidates any spans that exist on the current thread. */
-fun invalidateCurrentThreadSpans() {
+internal fun invalidateCurrentThreadSpansInternal() {
     SourceMap.invalidate()
 }
 
@@ -456,9 +459,9 @@ internal class FallbackIdent private constructor(
     override fun hashCode(): Int = 31 * sym.hashCode() + raw.hashCode()
 }
 
-internal fun isIdentStart(c: Char): Boolean = c == '_' || c == '$' || c.isLetter()
+internal fun isIdentStart(c: Char): Boolean = c == '_' || isXidStart(c)
 
-internal fun isIdentContinue(c: Char): Boolean = isIdentStart(c) || c.isDigit()
+internal fun isIdentContinue(c: Char): Boolean = isXidContinue(c)
 
 // Code-point-aware identifier classification. BMP scalars defer to the Char-based
 // predicates above; supplementary-plane scalars (encoded as surrogate pairs) are

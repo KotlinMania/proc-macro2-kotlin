@@ -379,8 +379,15 @@ class TestTest {
         assertEquals(1, tokenCount("cr#\"\"#cr"))
         assertEquals(1, tokenCount("'c'c"))
         assertEquals(1, tokenCount("b'b'b"))
+        assertEquals(1, tokenCount("b\"contains\nnewlines\\\nescaped newlines\""))
+        assertEquals(
+            "b\"contains\nnewlines\\\nescaped newlines\"",
+            parse("b\"contains\nnewlines\\\nescaped newlines\"").single().toString(),
+        )
         assertEquals(1, tokenCount("0E"))
         assertEquals(1, tokenCount("0o0A"))
+        assertEquals(1, tokenCount("0e1\u05c5"))
+        assertEquals("0e1\u05c5", parse("0e1\u05c5").single().toString())
         assertEquals(4, tokenCount("0E--0"))
         assertEquals(1, tokenCount("0.0ECMA"))
     }
@@ -733,11 +740,11 @@ class TestTest {
         // The Kotlin port keeps this state process-wide (documented in Lib.kt), so
         // earlier tests in the same process leave the offset counter advanced;
         // invalidate first to establish the same baseline upstream's test assumes.
-        invalidateCurrentThreadSpanData()
+        invalidateCurrentThreadSpans()
         assertEquals("bytes(1..2)", createSpan().toString())
         assertEquals("bytes(3..4)", createSpan().toString())
 
-        invalidateCurrentThreadSpanData()
+        invalidateCurrentThreadSpans()
 
         // Test that span offsets have been reset after the invalidation call.
         assertEquals("bytes(1..2)", createSpan().toString())
@@ -746,7 +753,7 @@ class TestTest {
     @Test
     fun testUseSpanAfterInvalidation() {
         val span = createSpan()
-        invalidateCurrentThreadSpanData()
+        invalidateCurrentThreadSpans()
         assertFailsWith<IllegalStateException> { span.sourceText() }
     }
 }
