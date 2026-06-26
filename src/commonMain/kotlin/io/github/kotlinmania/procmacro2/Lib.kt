@@ -252,7 +252,12 @@ internal class LexError internal constructor(
     override fun toString(): String = inner.toString()
 }
 
-/** A region of source code, along with macro expansion information. */
+/** A region of source code, along with macro expansion information.
+ *
+ * Span.unwrap and Span.unstable are cfg(wrap_proc_macro)-gated in upstream and
+ * delegate to proc_macro::Span; structurally inapplicable without an embedding
+ * compiler.
+ */
 class Span internal constructor(
     internal val inner: FallbackSpan,
 ) {

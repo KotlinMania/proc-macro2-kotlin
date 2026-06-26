@@ -740,11 +740,11 @@ class TestTest {
         // The Kotlin port keeps this state process-wide (documented in Lib.kt), so
         // earlier tests in the same process leave the offset counter advanced;
         // invalidate first to establish the same baseline upstream's test assumes.
-        invalidateCurrentThreadSpanData()
+        invalidateCurrentThreadSpans()
         assertEquals("bytes(1..2)", createSpan().toString())
         assertEquals("bytes(3..4)", createSpan().toString())
 
-        invalidateCurrentThreadSpanData()
+        invalidateCurrentThreadSpans()
 
         // Test that span offsets have been reset after the invalidation call.
         assertEquals("bytes(1..2)", createSpan().toString())
@@ -753,7 +753,7 @@ class TestTest {
     @Test
     fun testUseSpanAfterInvalidation() {
         val span = createSpan()
-        invalidateCurrentThreadSpanData()
+        invalidateCurrentThreadSpans()
         assertFailsWith<IllegalStateException> { span.sourceText() }
     }
 }

@@ -116,6 +116,9 @@ internal class RcVecIntoIter<T>(
     internal fun clone(): RcVecIntoIter<T> = RcVecIntoIter(remaining().toMutableList())
 }
 
+// Shared mutable storage with a reference count, mirroring Rust's Rc<Vec<T>>.
+// Not safe for concurrent access — Rust's Rc is !Send + !Sync; Kotlin has no
+// equivalent marker, so callers must enforce single-threaded use.
 internal class SharedList<T>(
     var list: MutableList<T>,
     var refCount: Int,
