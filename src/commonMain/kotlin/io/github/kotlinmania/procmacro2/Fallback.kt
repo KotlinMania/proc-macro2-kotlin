@@ -458,7 +458,8 @@ internal class FallbackIdent private constructor(
 
 internal fun isIdentStart(c: Char): Boolean = c == '_' || c == '$' || c.isLetter()
 
-internal fun isIdentContinue(c: Char): Boolean = isIdentStart(c) || c.isDigit()
+internal fun isIdentContinue(c: Char): Boolean =
+    isIdentStart(c) || c.isDigit() || c.category in GRAPHEME_EXTEND_CATEGORIES
 
 // Code-point-aware identifier classification. BMP scalars defer to the Char-based
 // predicates above; supplementary-plane scalars (encoded as surrogate pairs) are

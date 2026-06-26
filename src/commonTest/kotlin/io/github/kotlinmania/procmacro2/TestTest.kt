@@ -379,8 +379,15 @@ class TestTest {
         assertEquals(1, tokenCount("cr#\"\"#cr"))
         assertEquals(1, tokenCount("'c'c"))
         assertEquals(1, tokenCount("b'b'b"))
+        assertEquals(1, tokenCount("b\"contains\nnewlines\\\nescaped newlines\""))
+        assertEquals(
+            "b\"contains\nnewlines\\\nescaped newlines\"",
+            parse("b\"contains\nnewlines\\\nescaped newlines\"").single().toString(),
+        )
         assertEquals(1, tokenCount("0E"))
         assertEquals(1, tokenCount("0o0A"))
+        assertEquals(1, tokenCount("0e1\u05c5"))
+        assertEquals("0e1\u05c5", parse("0e1\u05c5").single().toString())
         assertEquals(4, tokenCount("0E--0"))
         assertEquals(1, tokenCount("0.0ECMA"))
     }

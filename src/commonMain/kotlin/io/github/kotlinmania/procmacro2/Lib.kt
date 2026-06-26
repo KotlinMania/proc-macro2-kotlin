@@ -217,6 +217,8 @@ class TokenStream internal constructor(
 
     override fun iterator(): TokenStreamIntoIter = TokenStreamIntoIter(inner.intoIter())
 
+    fun clone(): TokenStream = TokenStream(inner.clone())
+
     /**
      * Prints the token stream as a string that is supposed to be losslessly
      * convertible back into the same token stream (modulo spans), except for
