@@ -10,7 +10,7 @@ detekt = "1.23.8"
 ktlint = "14.2.0"
 kotlinxBenchmark = "0.4.17"
 unicodeIdent = "0.1.0"
-procMacro = "0.1.1"
+procMacro = "0.1.3"
 
 [plugins]
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }

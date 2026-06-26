@@ -71,10 +71,22 @@ class DelimSpan internal constructor(
     fun join(): Span = span
 
     /** Returns a span for the opening punctuation of the group only. */
-    fun open(): Span = Span.newFallback(span.inner.firstByte())
+    fun open(): Span =
+        Span.newFallback(
+            when (val ws = span.inner) {
+                is WrapperSpan.Fallback -> ws.span.firstByte()
+                is WrapperSpan.Compiler -> FallbackSpan.callSite()
+            },
+        )
 
     /** Returns a span for the closing punctuation of the group only. */
-    fun close(): Span = Span.newFallback(span.inner.lastByte())
+    fun close(): Span =
+        Span.newFallback(
+            when (val ws = span.inner) {
+                is WrapperSpan.Fallback -> ws.span.lastByte()
+                is WrapperSpan.Compiler -> FallbackSpan.callSite()
+            },
+        )
 
     override fun toString(): String = join().toString()
 }
