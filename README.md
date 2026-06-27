@@ -121,7 +121,7 @@ be dual licensed as above, without any additional terms or conditions.
 
 ```kotlin
 dependencies {
-    implementation("io.github.kotlinmania:proc-macro2-kotlin:0.1.4")
+    implementation("io.github.kotlinmania:proc-macro2-kotlin:0.1.6")
 }
 ```
 
