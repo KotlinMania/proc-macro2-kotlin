@@ -155,6 +155,8 @@ internal sealed class WrapperTokenStreamIntoIter {
         override fun hasNext(): Boolean = iter.hasNext()
 
         override fun next(): WrapperTokenTree = iter.next().toWrapperTree()
+
+        override fun sizeHint(): Pair<Int, Int?> = Pair(0, null)
     }
 
     class Fallback(
@@ -163,11 +165,15 @@ internal sealed class WrapperTokenStreamIntoIter {
         override fun hasNext(): Boolean = iter.hasNext()
 
         override fun next(): WrapperTokenTree = iter.next().toWrapperTree()
+
+        override fun sizeHint(): Pair<Int, Int?> = iter.sizeHint()
     }
 
     abstract fun hasNext(): Boolean
 
     abstract fun next(): WrapperTokenTree
+
+    abstract fun sizeHint(): Pair<Int, Int?>
 }
 
 internal fun WrapperTokenStream.asFallbackStream(): FallbackTokenStream =

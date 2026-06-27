@@ -75,7 +75,7 @@ class ByteArrayParseResult internal constructor(
 }
 
 class TokenStream internal constructor(
-    internal val inner: WrapperTokenStream,
+    internal var inner: WrapperTokenStream,
 ) : Iterable<TokenTree> {
     companion object {
         fun new(): TokenStream =
@@ -142,6 +142,8 @@ class TokenStream internal constructor(
 
     fun clone(): TokenStream = TokenStream(inner.clone_())
 
+    fun replaceFrom(other: TokenStream) { inner = other.inner }
+
     override fun toString(): String = inner.toString_()
 
     override fun equals(other: Any?): Boolean =
@@ -162,7 +164,7 @@ internal class LexError internal constructor(
 }
 
 class Span internal constructor(
-    internal val inner: WrapperSpan,
+    internal var inner: WrapperSpan,
 ) {
     companion object {
         internal fun newFallback(inner: FallbackSpan): Span = Span(WrapperSpan.Fallback(inner))
@@ -229,6 +231,8 @@ class Span internal constructor(
     override fun equals(other: Any?): Boolean = other is Span && inner.eq(other.inner)
 
     override fun hashCode(): Int = inner.hashCode_()
+
+    fun replaceFrom(other: Span) { inner = other.inner }
 }
 
 sealed class TokenTree {
@@ -290,7 +294,7 @@ sealed class TokenTree {
 }
 
 class Group internal constructor(
-    internal val inner: WrapperGroup,
+    internal var inner: WrapperGroup,
 ) {
     companion object {
         internal fun newFallback(inner: FallbackGroup): Group = Group(WrapperGroup.Fallback(inner))
@@ -323,6 +327,8 @@ class Group internal constructor(
     override fun equals(other: Any?): Boolean = other is Group && inner.eq(other.inner)
 
     override fun hashCode(): Int = inner.hashCode_()
+
+    fun replaceFrom(other: Group) { inner = other.inner }
 }
 
 enum class Delimiter {
@@ -366,7 +372,7 @@ enum class Spacing {
 }
 
 class Ident internal constructor(
-    internal val inner: WrapperIdent,
+    internal var inner: WrapperIdent,
 ) : Comparable<Ident> {
     companion object {
         internal fun newFallback(inner: FallbackIdent): Ident = Ident(WrapperIdent.Fallback(inner))
@@ -416,10 +422,12 @@ class Ident internal constructor(
         }
 
     override fun hashCode(): Int = toString().hashCode()
+
+    fun replaceFrom(other: Ident) { inner = other.inner }
 }
 
 class Literal internal constructor(
-    internal val inner: WrapperLiteral,
+    internal var inner: WrapperLiteral,
 ) {
     companion object {
         internal fun newFallback(inner: FallbackLiteral): Literal = Literal(WrapperLiteral.Fallback(inner))
@@ -568,6 +576,8 @@ class Literal internal constructor(
     override fun equals(other: Any?): Boolean = other is Literal && inner.eq(other.inner)
 
     override fun hashCode(): Int = inner.toString_().hashCode()
+
+    fun replaceFrom(other: Literal) { inner = other.inner }
 }
 
 internal sealed class ConversionErrorKind(
@@ -606,21 +616,22 @@ class TokenStreamIntoIter internal constructor(
         return wrapperTree.asFallbackTree()
     }
 
-    internal fun sizeHint(): Pair<Int, Int?> {
-        var count = 0
-        val tmp = inner.intoIterW()
-        while (tmp.hasNext()) {
-            tmp.next()
-            count++
-        }
-        return count to count
-    }
+    internal fun sizeHint(): Pair<Int, Int?> = iter.sizeHint()
 
     override fun toString(): String {
         val items = mutableListOf<String>()
-        val tmp = inner.intoIterW()
-        while (tmp.hasNext()) {
-            items.add(tmp.next().asFallbackTree().toString())
+        val snapshot = iter
+        val start = if (snapshot is WrapperTokenStreamIntoIter.Fallback) {
+            snapshot.iter.remaining()
+        } else {
+            null
+        }
+        if (start != null) {
+            for (tt in start) items.add(tt.toString())
+        } else {
+            while (snapshot.hasNext()) {
+                items.add(snapshot.next().asFallbackTree().toString())
+            }
         }
         return "TokenStream [${items.joinToString(", ")}]"
     }
