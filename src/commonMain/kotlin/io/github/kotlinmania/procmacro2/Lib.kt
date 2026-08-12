@@ -142,7 +142,9 @@ class TokenStream internal constructor(
 
     fun clone(): TokenStream = TokenStream(inner.clone_())
 
-    fun replaceFrom(other: TokenStream) { inner = other.inner }
+    fun replaceFrom(other: TokenStream) {
+        inner = other.inner
+    }
 
     override fun toString(): String = inner.toString_()
 
@@ -232,7 +234,9 @@ class Span internal constructor(
 
     override fun hashCode(): Int = inner.hashCode_()
 
-    fun replaceFrom(other: Span) { inner = other.inner }
+    fun replaceFrom(other: Span) {
+        inner = other.inner
+    }
 }
 
 sealed class TokenTree {
@@ -328,7 +332,9 @@ class Group internal constructor(
 
     override fun hashCode(): Int = inner.hashCode_()
 
-    fun replaceFrom(other: Group) { inner = other.inner }
+    fun replaceFrom(other: Group) {
+        inner = other.inner
+    }
 }
 
 enum class Delimiter {
@@ -423,7 +429,9 @@ class Ident internal constructor(
 
     override fun hashCode(): Int = toString().hashCode()
 
-    fun replaceFrom(other: Ident) { inner = other.inner }
+    fun replaceFrom(other: Ident) {
+        inner = other.inner
+    }
 }
 
 class Literal internal constructor(
@@ -577,7 +585,9 @@ class Literal internal constructor(
 
     override fun hashCode(): Int = inner.toString_().hashCode()
 
-    fun replaceFrom(other: Literal) { inner = other.inner }
+    fun replaceFrom(other: Literal) {
+        inner = other.inner
+    }
 }
 
 internal sealed class ConversionErrorKind(
@@ -621,11 +631,12 @@ class TokenStreamIntoIter internal constructor(
     override fun toString(): String {
         val items = mutableListOf<String>()
         val snapshot = iter
-        val start = if (snapshot is WrapperTokenStreamIntoIter.Fallback) {
-            snapshot.iter.remaining()
-        } else {
-            null
-        }
+        val start =
+            if (snapshot is WrapperTokenStreamIntoIter.Fallback) {
+                snapshot.iter.remaining()
+            } else {
+                null
+            }
         if (start != null) {
             for (tt in start) items.add(tt.toString())
         } else {
