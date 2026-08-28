@@ -4,14 +4,14 @@ Based on AST analysis, here are the concrete next steps.
 
 ## Summary
 
-- **Files Present:** 11/15 (73.3%)
-- **Function parity:** 211/337 matched (target 392) — 62.6%
-- **Class/type parity:** 28/60 matched (target 54) — 46.7%
-- **Combined symbol parity:** 239/397 matched (target 446) — 60.2%
-- **Average inline-code cosine:** 0.65 (function body across 10 matched files)
-- **Average documentation cosine:** 0.41 (doc text across 10 matched files)
-- **Cheat-zeroed Files:** 0
-- **Critical Issues:** 5 files with <0.60 function similarity
+- **Files Present:** 15/15 (100.0%)
+- **Function parity:** 247/300 matched (target 512) — 82.3%
+- **Class/type parity:** 32/60 matched (target 80) — 53.3%
+- **Combined symbol parity:** 279/360 matched (target 592) — 77.5%
+- **Average inline-code cosine:** 0.49 (function body across 14 matched files)
+- **Average documentation cosine:** 0.23 (doc text across 14 matched files)
+- **Cheat-zeroed Files:** 4
+- **Critical Issues:** 7 files with <0.60 function similarity
 
 ## Priority 1: Fix Incomplete High-Dependency Files
 
@@ -29,49 +29,93 @@ Every matched file is listed below with function and type symbol parity.
 
 ### 1. fallback
 
-- **Target:** `procmacro2.Fallback`
-- **Similarity:** 0.51
+- **Target:** `procmacro2.Fallback [ZERO]`
+- **Similarity:** 0.00
 - **Dependents:** 1
-- **Priority Score:** 1198504.9
-- **Functions:** 63/72 matched (target 123)
-- **Missing functions:** `push_negative_literal`, `drop`, `fmt`, `from`, `from_iter`, `extend`, `fileinfo_mut`, `eq`, `valid`
-- **Types:** 3/13 matched (target 9)
-- **Missing types:** `TokenStream`, `LexError`, `TokenTreeIter`, `Item`, `IntoIter`, `Span`, `Group`, `Ident`, `Literal`, `FromStr2`
+- **Priority Score:** 1188510.0
+- **Functions:** 63/72 matched (target 131)
+- **Missing functions:** `push_negative_literal`, `drop`, `fmt`, `from`, `from_iter`, `extend`, `invalidate_current_thread_spans`, `eq`, `valid`
+- **Types:** 4/13 matched (target 10)
+- **Missing types:** `TokenStream`, `LexError`, `Item`, `IntoIter`, `Span`, `Group`, `Ident`, `Literal`, `FromStr2`
 
-### 2. lib
+### 2. probe.proc_macro_span
+
+- **Target:** `probe.ProcMacroSpan`
+- **Similarity:** 0.71
+- **Dependents:** 1
+- **Priority Score:** 1000902.9
+- **Functions:** 9/9 matched
+- **Missing functions:** _none_
+- **Types:** 0/0 matched (target 1)
+- **Missing types:** _none_
+
+### 3. probe.proc_macro_span_location
+
+- **Target:** `probe.ProcMacroSpanLocation`
+- **Similarity:** 0.68
+- **Dependents:** 1
+- **Priority Score:** 1000403.2
+- **Functions:** 4/4 matched
+- **Missing functions:** _none_
+- **Types:** 0/0 matched (target 1)
+- **Missing types:** _none_
+
+### 4. probe.proc_macro_span_file
+
+- **Target:** `probe.ProcMacroSpanFile`
+- **Similarity:** 0.68
+- **Dependents:** 1
+- **Priority Score:** 1000203.2
+- **Functions:** 2/2 matched
+- **Missing functions:** _none_
+- **Types:** 0/0 matched (target 1)
+- **Missing types:** _none_
+
+### 5. wrapper
+
+- **Target:** `procmacro2.Wrapper`
+- **Similarity:** 0.21
+- **Dependents:** 0
+- **Priority Score:** 365907.9
+- **Functions:** 20/49 matched (target 66)
+- **Missing functions:** `mismatch`, `new`, `evaluate_now`, `into_token_stream`, `from_str_checked`, `unwrap_nightly`, `unwrap_stable`, `fmt`, `from`, `into_compiler_token`, `from_iter`, `extend`, `into_iter`, `call_site`, `mixed_site`, `def_site`, `unwrap`, `debug_span_field_if_nontrivial`, `new_checked`, `new_raw_checked`, `from_str_unchecked`, `f32_unsuffixed`, `f64_unsuffixed`, `string`, `character`, `byte_character`, `byte_string`, `c_string`, `invalidate_current_thread_spans`
+- **Types:** 3/10 matched (target 15)
+- **Missing types:** `TokenStream`, `DeferredTokenStream`, `LexError`, `TokenTreeIter`, `Item`, `IntoIter`, `Span`
+
+### 6. lib
 
 - **Target:** `procmacro2.Lib`
-- **Similarity:** 0.43
+- **Similarity:** 0.41
 - **Dependents:** 0
-- **Priority Score:** 166905.7
-- **Functions:** 42/55 matched (target 124)
+- **Priority Score:** 166905.9
+- **Functions:** 42/55 matched (target 147)
 - **Missing functions:** `default`, `from_str`, `from`, `extend`, `from_iter`, `fmt`, `unwrap`, `unstable`, `eq`, `partial_cmp`, `cmp`, `hash`, `into_iter`
-- **Types:** 11/14 matched
+- **Types:** 11/14 matched (target 18)
 - **Missing types:** `Err`, `IntoIter`, `Item`
 
-### 3. rustc_literal_escaper
+### 7. rustc_literal_escaper
 
 - **Target:** `procmacro2.RustcLiteralEscaper`
 - **Similarity:** 0.66
 - **Dependents:** 0
 - **Priority Score:** 53603.4
-- **Functions:** 28/28 matched (target 51)
+- **Functions:** 28/28 matched (target 59)
 - **Missing functions:** _none_
-- **Types:** 3/8 matched (target 18)
+- **Types:** 3/8 matched (target 19)
 - **Missing types:** `CheckRaw`, `RawUnit`, `Error`, `Unescape`, `Unit`
 
-### 4. extra
+### 8. extra
 
-- **Target:** `procmacro2.Extra`
-- **Similarity:** 0.38
+- **Target:** `procmacro2.Extra [ZERO]`
+- **Similarity:** 0.00
 - **Dependents:** 0
-- **Priority Score:** 40806.2
-- **Functions:** 3/6 matched (target 5)
-- **Missing functions:** `invalidate_current_thread_spans`, `new`, `fmt`
+- **Priority Score:** 30810.0
+- **Functions:** 4/6 matched (target 5)
+- **Missing functions:** `new`, `fmt`
 - **Types:** 1/2 matched (target 1)
 - **Missing types:** `DelimSpanEnum`
 
-### 5. rcvec
+### 9. rcvec
 
 - **Target:** `procmacro2.Rcvec`
 - **Similarity:** 0.72
@@ -82,29 +126,29 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 4/6 matched (target 5)
 - **Missing types:** `Item`, `IntoIter`
 
-### 6. detection
+### 10. detection
 
 - **Target:** `procmacro2.Detection`
-- **Similarity:** 0.70
+- **Similarity:** 0.68
 - **Dependents:** 0
-- **Priority Score:** 10503.0
+- **Priority Score:** 10503.2
 - **Functions:** 4/4 matched (target 5)
 - **Missing functions:** _none_
 - **Types:** 0/1 matched
 - **Missing types:** `PanicHook`
 
-### 7. parse
+### 11. parse
 
 - **Target:** `procmacro2.Parse`
-- **Similarity:** 0.72
+- **Similarity:** 0.71
 - **Dependents:** 0
-- **Priority Score:** 5302.8
+- **Priority Score:** 5302.9
 - **Functions:** 50/50 matched (target 52)
 - **Missing functions:** _none_
 - **Types:** 3/3 matched
 - **Missing types:** _none_
 
-### 8. num
+### 12. num
 
 - **Target:** `procmacro2.Num`
 - **Similarity:** 0.60
@@ -114,9 +158,8 @@ Every matched file is listed below with function and type symbol parity.
 - **Missing functions:** _none_
 - **Types:** 1/1 matched
 - **Missing types:** _none_
-- **TODOs:** 1
 
-### 9. location
+### 13. location
 
 - **Target:** `procmacro2.Location`
 - **Similarity:** 0.73
@@ -127,26 +170,29 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 1/1 matched
 - **Missing types:** _none_
 
-### 10. marker
+### 14. marker
 
-- **Target:** `procmacro2.Marker`
-- **Similarity:** 1.00
+- **Target:** `procmacro2.Marker [ZERO] [PROVENANCE-FALLBACK]`
+- **Similarity:** 0.00
 - **Dependents:** 0
-- **Priority Score:** 100.0
+- **Priority Score:** 110.0
 - **Functions:** 0/0 matched
 - **Missing functions:** _none_
-- **Types:** 1/1 matched
+- **Types:** 1/1 matched (target 2)
 - **Missing types:** _none_
+- **Provenance warning:** port-lint provenance header matched only by basename: `tests:tests/marker.rs` vs expected `marker.rs`
+- **Proposed provenance header:** `// port-lint: tests marker.rs` (current: `// port-lint: tests tests/marker.rs`)
+- **Lint issues:** 1
 
-### 11. probe
+### 15. probe
 
 - **Target:** `procmacro2.Probe [STUB]`
-- **Similarity:** 1.00
+- **Similarity:** 0.00
 - **Dependents:** 0
-- **Priority Score:** 0.0
+- **Priority Score:** 10.0
 - **Functions:** 0/0 matched
 - **Missing functions:** _none_
-- **Types:** 0/0 matched
+- **Types:** 0/0 matched (target 1)
 - **Missing types:** _none_
 
 ## Success Criteria
@@ -158,13 +204,3 @@ For each file to be considered "complete":
 - Documentation ported
 - port-lint header present
 
-## Next Commands
-
-```bash
-# Initialize task queue for systematic porting
-cd tools/ast_distance
-./ast_distance --init-tasks ../../tmp/proc-macro2/src rust ../../src/commonMain/kotlin/io/github/kotlinmania/procmacro2 kotlin tasks.json ../../AGENTS.md
-
-# Get next high-priority task
-./ast_distance --assign tasks.json <agent-id>
-```
