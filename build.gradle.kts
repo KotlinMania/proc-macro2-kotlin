@@ -920,7 +920,9 @@ tasks.register("hostTests") {
     dependsOn(
         "jvmTest",
         "macosArm64Test",
+        "kotlinUpgradeYarnLock",
         "jsNodeTest",
+        "kotlinWasmUpgradeYarnLock",
         "wasmJsNodeTest",
         "wasmWasiNodeTest",
         "testAndroidHostTest",
