@@ -17,6 +17,7 @@
   },
   "reexport_modules": [
     "mod.rs",
-    "lib.rs"
+    "lib.rs",
+    "probe.rs"
   ]
 }

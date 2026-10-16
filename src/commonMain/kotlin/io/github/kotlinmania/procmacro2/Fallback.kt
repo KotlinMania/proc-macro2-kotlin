@@ -679,7 +679,7 @@ internal class FallbackLiteral internal constructor(
                 // Decode the next well-formed UTF-8 scalar and escape it like any other
                 // text character (so `\t`, `\n`, `"` and printable scalars round-trip
                 // correctly); bytes that are not part of a valid sequence are emitted as
-                // an explicit `\xNN` byte escape, matching upstream `c_string`.
+                // an explicit `\xNN` byte escape, matching upstream cString.
                 val seqLen = utf8SequenceLength(bytes, offset)
                 if (seqLen > 0) {
                     escapeUtf8(bytes.copyOfRange(offset, offset + seqLen).decodeToString(), repr)
@@ -697,7 +697,7 @@ internal class FallbackLiteral internal constructor(
 
         // Suffixed float literals render the value without a trailing `.0` for
         // integer-valued floats (`10f32`, not `10.0f32`), matching upstream which
-        // formats the value with Rust's `{}` Display before appending the suffix.
+        // formats the value with Display before appending the suffix.
         private fun floatSuffixed(display: String, suffix: String): FallbackLiteral {
             val body = if (display.endsWith(".0")) display.dropLast(2) else display
             return FallbackLiteral("$body$suffix")
@@ -747,7 +747,7 @@ private fun escapeUtf8(string: String, repr: StringBuilder) {
     }
 }
 
-// Mirrors Rust's `char::escape_debug`: besides the usual control escapes, grapheme-
+// Mirrors escapeDebug: besides the usual control escapes, grapheme-
 // extending marks (combining characters) are escaped as `\u{..}` so debug output
 // stays unambiguous, rather than being emitted as zero-width glyphs.
 private val GRAPHEME_EXTEND_CATEGORIES =
