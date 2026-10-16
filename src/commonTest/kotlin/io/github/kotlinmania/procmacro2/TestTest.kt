@@ -1,21 +1,4 @@
 // port-lint: source tests/test.rs
-// Port of the upstream proc-macro2 core test suite (tests/test.rs).
-//
-// Mapping notes vs. the Rust original:
-//   * Rust `Span::call_site()` -> `Span.callSite()`, `Ident::new` -> `Ident.new`, etc.
-//   * `#[should_panic]` constructors map to `assertFailsWith<IllegalArgumentException>`;
-//     the Kotlin fallback validates ident/raw-ident strings the same way upstream does.
-//   * Rust ranges are half-open; `Literal.subspan` takes an inclusive Kotlin `IntRange`,
-//     so Rust `a..b` is written here as `a..b-1`.
-//   * The port has no feature gates: `span_locations` and the semver-exempt value
-//     accessors (`strValue`/`byteStrValue`/`cstrValue`, `start`/`end`/`file`) are always
-//     present, so the `#[cfg(span_locations)]` / `#[cfg(procmacro2_semver_exempt)]`
-//     branches are ported unconditionally.
-//   * `Literal.c_string(&CStr)` takes the nul-terminated CStr upstream; the Kotlin
-//     `Literal.cString(ByteArray)` takes the content bytes without the terminator.
-//   * Rust's `{:?}`/`{:#?}` Debug formatting has no Kotlin analogue (the port exposes
-//     Display via `toString`, not a structured Debug). `test_debug_ident` and
-//     `test_debug_tokenstream` are therefore @Ignore'd below.
 package io.github.kotlinmania.procmacro2
 
 import kotlin.test.Ignore
@@ -618,7 +601,7 @@ class TestTest {
 
     @Test
     fun jointLastToken() {
-        // This test verifies that we match the behavior of libproc_macro *not* in
+        // This test verifies that we match the behavior of compiler procMacro not in
         // the range nightly-2020-09-06 through nightly-2020-09-10, in which this
         // behavior was temporarily broken.
         // See https://github.com/rust-lang/rust/issues/76399
@@ -736,10 +719,6 @@ class TestTest {
 
     @Test
     fun testInvalidateCurrentThreadSpans() {
-        // Upstream relies on per-thread span state so each test starts from offset 1.
-        // The Kotlin port keeps this state process-wide (documented in Lib.kt), so
-        // earlier tests in the same process leave the offset counter advanced;
-        // invalidate first to establish the same baseline upstream's test assumes.
         invalidateCurrentThreadSpans()
         assertEquals("bytes(1..2)", createSpan().toString())
         assertEquals("bytes(3..4)", createSpan().toString())

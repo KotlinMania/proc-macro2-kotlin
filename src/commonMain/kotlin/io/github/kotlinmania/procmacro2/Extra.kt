@@ -57,36 +57,56 @@ fun invalidateCurrentThreadSpans() {
  * An object that holds a [Group]'s [Group.spanOpen] and [Group.spanClose]
  * together in a more compact representation than holding those 2 spans
  * individually.
- *
- * Upstream DelimSpanEnum has Compiler and Fallback variants; the Compiler
- * variant requires proc_macro::Span which is structurally absent, so only
- * the Fallback shape is retained.
  */
 class DelimSpan internal constructor(
-    private val span: Span,
+    private val inner: DelimSpanEnum,
 ) {
-    internal constructor(group: Group) : this(group.span())
+    internal constructor(group: WrapperGroup) : this(
+        when (group) {
+            is WrapperGroup.Compiler ->
+                DelimSpanEnum.Compiler(
+                    join = group.group.span(),
+                    open = group.group.spanOpen(),
+                    close = group.group.spanClose(),
+                )
+            is WrapperGroup.Fallback -> DelimSpanEnum.Fallback(group.group.span())
+        },
+    )
+
+    internal constructor(group: Group) : this(group.inner)
 
     /** Returns a span covering the entire delimited group. */
-    fun join(): Span = span
+    fun join(): Span =
+        when (inner) {
+            is DelimSpanEnum.Compiler -> Span.newCompiler(inner.join)
+            is DelimSpanEnum.Fallback -> Span.newFallback(inner.span)
+        }
 
     /** Returns a span for the opening punctuation of the group only. */
     fun open(): Span =
-        Span.newFallback(
-            when (val ws = span.inner) {
-                is WrapperSpan.Fallback -> ws.span.firstByte()
-                is WrapperSpan.Compiler -> FallbackSpan.callSite()
-            },
-        )
+        when (inner) {
+            is DelimSpanEnum.Compiler -> Span.newCompiler(inner.open)
+            is DelimSpanEnum.Fallback -> Span.newFallback(inner.span.firstByte())
+        }
 
     /** Returns a span for the closing punctuation of the group only. */
     fun close(): Span =
-        Span.newFallback(
-            when (val ws = span.inner) {
-                is WrapperSpan.Fallback -> ws.span.lastByte()
-                is WrapperSpan.Compiler -> FallbackSpan.callSite()
-            },
-        )
+        when (inner) {
+            is DelimSpanEnum.Compiler -> Span.newCompiler(inner.close)
+            is DelimSpanEnum.Fallback -> Span.newFallback(inner.span.lastByte())
+        }
 
     override fun toString(): String = join().toString()
+}
+
+internal sealed class DelimSpanEnum {
+    class Compiler(
+        val join: io.github.kotlinmania.procmacro.Span,
+        val open: io.github.kotlinmania.procmacro.Span,
+        val close: io.github.kotlinmania.procmacro.Span,
+    ) : DelimSpanEnum()
+
+    class Fallback(
+        val span: FallbackSpan,
+    ) : DelimSpanEnum()
 }

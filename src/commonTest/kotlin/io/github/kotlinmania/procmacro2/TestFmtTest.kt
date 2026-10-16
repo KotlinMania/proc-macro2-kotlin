@@ -18,7 +18,7 @@ class TestFmtTest {
         val noneEmpty = Group(Delimiter.None, TokenStream.new())
         val noneNonempty = Group(Delimiter.None, inner)
 
-        // Matches libproc_macro.
+        // Matches compiler procMacro.
         assertEquals("()", parensEmpty.toString())
         assertEquals("(x)", parensNonempty.toString())
         assertEquals("[]", bracketsEmpty.toString())

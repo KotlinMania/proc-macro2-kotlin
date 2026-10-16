@@ -4,7 +4,7 @@ import PackageDescription
 let package = Package(
     name: "SwiftTestHarness",
     platforms: [
-        .macOS(.v14)
+        .macOS("15.0"),
     ],
     dependencies: [
         .package(name: "ProcMacro2", path: "../build/SPMPackage/macosArm64/Debug")
@@ -15,16 +15,8 @@ let package = Package(
             dependencies: [
                 .product(name: "ProcMacro2Library", package: "ProcMacro2")
             ],
-            swiftSettings: [
-                .unsafeFlags([
-                    "-F", "/Library/Developer/CommandLineTools/Library/Developer/Frameworks",
-                ]),
-            ],
             linkerSettings: [
                 .unsafeFlags([
-                    "-F", "/Library/Developer/CommandLineTools/Library/Developer/Frameworks",
-                    "-Xlinker", "-rpath", "-Xlinker", "/Library/Developer/CommandLineTools/Library/Developer/Frameworks",
-                    "-Xlinker", "-rpath", "-Xlinker", "/Library/Developer/CommandLineTools/Library/Developer/usr/lib",
                     "-L", "../build/swift-test",
                     "-lProcMacro2",
                 ]),
