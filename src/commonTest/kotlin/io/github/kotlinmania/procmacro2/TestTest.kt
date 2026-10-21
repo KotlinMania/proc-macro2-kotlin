@@ -1,7 +1,6 @@
 // port-lint: source tests/test.rs
 package io.github.kotlinmania.procmacro2
 
-import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
@@ -627,18 +626,50 @@ class TestTest {
         assertEquals("r#proc_macro", Ident.newRaw("proc_macro", Span.callSite()).toString())
     }
 
-    @Ignore // No Kotlin analogue for Rust's `{:?}` structured Debug; the port exposes Display only.
     @Test
-    fun testDebugIdent() = Unit
+    fun testDebugIdent() {
+        assertEquals("Ident { sym: proc_macro }", Ident.new("proc_macro", Span.callSite()).debug())
+        assertEquals("Ident { sym: r#proc_macro }", Ident.newRaw("proc_macro", Span.callSite()).debug())
+    }
 
     @Test
     fun testDisplayTokenstream() {
         assertEquals("[a + 1]", parse("[a + 1]").toString())
     }
 
-    @Ignore // No Kotlin analogue for Rust's `{:#?}` pretty Debug; the port exposes Display only.
     @Test
-    fun testDebugTokenstream() = Unit
+    fun testDebugTokenstream() {
+        invalidateCurrentThreadSpans()
+        val tokens = parse("[a + 1]")
+        val expected =
+            """
+            TokenStream [
+                Group {
+                    delimiter: Bracket,
+                    stream: TokenStream [
+                        Ident {
+                            sym: a,
+                            span: bytes(2..3),
+                        },
+                        Punct {
+                            char: '+',
+                            spacing: Alone,
+                            span: bytes(4..5),
+                        },
+                        Literal {
+                            lit: 1,
+                            span: bytes(6..7),
+                        },
+                    ],
+                    span: bytes(1..8),
+                },
+            ]
+            """.trimIndent()
+        assertEquals(expected, tokens.debug(alternate = true))
+        assertEquals("TokenStream []", TokenStream.new().debug(alternate = true))
+        assertEquals("TokenStream []", TokenStream.new().debug())
+        assertEquals("[a + 1]", tokens.toString())
+    }
 
     @Test
     fun defaultTokenstreamIsEmpty() {
