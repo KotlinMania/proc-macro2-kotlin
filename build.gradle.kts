@@ -749,11 +749,46 @@ centralPortalPublishTasks.configureEach {
     dependsOn(tasks.withType<Sign>())
 }
 
+// Verify actual staged dependency versions before the release ZIP is assembled.
+val verifyPublicationPins = tasks.register<Exec>("verifyPublicationPins") {
+    group = "verification"
+    description = "Checks root and Android publication dependency pins against the catalog."
+    dependsOn(
+        "publishKotlinMultiplatformPublicationToCentralPortalStagingRepository",
+        "publishAndroidPublicationToCentralPortalStagingRepository",
+    )
+    val sourceHead = providers.exec {
+        workingDir(projectDir)
+        commandLine("git", "rev-parse", "HEAD")
+    }.standardOutput.asText.map { it.trim() }
+    inputs.property("sourceHead", sourceHead)
+    val checker = layout.projectDirectory.file("verification/verify_publication_pins.py")
+    val receipt = layout.buildDirectory.file("reports/publication/dependency-pins.json")
+    inputs.files(checker, layout.projectDirectory.file("gradle/libs.versions.toml"),
+        layout.projectDirectory.file("gradle.properties"))
+    inputs.dir(layout.buildDirectory.dir("staging-deploy"))
+    outputs.file(receipt)
+    doFirst {
+        val expected = commonMainDependencyBundle.get().map { dependency ->
+            val pinnedVersion = dependency.versionConstraint.requiredVersion
+            check(pinnedVersion.isNotBlank()) { "Publication dependency requires an explicit version" }
+            "${dependency.module.group}:${dependency.module.name}:$pinnedVersion"
+        } + "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+        commandLine(listOf(
+            "python3", checker.asFile.absolutePath,
+            layout.buildDirectory.dir("staging-deploy").get().asFile.absolutePath,
+            "--group", project.group.toString(), "--module", publishProjectName,
+            "--version", project.version.toString(), "--receipt", receipt.get().asFile.absolutePath,
+            "--source-head", sourceHead.get(),
+        ) + expected.flatMap { listOf("--dependency", it) })
+    }
+}
+
 // Zip the staged Maven layout into a single Central Portal deployment bundle.
 val centralPortalBundle = tasks.register<Zip>("centralPortalBundle") {
     group = "publishing"
     description = "Bundles the staged Maven artifacts into a Central Portal deployment zip."
-    dependsOn(centralPortalPublishTasks)
+    dependsOn(centralPortalPublishTasks, verifyPublicationPins)
     from(layout.buildDirectory.dir("staging-deploy"))
     archiveFileName.set("$publishProjectName-$version-bundle.zip")
     destinationDirectory.set(layout.buildDirectory.dir("central-portal"))
