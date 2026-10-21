@@ -1040,8 +1040,11 @@ tasks.register("swiftExportSmokeTest") {
             .exec {
                 workingDir = projectDir
                 commandLine(
-                    "./gradlew",
+                    requireNotNull(gradle.gradleHomeDir).resolve("bin/gradle"),
                     "embedSwiftExportForXcode",
+                    "--gradle-user-home", layout.buildDirectory.dir("swift-tooling/export-gradle-home").get().asFile,
+                    "--project-cache-dir", layout.buildDirectory.dir("swift-tooling/export-project-cache").get().asFile,
+                    "-Pkotlin.project.persistent.dir=${layout.buildDirectory.dir("swift-tooling/export-kotlin-project").get().asFile}",
                     "-Pkotlin.native.home=${swiftSdkDirectory.get().asFile.absolutePath}",
                     "-Dorg.gradle.jvmargs=-Xmx6g -XX:MaxMetaspaceSize=1g",
                     "--no-configuration-cache",
@@ -1051,6 +1054,7 @@ tasks.register("swiftExportSmokeTest") {
                 )
                 environment(
                     mapOf(
+                        "GRADLE_USER_HOME" to layout.buildDirectory.dir("swift-tooling/export-gradle-home").get().asFile.absolutePath,
                         "BUILT_PRODUCTS_DIR" to swiftBuildDir,
                         "TARGET_BUILD_DIR" to swiftBuildDir,
                         "SDK_NAME" to "macosx",
