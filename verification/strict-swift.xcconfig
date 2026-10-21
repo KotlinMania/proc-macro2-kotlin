@@ -1,0 +1,4 @@
+// Applied to every generated Swift dependency module built by Xcode.
+SWIFT_VERSION = 6.0
+SWIFT_TREAT_WARNINGS_AS_ERRORS = YES
+GCC_TREAT_WARNINGS_AS_ERRORS = YES

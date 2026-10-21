@@ -22,6 +22,7 @@ import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension
 import org.jetbrains.kotlin.gradle.targets.wasm.nodejs.WasmNodeJsEnvSpec
 import org.jetbrains.kotlin.gradle.targets.wasm.yarn.WasmYarnRootEnvSpec
 import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
 import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
@@ -119,9 +120,6 @@ configurations.configureEach {
                 "org.jetbrains.intellij.deps.kotlinx:kotlinx-coroutines-core-jvm:$intellijCoroutinesVersion",
             ),
         )
-    }
-    if (name.contains("androidDeviceTest", ignoreCase = true)) {
-        exclude(group = "org.jetbrains", module = "annotations")
     }
 }
 
@@ -342,15 +340,6 @@ tasks
         dependsOn(ensureAndroidSdk)
     }
 
-// Gap #9b: KGP-generated bridge boilerplate and KotlinCoroutineSupport runtime
-// produce warnings (unchecked casts, unused expressions, opt-in requirements)
-// that cannot be fixed in source — they are regenerated every build.
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask<*>>().configureEach {
-    if (name.startsWith("compileSwiftExport")) {
-        compilerOptions.allWarningsAsErrors.set(false)
-    }
-}
-
 val jvmToolchainVersion = providers.gradleProperty("jvm.toolchain").getOrElse("21").toInt()
 
 // ============================================================================
@@ -422,10 +411,6 @@ kotlin {
         configureBenchmarkCompilation()
         addToXcf()
     }
-    watchosArm64 {
-        configureBenchmarkCompilation()
-        addToXcf()
-    }
     watchosDeviceArm64 {
         configureBenchmarkCompilation()
         addToXcf()
@@ -435,12 +420,6 @@ kotlin {
         addToXcf()
     }
 
-    // iosX64: Intel Mac simulator. Tier 3 in Kotlin/Native but NOT deprecated —
-    // Apple still ships x86_64 iOS simulator runtimes, so it is always built.
-    iosX64 {
-        configureBenchmarkCompilation()
-        addToXcf(static = true)
-    }
 
     // Other native — Tier 1/2
     linuxX64 { configureBenchmarkCompilation() }
@@ -904,6 +883,7 @@ val publishToCentralPortal by tasks.registering {
 tasks.register("test") {
     group = "verification"
     description = "Runs the commonTest-backed KMP suite, Android host tests, and Swift Export smoke test."
+    dependsOn("allTests")
     dependsOn("hostTests")
     dependsOn("swiftExportSmokeTest")
 }
@@ -932,35 +912,31 @@ tasks.register("hostTests") {
     )
 }
 
-// Patch generated SPM Package.swift to include minimum macOS platform for Swift Concurrency
-tasks.matching { it.name.contains("GenerateSPMPackage") }.configureEach {
+val strictSwiftConfiguration = layout.projectDirectory.file("verification/strict-swift.xcconfig")
+tasks.matching { it.name.endsWith("generateSPMPackage", ignoreCase = true) }.configureEach {
     doLast {
-        val spmDir =
-            layout.buildDirectory
-                .dir("SPMPackage")
-                .orNull
-                ?.asFile
-        if (spmDir != null && spmDir.exists()) {
-            spmDir.walkTopDown().filter { it.name == "Package.swift" }.forEach { file ->
-                val text = file.readText()
-                if (!text.contains("platforms:")) {
-                    file.writeText(
-                        text.replaceFirst(
-                            Regex("""(let package = Package\s*\(\s*name:\s*"[^"]*",)"""),
-                            "$1\n    platforms: [.macOS(\"15.0\")],",
-                        ),
-                    )
-                }
-            }
+        val manifests = layout.buildDirectory.dir("SPMPackage").get().asFile
+            .walkTopDown().filter { it.isFile && it.name == "Package.swift" }.toList()
+        check(manifests.isNotEmpty()) { "No generated Swift package manifests" }
+        val execOperations = serviceOf<ExecOperations>()
+        manifests.forEach { manifest ->
+            execOperations.exec {
+                commandLine("python3", layout.projectDirectory.file("verification/enforce_swift6.py").asFile,
+                    manifest, "--receipt", manifest.parentFile.resolve("swift6-manifest-receipt.json"))
+            }.assertNormalExitValue()
+        }
+    }
+}
+tasks.matching { it.name.endsWith("buildSPMPackage", ignoreCase = true) }.configureEach {
+    inputs.file(strictSwiftConfiguration)
+    doFirst {
+        val actual = providers.environmentVariable("XCODE_XCCONFIG_FILE").orNull
+        check(actual != null && file(actual).canonicalFile == strictSwiftConfiguration.asFile.canonicalFile) {
+            "Set XCODE_XCCONFIG_FILE=${strictSwiftConfiguration.asFile} for strict Swift 6 dependency compilation"
         }
     }
 }
 
-// Swift Export smoke test — produces the SPM package via embedSwiftExportForXcode
-// (spawned with the Xcode-style env it requires) and runs `swift test` against it,
-// so Swift Export breakage surfaces locally, not only in the swift.yml CI job.
-// Pattern mirrors kasuari-kotlin. This task is part of the build contract and
-// must fail rather than skip when the required toolchain is unavailable.
 tasks.register("swiftExportSmokeTest") {
     group = "verification"
     description = "Builds the Swift Export SPM package and runs swift test against it."
@@ -987,6 +963,7 @@ tasks.register("swiftExportSmokeTest") {
                     "-Dorg.gradle.jvmargs=-Xmx6g -XX:MaxMetaspaceSize=1g",
                     "--no-configuration-cache",
                     "--no-daemon",
+                    "--max-workers=2",
                     "--console=plain",
                 )
                 environment(
@@ -999,6 +976,7 @@ tasks.register("swiftExportSmokeTest") {
                         "FRAMEWORKS_FOLDER_PATH" to "Frameworks",
                         "MACOSX_DEPLOYMENT_TARGET" to "15.0",
                         "DEPLOYMENT_TARGET_SETTING_NAME" to "MACOSX_DEPLOYMENT_TARGET",
+                        "XCODE_XCCONFIG_FILE" to strictSwiftConfiguration.asFile.absolutePath,
                     ),
                 )
             }.assertNormalExitValue()
@@ -1009,11 +987,50 @@ tasks.register("swiftExportSmokeTest") {
                 commandLine("swift", "package", "reset")
             }.assertNormalExitValue()
 
-        execOperations
-            .exec {
+        // Xcode toolchains find Testing.framework on their own. A Command Line Tools
+        // toolchain builds the harness but silently runs zero Swift Testing tests unless
+        // its own Frameworks directory is on the search and runtime paths. Never point an
+        // Xcode toolchain at the Command Line Tools copy: its @Suite macro would not match.
+        val developerDir =
+            ByteArrayOutputStream().use { out ->
+                execOperations
+                    .exec {
+                        commandLine("xcode-select", "-p")
+                        standardOutput = out
+                    }.assertNormalExitValue()
+                out.toString().trim()
+            }
+        val swiftTestCommand = mutableListOf("swift", "test", "--jobs", "2", "-v",
+            "-Xswiftc", "-swift-version", "-Xswiftc", "6", "-Xswiftc", "-warnings-as-errors",
+            "-Xswiftc", "-target", "-Xswiftc", "arm64-apple-macosx15.0")
+        if (developerDir.endsWith("CommandLineTools")) {
+            val frameworks = "$developerDir/Library/Developer/Frameworks"
+            swiftTestCommand +=
+                listOf(
+                    "-Xswiftc", "-F", "-Xswiftc", frameworks,
+                    "-Xlinker", "-F", "-Xlinker", frameworks,
+                    "-Xlinker", "-rpath", "-Xlinker", frameworks,
+                    "-Xlinker", "-rpath", "-Xlinker", "$developerDir/Library/Developer/usr/lib",
+                )
+        }
+        val swiftTestOutput = ByteArrayOutputStream()
+        val swiftTestResult =
+            execOperations.exec {
                 workingDir = layout.projectDirectory.dir("swift-test-harness").asFile
-                commandLine("swift", "test")
-            }.assertNormalExitValue()
+                commandLine(swiftTestCommand)
+                standardOutput = swiftTestOutput
+                errorOutput = swiftTestOutput
+                isIgnoreExitValue = true
+            }
+        val swiftTestLog = swiftTestOutput.toString()
+        println(swiftTestLog)
+        val logFile = layout.buildDirectory.file("reports/swift-tests.log").get().asFile
+        logFile.parentFile.mkdirs()
+        logFile.writeText(swiftTestLog)
+        swiftTestResult.assertNormalExitValue()
+        execOperations.exec {
+            commandLine("python3", layout.projectDirectory.file("verification/check_swift_tests.py").asFile, logFile)
+        }.assertNormalExitValue()
     }
 }
 
@@ -1021,8 +1038,7 @@ tasks.register("swiftExportSmokeTest") {
 // `build` aggregate
 // ----------------------------------------------------------------------------
 // Every configured native target, unconditionally. This is the audit contract —
-// it must mirror the kotlin { } target block exactly. watchosArm32 is the only
-// retired native target (see §5.5.1); everything else MUST build.
+// it mirrors every retained target in the kotlin { } block and workspace AGENTS.md.
 // Do not add a dynamic tasks.matching fallback here: copied templates must make
 // the target surface explicit so missing declarations fail loudly in review.
 // ============================================================================
@@ -1032,14 +1048,12 @@ val nativeTargetNames =
         "androidNativeX64",
         "iosArm64",
         "iosSimulatorArm64",
-        "iosX64",
         "linuxArm64",
         "linuxX64",
         "macosArm64",
         "mingwX64",
         "tvosArm64",
         "tvosSimulatorArm64",
-        "watchosArm64",
         "watchosDeviceArm64",
         "watchosSimulatorArm64",
     )

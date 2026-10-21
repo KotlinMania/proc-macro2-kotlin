@@ -32,6 +32,7 @@ jobs:
         run: >
           ./gradlew
           setupAndroidSdk
+          checkAndroidDeviceTestDuplicateClasses
           compileAndroidMain
           assembleUnitTest
           assembleAndroidTest
