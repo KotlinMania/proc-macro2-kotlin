@@ -8,3 +8,12 @@ if not re.search(r"Test run with 3 tests[^\r\n]*passed", text):
     raise SystemExit("Expected all three ProcMacro2 Swift tests to pass")
 if re.search(r"(?m)^.*(?:Test|Suite) .*\bskipped\b", text):
     raise SystemExit("ProcMacro2 Swift test was skipped")
+
+for name, description in [
+    ("tokenStreamParsingAndFormatting", "TokenStream parses valid Rust tokens and formats groups"),
+    ("tokenStreamParseFailure", "TokenStream reports parse errors on invalid input"),
+    ("literalAndPunctExport", "Literal and Punct bridge cleanly across Swift Export"),
+]:
+    label = r'(?:"' + re.escape(description) + r'"|' + re.escape(name) + r'\(\))'
+    if len(re.findall(r"Test " + label + r" passed", text)) != 1:
+        raise SystemExit("Expected exactly one passing execution of " + name)
