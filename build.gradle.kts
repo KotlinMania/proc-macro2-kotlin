@@ -319,7 +319,7 @@ if (gradle.startParameter.taskNames.any(::requestedTaskWantsAndroid)) {
     installProjectAndroidSdk(serviceOf())
 }
 
-val ensureAndroidSdk by tasks.registering {
+val ensureAndroidSdk = tasks.register("ensureAndroidSdk") {
     group = "setup"
     description = "Ensures the project-local Android SDK is installed (idempotent)."
     onlyIf("Android SDK already installed at $projectAndroidSdkDir") { !isProjectAndroidSdkInstalled() }
@@ -635,14 +635,11 @@ rootProject.extensions.configure<YarnRootEnvSpec>("kotlinYarnSpec") { version.se
 rootProject.extensions.configure<WasmYarnRootEnvSpec>("kotlinWasmYarnSpec") { version.set(wasmYarnVersion) }
 
 rootProject.extensions.configure<YarnRootExtension>("kotlinYarn") {
-    project.properties
-        .filterKeys { it.startsWith("yarn.resolution.") }
-        .forEach { (key, value) ->
-            val pkg = key.removePrefix("yarn.resolution.")
-            val ver = value as? String ?: return@forEach
-            resolution(pkg, ver)
-            resolution("**/$pkg", ver)
-        }
+    providers.gradlePropertiesPrefixedBy("yarn.resolution.").get().forEach { (key, value) ->
+        val pkg = key.removePrefix("yarn.resolution.")
+        resolution(pkg, value)
+        resolution("**/$pkg", value)
+    }
     // webpack resolution sourced from kotlin-js-store/package.json (see above)
     // rather than a yarn.resolution.webpack property, so it can never override a
     // Dependabot bump of the store.
@@ -682,7 +679,7 @@ val publishProjectName = providers.gradleProperty("project.name").getOrElse("unn
 
 // Central requires a Javadoc jar per publication; KMP produces none, so attach
 // an empty one to every Maven publication.
-val emptyJavadocJar by tasks.registering(Jar::class) {
+val emptyJavadocJar = tasks.register<Jar>("emptyJavadocJar") {
     archiveClassifier.set("javadoc")
 }
 
@@ -753,7 +750,7 @@ centralPortalPublishTasks.configureEach {
 }
 
 // Zip the staged Maven layout into a single Central Portal deployment bundle.
-val centralPortalBundle by tasks.registering(Zip::class) {
+val centralPortalBundle = tasks.register<Zip>("centralPortalBundle") {
     group = "publishing"
     description = "Bundles the staged Maven artifacts into a Central Portal deployment zip."
     dependsOn(centralPortalPublishTasks)
@@ -765,7 +762,7 @@ val centralPortalBundle by tasks.registering(Zip::class) {
 // Upload the bundle to the Sonatype Central Portal Publisher API.
 // publishingType: USER_MANAGED (default, safe — validates then waits for a
 // manual release in the Portal UI) or AUTOMATIC (publishes after validation).
-val publishToCentralPortal by tasks.registering {
+val publishToCentralPortal = tasks.register("publishToCentralPortal") {
     group = "publishing"
     description = "Uploads the deployment bundle to the Sonatype Central Portal."
     dependsOn(centralPortalBundle)
