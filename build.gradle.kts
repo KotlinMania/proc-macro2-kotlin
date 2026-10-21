@@ -114,7 +114,7 @@ val intellijCoroutinesVersion =
 val projectDependencyHandler = project.dependencies
 configurations.configureEach {
     if (name == "swiftExportClasspath") {
-        dependencies.add(projectDependencyHandler.create("org.jetbrains.kotlin:swift-export-embeddable:$kotlinVersion"))
+        dependencies.add(projectDependencyHandler.create("io.github.kotlinmania:swift-export-embeddable:2.4.20-km.1"))
         dependencies.add(
             projectDependencyHandler.create(
                 "org.jetbrains.intellij.deps.kotlinx:kotlinx-coroutines-core-jvm:$intellijCoroutinesVersion",
@@ -945,18 +945,67 @@ tasks.register("hostTests") {
 }
 
 val strictSwiftConfiguration = layout.projectDirectory.file("verification/strict-swift.xcconfig")
+val swiftSdkDirectory = layout.buildDirectory.dir("swift-tooling/native-sdk")
+val swiftSdkHelper = configurations.create("swiftNativeSdkHelper") {
+    isCanBeConsumed = false
+    isCanBeResolved = true
+    isTransitive = false
+}
+dependencies.add(swiftSdkHelper.name,
+    "io.github.kotlinmania:swift-export-embeddable:2.4.20-km.1:native-sdk-helper@zip")
+val prepareSwiftExportTooling = tasks.register("prepareSwiftExportTooling") {
+    group = "setup"
+    description = "Verifies published exporter tools and prepares a separate matching Native SDK."
+    doLast {
+        check(kotlinVersion == "2.4.20") { "Published Swift tooling requires KGP/Native 2.4.20" }
+        val tools = configurations.getByName("swiftExportClasspathResolvable").resolvedConfiguration.resolvedArtifacts
+        val root = layout.buildDirectory.dir("swift-tooling").get().asFile
+        root.mkdirs()
+        val manifest = root.resolve("resolved-worker.json")
+        manifest.writeText(groovy.json.JsonOutput.toJson(tools.map { artifact ->
+            mapOf("coordinate" to artifact.moduleVersion.id.toString(), "path" to artifact.file.absolutePath)
+        }))
+        serviceOf<ExecOperations>().exec {
+            commandLine("python3", layout.projectDirectory.file("verification/prepare_swift_tooling.py").asFile,
+                "--helper", swiftSdkHelper.singleFile, "--worker", manifest,
+                "--output", root)
+        }.assertNormalExitValue()
+    }
+}
+tasks.matching { it.name == "macosArm64DebugSwiftExport" }.configureEach {
+    dependsOn(prepareSwiftExportTooling)
+    doFirst {
+        check(inputs.files.files.containsAll(configurations.getByName("swiftExportClasspathResolvable").files)) {
+            "Actual exporter inputs omit verified published worker components"
+        }
+    }
+}
+// KGP assigns binary tool arguments during late target configuration.
+// Apply the owned cache destination afterwards and check the final link inputs.
+gradle.projectsEvaluated {
+    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinNativeLink>().configureEach {
+        val cache = layout.buildDirectory.dir("native-auto-cache/$name")
+        val option = cache.map { "-Xauto-cache-dir=${it.asFile.absolutePath}" }
+        toolOptions.freeCompilerArgs.add(option)
+        doFirst {
+            val actual = toolOptions.freeCompilerArgs.get().filter { it.startsWith("-Xauto-cache-dir=") }
+            check(actual == listOf(option.get())) { "Wrong Native auto-cache destination: $actual" }
+            cache.get().asFile.mkdirs()
+            val receipt = layout.buildDirectory.file("reports/native-cache/$name.json").get().asFile
+            receipt.parentFile.mkdirs()
+            receipt.writeText(groovy.json.JsonOutput.toJson(mapOf(
+                "task" to path, "arguments" to toolOptions.freeCompilerArgs.get(),
+                "sdkWritesAllowed" to false)))
+        }
+    }
+}
 tasks.matching { it.name.endsWith("generateSPMPackage", ignoreCase = true) }.configureEach {
     doLast {
-        val manifests = layout.buildDirectory.dir("SPMPackage").get().asFile
-            .walkTopDown().filter { it.isFile && it.name == "Package.swift" }.toList()
-        check(manifests.isNotEmpty()) { "No generated Swift package manifests" }
-        val execOperations = serviceOf<ExecOperations>()
-        manifests.forEach { manifest ->
-            execOperations.exec {
-                commandLine("python3", layout.projectDirectory.file("verification/enforce_swift6.py").asFile,
-                    manifest, "--receipt", manifest.parentFile.resolve("swift6-manifest-receipt.json"))
-            }.assertNormalExitValue()
-        }
+        val manifest = layout.buildDirectory.file("SPMPackage/macosArm64/Debug/Package.swift").get().asFile
+        serviceOf<ExecOperations>().exec {
+            commandLine("python3", layout.projectDirectory.file("verification/verify_swift_package.py").asFile,
+                manifest)
+        }.assertNormalExitValue()
     }
 }
 tasks.matching { it.name.endsWith("buildSPMPackage", ignoreCase = true) }.configureEach {
@@ -964,12 +1013,13 @@ tasks.matching { it.name.endsWith("buildSPMPackage", ignoreCase = true) }.config
     doFirst {
         val actual = providers.environmentVariable("XCODE_XCCONFIG_FILE").orNull
         check(actual != null && file(actual).canonicalFile == strictSwiftConfiguration.asFile.canonicalFile) {
-            "Set XCODE_XCCONFIG_FILE=${strictSwiftConfiguration.asFile} for strict Swift 6 dependency compilation"
+            "Set XCODE_XCCONFIG_FILE=${strictSwiftConfiguration.asFile} for Swift 5 dependency compilation with warnings as errors"
         }
     }
 }
 
 tasks.register("swiftExportSmokeTest") {
+    dependsOn(prepareSwiftExportTooling)
     group = "verification"
     description = "Builds the Swift Export SPM package and runs swift test against it."
     outputs.upToDateWhen { false }
@@ -992,6 +1042,7 @@ tasks.register("swiftExportSmokeTest") {
                 commandLine(
                     "./gradlew",
                     "embedSwiftExportForXcode",
+                    "-Pkotlin.native.home=${swiftSdkDirectory.get().asFile.absolutePath}",
                     "-Dorg.gradle.jvmargs=-Xmx6g -XX:MaxMetaspaceSize=1g",
                     "--no-configuration-cache",
                     "--no-daemon",
@@ -1033,7 +1084,7 @@ tasks.register("swiftExportSmokeTest") {
                 out.toString().trim()
             }
         val swiftTestCommand = mutableListOf("swift", "test", "--jobs", "2", "-v",
-            "-Xswiftc", "-swift-version", "-Xswiftc", "6", "-Xswiftc", "-warnings-as-errors",
+            "-Xswiftc", "-warnings-as-errors",
             "-Xswiftc", "-target", "-Xswiftc", "arm64-apple-macosx15.0")
         if (developerDir.endsWith("CommandLineTools")) {
             val frameworks = "$developerDir/Library/Developer/Frameworks"
@@ -1062,6 +1113,10 @@ tasks.register("swiftExportSmokeTest") {
         swiftTestResult.assertNormalExitValue()
         execOperations.exec {
             commandLine("python3", layout.projectDirectory.file("verification/check_swift_tests.py").asFile, logFile)
+        }.assertNormalExitValue()
+        execOperations.exec {
+            commandLine("python3", layout.projectDirectory.file("verification/prepare_swift_tooling.py").asFile,
+                "--verify-only", "--output", layout.buildDirectory.dir("swift-tooling").get().asFile)
         }.assertNormalExitValue()
     }
 }

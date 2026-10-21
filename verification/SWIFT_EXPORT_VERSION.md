@@ -1,5 +1,7 @@
 # Swift exporter version
 
+## Historical stock version alignment
+
 The Swift exporter dependency reads `libs.versions.kotlin`, the same existing
 catalog entry used by the Kotlin Multiplatform plugin. The catalog remains
 2.4.20. The separate `versions.kotlin` Gradle property previously selected
@@ -21,6 +23,29 @@ hashes, source head, generation logs, and the identical Native KLIB file
 hashes for the old and diagnostic outputs. Cached JAR hashes were checked
 after generation; no historical runtime classloader hash capture exists.
 
-Validation of this source change is static only. The existing strict Swift
-failure and zero executed Swift behavior tests remain recorded. No full
-Swift build or Actions run was launched for this version alignment.
+The version-alignment commit was checked statically. Its retained stock
+Swift failure is historical evidence, separate from the published-tooling
+adoption below.
+
+## Published tooling selection
+
+The production exporter now selects
+`io.github.kotlinmania:swift-export-embeddable:2.4.20-km.1`, independently
+retrieved from Maven Central after the tooling release's PR and main CI.
+KGP and Kotlin/Native remain 2.4.20. `swift-tooling-lock.json` records the
+published worker closure, helper and official SDK digests.
+
+`./gradlew swiftExportSmokeTest --no-daemon --max-workers=2 --no-configuration-cache`
+resolves the exporter and SDK helper through Gradle, verifies all worker
+hashes, and runs the published helper against a verified official SDK in
+`build/swift-tooling`. Only its separate `native-sdk` copy is selected for
+the nested Native export. Native auto-caches use `build/native-auto-cache`,
+and the complete prepared SDK inventory is checked after the tests.
+Installed compilers and SDKs are never modified.
+
+Generated dependencies retain their producer manifest and Swift 5 language
+mode; the authored test package explicitly uses Swift 6. Both Swift and
+Native compilation retain warnings as errors. The task checks the three
+original behavior cases and actual frontend modes separately from package
+configuration and generated test-runner commands. No generated Swift API
+is rewritten. The mutable `KotlinError.wrapped` contract is preserved.

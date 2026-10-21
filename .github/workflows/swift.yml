@@ -62,6 +62,10 @@ jobs:
           path: |
             build/swift-tests.log
             build/reports/swift-tests.log
+            build/reports/swift-tests.json
+            build/reports/native-cache/
+            build/swift-tooling/verified-worker.json
+            build/swift-tooling/sdk-audit.json
             build/swift-test/lib*.a
             build/swift-test/*.swiftmodule/
             build/SPMPackage/macosArm64/Debug/
