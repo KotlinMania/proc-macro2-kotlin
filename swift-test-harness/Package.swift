@@ -4,7 +4,7 @@ import PackageDescription
 let package = Package(
     name: "SwiftTestHarness",
     platforms: [
-        .macOS("15.0"),
+        .macOS(.v15),
     ],
     dependencies: [
         .package(name: "ProcMacro2", path: "../build/SPMPackage/macosArm64/Debug")

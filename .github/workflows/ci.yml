@@ -47,6 +47,7 @@ jobs:
     permissions:
       contents: read
   android:
+    needs: macos
     uses: ./.github/workflows/android.yml
     permissions:
       contents: read
