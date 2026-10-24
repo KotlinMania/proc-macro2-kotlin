@@ -180,6 +180,9 @@ class Literal internal constructor(
     /** Returns the span encompassing this literal. */
     fun span(): Span = Span(inner.span())
 
+    /** Copies this literal, retaining its representation and span. */
+    fun cloneToken(): Literal = Literal(inner.cloneToken())
+
     /** Configures the span associated for this literal. */
     fun setSpan(span: Span) {
         inner.setSpan(span.inner)

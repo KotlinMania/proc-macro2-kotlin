@@ -30,6 +30,9 @@ class Punct(
     /** Returns the span for this punctuation character. */
     fun span(): Span = span
 
+    /** Copies this punctuation, retaining its spacing and span. */
+    fun cloneToken(): Punct = Punct(ch, spacing, span)
+
     /** Configure the span for this punctuation character. */
     fun setSpan(span: Span) {
         this.span = span

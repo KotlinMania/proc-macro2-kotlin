@@ -2,6 +2,14 @@ package io.github.kotlinmania.procmacro2
 
 /** A single token or a delimited sequence of token trees. */
 sealed class TokenTree {
+    /** Copies this token and any nested tokens, retaining their data and spans. */
+    fun cloneToken(): TokenTree = when (this) {
+        is Group -> Group(value.cloneToken())
+        is Ident -> Ident(value.cloneToken())
+        is Punct -> Punct(value.cloneToken())
+        is Literal -> Literal(value.cloneToken())
+    }
+
     /**
      * Returns the span of this tree, delegating to the [span] method of
      * the contained token or a delimited stream.

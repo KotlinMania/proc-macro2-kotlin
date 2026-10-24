@@ -40,6 +40,9 @@ class Group internal constructor(
      */
     fun stream(): TokenStream = TokenStream(inner.stream())
 
+    /** Copies this group and its nested tokens, retaining all delimiter spans. */
+    fun cloneToken(): Group = Group(inner.cloneToken())
+
     /**
      * Returns the span for the delimiters of this token stream, spanning the
      * entire [Group].

@@ -1,28 +1,39 @@
-# Token-copy repair — active
+# Lossless token-copy repair
 
-Rust proc-macro2 derives Clone for token trees, groups, identifiers and literals.
-Syn's Rust buffer returns clones. Kotlin's buffer currently returns shared mutable
-objects. A returned token's setSpan therefore changes the buffer. The initial
-four-token Rust/Kotlin probe and new Syn regressions reproduce this difference.
+Rust's Syn buffer returns cloned tokens. Previously Kotlin returned shared mutable
+objects; changing a returned token's span changed the buffer. This is corrected
+through public `cloneToken()` operations for TokenTree, Group, Ident, Literal and
+Punct, independent TokenStream clones, and independent streams returned by Group.
 
-This checkpoint adds the missing internal FallbackIdent.clone using its exact
-symbol, raw-identifier flag and span. It reuses the existing FallbackLiteral.clone
-and tests both operations, including negative/suffixed/raw literal representations.
-All 63 JVM and 63 macOS tests pass. This primitive does **not** yet repair public
-TokenTree, Group or TokenStream copies or Syn's cursor.
+Fallback copies retain exact identifier/raw flag, literal representation, spacing,
+spans and nested token data. Stream copying uses the stored token representation;
+it does not run insertion normalization or split/reparse negative literals. The
+compiler branch calls the existing bridge deep-copy implementation through the
+new `proc-macro-kotlin` facade, preserving separate delimiter spans and backend
+provenance. No lexer or parser is added or changed.
 
-The compiler-backed branch has a suitable existing implementation in
-`proc-macro-kotlin/src/commonMain/kotlin/io/github/kotlinmania/procmacro/bridge/Client.kt`:
-private TokenTree.deepClone (line 269), called by internal BridgeMethods.tsClone
-(line 123). It retains the literal kind/symbol/suffix, raw identifier, punctuation
-spacing, separate delimiter spans and nested token stream. Calling that existing
-implementation needs a small public facade in that dependency; exposing it is a
-separate, explicitly requested scope extension. No facade or workaround has been
-applied. Copying by text or discarding compiler span provenance is not an option.
+The name `cloneToken` is a deliberate Kotlin compatibility adaptation: Syn already
+exports an Ident.clone extension. Syn's copy/clone entry points remain available
+and delegate to the lossless member. The copy semantics follow Rust. The current
+fallback implementation eagerly copies nested token objects; no allocation or
+performance equivalence with Rust's shared storage is claimed.
 
-Evidence: `rust-kotlin/tmp/token-copy-repair-tkw9djkt/` contains initial source/hash
-and dirty-state receipts, saved JVM/macOS XML, `foundation-validation.json`, the
-three failing Syn regressions, original Rust oracle output, and the un-applied
-`proc-macro-facade-proposal.patch`. The existing dirty build.gradle.kts and
-gradle/libs.versions.toml remain byte-identical and are excluded from this commit.
-No settings, publication, remote CI or other sibling sources were changed.
+Validation: 66 JVM and 66 macOS proc-macro2 tests pass, including fallback/compiler
+tokens, raw identifiers, suffixes/raw literals, joint punctuation, negative literals
+and nested/None-delimited groups. The integrated Syn suite passes 414 JVM / 412
+macOS tests. Its three previous failure reproductions now pass. A standalone
+Kotlin/Native oracle matches Rust's complete 19-line output, including exact
+token/spelling/span fingerprints and 12 mutation-isolation checks. Compiler-backed
+metadata has separate unit coverage; the oracle does not execute inside rustc.
+
+Reproduce without publishing or changing pins:
+
+```
+./gradlew --offline --no-daemon --include-build ../proc-macro-kotlin -Pproject.repositories.mavenLocal=true -Dmaven.repo.local=/Users/sydney/.m2/repository jvmTest macosArm64Test
+```
+
+Evidence: `rust-kotlin/tmp/token-copy-repair-tkw9djkt/copy-validation.json`, saved
+test XML, oracle sources/output and tested KLIBs. The earlier foundation receipt
+and failing Syn results remain historical evidence. The two pre-existing dirty
+configuration files remain byte-identical and are excluded from the repair commit.
+Other platforms are unverified. No publication, remote CI or configuration changes.

@@ -2,6 +2,7 @@
 package io.github.kotlinmania.procmacro2
 
 import io.github.kotlinmania.procmacro.bridge.BridgeClientState
+import io.github.kotlinmania.procmacro.bridge.cloneTokenTree
 import io.github.kotlinmania.procmacro.Delimiter as ProcmacroDelimiter
 import io.github.kotlinmania.procmacro.Group as ProcmacroGroup
 import io.github.kotlinmania.procmacro.Ident as ProcmacroIdent
@@ -89,10 +90,7 @@ internal fun WrapperTokenStream.toString_(): String =
 internal fun WrapperTokenStream.clone_(): WrapperTokenStream =
     when (this) {
         is WrapperTokenStream.Compiler -> {
-            val trees = stream.toList()
-            val out = ProcmacroTokenStream.new()
-            out.extendTokenTrees(trees)
-            WrapperTokenStream.Compiler(out)
+            WrapperTokenStream.Compiler(ProcmacroTokenStream.fromTokenTrees(stream.map(::cloneTokenTree)))
         }
         is WrapperTokenStream.Fallback -> WrapperTokenStream.Fallback(stream.clone())
     }
@@ -291,9 +289,30 @@ internal fun WrapperGroup.delimiter(): Delimiter =
 
 internal fun WrapperGroup.stream(): WrapperTokenStream =
     when (this) {
-        is WrapperGroup.Compiler -> WrapperTokenStream.Compiler(group.stream())
+        is WrapperGroup.Compiler -> WrapperTokenStream.Compiler(group.stream()).clone_()
         is WrapperGroup.Fallback -> WrapperTokenStream.Fallback(group.stream())
     }
+
+internal fun WrapperGroup.cloneToken(): WrapperGroup = when (this) {
+    is WrapperGroup.Fallback -> WrapperGroup.Fallback(group.clone())
+    is WrapperGroup.Compiler -> WrapperGroup.Compiler(
+        (cloneTokenTree(ProcmacroTokenTree.Group(group)) as ProcmacroTokenTree.Group).value,
+    )
+}
+
+internal fun WrapperIdent.cloneToken(): WrapperIdent = when (this) {
+    is WrapperIdent.Fallback -> WrapperIdent.Fallback(ident.clone())
+    is WrapperIdent.Compiler -> WrapperIdent.Compiler(
+        (cloneTokenTree(ProcmacroTokenTree.Ident(ident)) as ProcmacroTokenTree.Ident).value,
+    )
+}
+
+internal fun WrapperLiteral.cloneToken(): WrapperLiteral = when (this) {
+    is WrapperLiteral.Fallback -> WrapperLiteral.Fallback(literal.clone())
+    is WrapperLiteral.Compiler -> WrapperLiteral.Compiler(
+        (cloneTokenTree(ProcmacroTokenTree.Literal(literal)) as ProcmacroTokenTree.Literal).value,
+    )
+}
 
 internal fun WrapperGroup.span(): WrapperSpan =
     when (this) {

@@ -93,7 +93,11 @@ internal class FallbackTokenStream internal constructor(
 
     fun intoIter(): RcVecIntoIter<TokenTree> = takeInner().intoIter()
 
-    fun clone(): FallbackTokenStream = FallbackTokenStream(inner.clone())
+    fun clone(): FallbackTokenStream {
+        val copied = RcVecBuilder.new<TokenTree>()
+        for (tree in inner.iter()) copied.push(tree.cloneToken())
+        return FallbackTokenStream(copied.build())
+    }
 
     override fun toString(): String {
         val out = StringBuilder()
@@ -372,6 +376,8 @@ internal data class FallbackGroup(
     fun delimiter(): Delimiter = delimiter
 
     fun stream(): FallbackTokenStream = stream.clone()
+
+    fun clone(): FallbackGroup = FallbackGroup(delimiter, stream.clone(), span)
 
     fun span(): FallbackSpan = span
 

@@ -57,6 +57,9 @@ class Ident internal constructor(
     /** Returns the span of this [Ident]. */
     fun span(): Span = Span(inner.span())
 
+    /** Copies this identifier, retaining its raw spelling and span. */
+    fun cloneToken(): Ident = Ident(inner.cloneToken())
+
     /**
      * Configures the span of this [Ident], possibly changing its hygiene
      * context.
