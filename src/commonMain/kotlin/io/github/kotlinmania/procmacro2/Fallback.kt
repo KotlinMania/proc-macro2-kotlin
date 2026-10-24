@@ -445,6 +445,8 @@ internal class FallbackIdent private constructor(
         this.span = span
     }
 
+    fun clone(): FallbackIdent = FallbackIdent(sym, span, raw)
+
     fun contentEquals(other: String): Boolean =
         if (raw) {
             other.startsWith("r#") && sym == other.substring(2)
