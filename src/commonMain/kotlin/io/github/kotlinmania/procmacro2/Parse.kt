@@ -5,12 +5,18 @@ internal data class Cursor(
     val rest: String,
     val off: Int,
 ) {
+    // This is derived storage, deliberately outside the data-class constructor:
+    // caching byte access must not change cursor equality, copying, or offsets.
+    private var ascii: Boolean? = null
+
+    private fun isAscii(): Boolean = ascii ?: rest.all { it.code < 0x80 }.also { ascii = it }
+
     fun advance(bytes: Int): Cursor {
         val front = rest.take(bytes)
         return Cursor(
             rest = rest.drop(bytes),
             off = off + front.length,
-        )
+        ).also { it.ascii = ascii }
     }
 
     fun startsWith(s: String): Boolean = rest.startsWith(s)
@@ -25,7 +31,21 @@ internal data class Cursor(
 
     fun asBytes(): ByteArray = rest.encodeToByteArray()
 
-    fun bytes(): List<Int> = asBytes().map { it.toInt() and 0xff }
+    // Existing callers only read this view. On ASCII input, avoid encoding and
+    // allocating a list of the entire remaining source for every token.
+    fun bytes(): List<Int> =
+        if (isAscii()) {
+            object : AbstractList<Int>() {
+                override val size: Int get() = rest.length
+
+                override fun get(index: Int): Int = rest[index].code
+            }
+        } else {
+            asBytes().map { it.toInt() and 0xff }
+        }
+
+    fun firstByte(): Int? =
+        if (isAscii()) rest.firstOrNull()?.code else asBytes().firstOrNull()?.let { it.toInt() and 0xff }
 
     fun chars(): Iterable<Char> = rest.asIterable()
 
@@ -48,7 +68,7 @@ private fun <T> reject(): Result<T> = Result.failure(Reject)
 private fun skipWhitespace(input: Cursor): Cursor {
     var s = input
     while (!s.isEmpty()) {
-        val byte = s.asBytes()[0].toInt() and 0xff
+        val byte = s.firstByte()!!
         if (byte == '/'.code) {
             if (
                 s.startsWith("//") &&
@@ -145,7 +165,7 @@ internal fun tokenStream(inputCursor: Cursor): Result<FallbackTokenStream> {
         }
 
         val lo = input.off
-        val first = input.bytes().firstOrNull()
+        val first = input.firstByte()
         if (first == null) {
             return if (stack.isEmpty()) {
                 Result.success(tokens.build())
