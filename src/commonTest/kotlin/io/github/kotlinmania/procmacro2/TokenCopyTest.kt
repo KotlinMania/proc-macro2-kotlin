@@ -6,6 +6,23 @@ import kotlin.test.assertIs
 import kotlin.test.assertNotSame
 
 class TokenCopyTest {
+    @Test
+    fun spanCopiesRetainBackendAndAreIndependentOfReplacement() {
+        val fallback = TokenStream.fromString("first second").getOrThrow().last().span()
+        val compiler = Span.newCompiler(io.github.kotlinmania.procmacro.Span.mixedSite())
+        for (original in listOf(fallback, compiler)) {
+            val before = original.inner
+            val copy = original.clone()
+            assertNotSame(original, copy)
+            assertEquals(before, copy.inner)
+            copy.replaceFrom(Span.callSite())
+            assertEquals(before, original.inner)
+            val next = original.clone()
+            original.replaceFrom(Span.callSite())
+            assertEquals(before, next.inner)
+        }
+    }
+
     private fun spanData(span: Span): String =
         when (val inner = span.inner) {
             is WrapperSpan.Fallback -> "fallback:${inner.span}:${span.sourceText()}"

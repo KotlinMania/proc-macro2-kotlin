@@ -4,6 +4,9 @@ package io.github.kotlinmania.procmacro2
 class Span internal constructor(
     internal var inner: WrapperSpan,
 ) {
+    /** Rust Copy/Clone: independent wrapper retaining immutable backend and hygiene data. */
+    fun clone(): Span = Span(inner)
+
     companion object {
         internal fun newFallback(inner: FallbackSpan): Span = Span(WrapperSpan.Fallback(inner))
 
