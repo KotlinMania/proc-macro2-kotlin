@@ -205,8 +205,21 @@ private data class FileInfo(
             LineColumn(line = found + 1, column = 0)
         } else {
             val idx = -found - 1
-            LineColumn(line = idx, column = adjusted - lines[idx - 1])
+            // Internal offsets index Kotlin UTF-16 storage. Rust's public column
+            // counts Unicode scalars; reuse the existing scalar decoder.
+            var index = lines[idx - 1]
+            var column = 0
+            while (index < adjusted) {
+                index += sourceText.codePointAndWidthAt(index).second
+                column += 1
+            }
+            LineColumn(line = idx, column = column)
         }
+    }
+
+    fun sourceUtf16Range(span: FallbackSpan): IntRange {
+        require(spanWithin(span))
+        return (span.lo - this.span.lo)..(span.hi - this.span.lo - 1)
     }
 
     fun spanWithin(span: FallbackSpan): Boolean = span.lo >= this.span.lo && span.hi <= this.span.hi
@@ -262,7 +275,7 @@ private fun linesOffsets(s: String): Pair<Int, List<Int>> {
 
 /**
  * Process-wide registry of parsed source files, used to translate a
- * [FallbackSpan]'s `(lo, hi)` byte offsets back into the originating file's
+ * [FallbackSpan]'s internal `(lo, hi)` UTF-16 offsets back into the originating file's
  * text, line/column, and byte range. Upstream isolates one map per thread so
  * each thread sees an independent registry; the Kotlin port shares one map
  * across threads, which limits cross-thread sharing of spans from
@@ -339,6 +352,9 @@ internal data class FallbackSpan(
     fun start(): LineColumn = SourceMap.fileinfo(this).offsetLineColumn(lo)
 
     fun end(): LineColumn = SourceMap.fileinfo(this).offsetLineColumn(hi)
+
+    fun sourceUtf16Range(): IntRange? =
+        if (isCallSite()) null else SourceMap.fileinfo(this).sourceUtf16Range(this)
 
     fun file(): String = SourceMap.filepath(this)
 

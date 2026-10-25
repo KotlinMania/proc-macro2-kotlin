@@ -84,6 +84,18 @@ class Span internal constructor(
     fun end(): LineColumn = inner.end()
 
     /**
+     * Kotlin source-storage adaptation: UTF-16 code units in the original parsed
+     * string, inclusive like [IntRange]. This is not Rust's byteRange or column.
+     * Returns null for compiler-backed/call-site spans without local source data.
+     * An empty span produces an empty range starting at its source offset.
+     */
+    fun sourceUtf16Range(): IntRange? =
+        when (val value = inner) {
+            is WrapperSpan.Fallback -> value.span.sourceUtf16Range()
+            is WrapperSpan.Compiler -> null
+        }
+
+    /**
      * The path to the source file in which this span occurs, for display
      * purposes.
      */
