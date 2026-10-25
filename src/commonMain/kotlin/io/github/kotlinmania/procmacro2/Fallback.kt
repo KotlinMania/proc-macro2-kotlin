@@ -17,7 +17,9 @@
 package io.github.kotlinmania.procmacro2
 
 import io.github.kotlinmania.unicodeident.isXidContinue
+import io.github.kotlinmania.unicodeident.isXidContinueCodePoint
 import io.github.kotlinmania.unicodeident.isXidStart
+import io.github.kotlinmania.unicodeident.isXidStartCodePoint
 
 /**
  * Force use of proc-macro2's fallback implementation of the API for now, even
@@ -471,16 +473,13 @@ internal fun isIdentStart(c: Char): Boolean = c == '_' || isXidStart(c)
 
 internal fun isIdentContinue(c: Char): Boolean = isXidContinue(c)
 
-// Code-point-aware identifier classification. BMP scalars defer to the Char-based
-// predicates above; supplementary-plane scalars (encoded as surrogate pairs) are
-// accepted as identifier characters. Kotlin's common stdlib exposes no code-point
-// letter classification, so this is intentionally permissive for astral scalars
-// rather than dropping legitimate identifiers such as Egyptian Hieroglyph letters.
+// Rust char is a Unicode scalar, not a UTF-16 code unit. Both the tokenizer and
+// constructor use the existing unicode-ident tables for the complete scalar.
 internal fun isIdentStartCodePoint(codePoint: Int): Boolean =
-    if (codePoint <= 0xFFFF) isIdentStart(codePoint.toChar()) else true
+    codePoint == '_'.code || isXidStartCodePoint(codePoint)
 
 internal fun isIdentContinueCodePoint(codePoint: Int): Boolean =
-    if (codePoint <= 0xFFFF) isIdentContinue(codePoint.toChar()) else true
+    isXidContinueCodePoint(codePoint)
 
 // Decodes the Unicode scalar at [index] (combining a surrogate pair into a single
 // code point); returns the scalar paired with the number of UTF-16 code units it
@@ -504,11 +503,16 @@ private fun validateIdent(string: String) {
 }
 
 private fun identOk(string: String): Boolean {
-    val first = string.firstOrNull() ?: return false
-    if (!isIdentStart(first)) {
-        return false
+    if (string.isEmpty()) return false
+    val (first, firstWidth) = string.codePointAndWidthAt(0)
+    if (!isIdentStartCodePoint(first)) return false
+    var index = firstWidth
+    while (index < string.length) {
+        val (cp, width) = string.codePointAndWidthAt(index)
+        if (!isIdentContinueCodePoint(cp)) return false
+        index += width
     }
-    return string.drop(1).all(::isIdentContinue)
+    return true
 }
 
 private fun validateIdentRaw(string: String) {
