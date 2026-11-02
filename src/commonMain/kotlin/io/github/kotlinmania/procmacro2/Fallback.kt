@@ -20,6 +20,7 @@ import io.github.kotlinmania.unicodeident.isXidContinue
 import io.github.kotlinmania.unicodeident.isXidContinueCodePoint
 import io.github.kotlinmania.unicodeident.isXidStart
 import io.github.kotlinmania.unicodeident.isXidStartCodePoint
+import kotlin.native.concurrent.ThreadLocal
 
 /**
  * Force use of proc-macro2's fallback implementation of the API for now, even
@@ -273,15 +274,7 @@ private fun linesOffsets(s: String): Pair<Int, List<Int>> {
     return total to lines
 }
 
-/**
- * Process-wide registry of parsed source files, used to translate a
- * [FallbackSpan]'s internal `(lo, hi)` UTF-16 offsets back into the originating file's
- * text, line/column, and byte range. Upstream isolates one map per thread so
- * each thread sees an independent registry; the Kotlin port shares one map
- * across threads, which limits cross-thread sharing of spans from
- * concurrently-parsed sources but is observably correct for single-threaded
- * use.
- */
+@ThreadLocal
 private object SourceMap {
     // Start with a single dummy file which all `callSite()` and `defSite()`
     // spans reference. Real files are appended on parse.

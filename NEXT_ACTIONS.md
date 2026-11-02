@@ -5,9 +5,9 @@ Based on AST analysis, here are the concrete next steps.
 ## Summary
 
 - **Files Present:** 13/15 (86.7%)
-- **Function parity:** 235/335 matched (target 365) — 70.1%
+- **Function parity:** 235/335 matched (target 375) — 70.1%
 - **Class/type parity:** 22/46 matched (target 63) — 47.8%
-- **Combined symbol parity:** 257/381 matched (target 428) — 67.5%
+- **Combined symbol parity:** 257/381 matched (target 438) — 67.5%
 - **Average inline-code cosine:** 0.31 (function body across 13 matched files)
 - **Average documentation cosine:** 0.25 (doc text across 13 matched files)
 - **Cheat-zeroed Files:** 0
@@ -32,10 +32,10 @@ Every matched file is listed below with function and type symbol parity.
 ### 1. fallback
 
 - **Target:** `procmacro2.Fallback`
-- **Similarity:** 0.19
+- **Similarity:** 0.18
 - **Dependents:** 1
 - **Priority Score:** 1462208.1
-- **Functions:** 73/109 matched (target 131)
+- **Functions:** 73/109 matched (target 135)
 - **Missing functions:** `push_negative_literal`, `drop`, `get_cursor`, `fmt`, `fmt`, `fmt`, `from`, `from`, `from`, `from_iter`, `from_iter`, `extend`, `extend`, `invalidate_current_thread_spans`, `call_site`, `call_site`, `join`, `source_text`, `first_byte`, `last_byte`, `fmt`, `fmt`, `fmt`, `eq`, `eq`, `fmt`, `fmt`, `fmt`, `_new`, `from_str_unchecked`, `fmt`, `fmt`, `from_str_checked`, `from_str_unchecked`, `valid`, `valid`
 - **Types:** 4/13 matched (target 10)
 - **Missing types:** `TokenStream`, `LexError`, `Item`, `IntoIter`, `Span`, `Group`, `Ident`, `Literal`, `FromStr2`
@@ -79,7 +79,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Similarity:** 0.04
 - **Dependents:** 0
 - **Priority Score:** 669609.6
-- **Functions:** 27/86 matched (target 66)
+- **Functions:** 27/86 matched (target 69)
 - **Missing functions:** `mismatch`, `new`, `evaluate_now`, `into_token_stream`, `new`, `from_str_checked`, `is_empty`, `unwrap_nightly`, `unwrap_stable`, `fmt`, `from`, `from`, `from`, `into_compiler_token`, `from`, `from_iter`, `from_iter`, `extend`, `extend`, `fmt`, `from`, `from`, `fmt`, `fmt`, `into_iter`, `call_site`, `mixed_site`, `def_site`, `unwrap`, `unwrap_nightly`, `from`, `from`, `fmt`, `debug_span_field_if_nontrivial`, `new`, `unwrap_nightly`, `from`, `fmt`, `fmt`, `new_checked`, `new_raw_checked`, `unwrap_nightly`, `from`, `fmt`, `fmt`, `from_str_checked`, `from_str_unchecked`, `f32_unsuffixed`, `f64_unsuffixed`, `string`, `character`, `byte_character`, `byte_string`, `c_string`, `unwrap_nightly`, `from`, `fmt`, `fmt`, `invalidate_current_thread_spans`
 - **Types:** 3/10 matched (target 15)
 - **Missing types:** `TokenStream`, `DeferredTokenStream`, `LexError`, `TokenTreeIter`, `Item`, `IntoIter`, `Span`
@@ -134,7 +134,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Similarity:** 0.26
 - **Dependents:** 0
 - **Priority Score:** 5307.4
-- **Functions:** 50/50 matched (target 52)
+- **Functions:** 50/50 matched (target 55)
 - **Missing functions:** _none_
 - **Types:** 3/3 matched
 - **Missing types:** _none_
