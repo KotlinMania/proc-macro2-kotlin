@@ -5,10 +5,10 @@ Based on AST analysis, here are the concrete next steps.
 ## Summary
 
 - **Files Present:** 13/15 (86.7%)
-- **Function parity:** 235/335 matched (target 375) — 70.1%
-- **Class/type parity:** 22/46 matched (target 63) — 47.8%
-- **Combined symbol parity:** 257/381 matched (target 438) — 67.5%
-- **Average inline-code cosine:** 0.31 (function body across 13 matched files)
+- **Function parity:** 264/335 matched (target 436) — 78.8%
+- **Class/type parity:** 23/46 matched (target 68) — 50.0%
+- **Combined symbol parity:** 287/381 matched (target 504) — 75.3%
+- **Average inline-code cosine:** 0.32 (function body across 13 matched files)
 - **Average documentation cosine:** 0.25 (doc text across 13 matched files)
 - **Cheat-zeroed Files:** 0
 - **Critical Issues:** 12 files with <0.60 function similarity
@@ -34,9 +34,9 @@ Every matched file is listed below with function and type symbol parity.
 - **Target:** `procmacro2.Fallback`
 - **Similarity:** 0.18
 - **Dependents:** 1
-- **Priority Score:** 1462208.1
-- **Functions:** 73/109 matched (target 135)
-- **Missing functions:** `push_negative_literal`, `drop`, `get_cursor`, `fmt`, `fmt`, `fmt`, `from`, `from`, `from`, `from_iter`, `from_iter`, `extend`, `extend`, `invalidate_current_thread_spans`, `call_site`, `call_site`, `join`, `source_text`, `first_byte`, `last_byte`, `fmt`, `fmt`, `fmt`, `eq`, `eq`, `fmt`, `fmt`, `fmt`, `_new`, `from_str_unchecked`, `fmt`, `fmt`, `from_str_checked`, `from_str_unchecked`, `valid`, `valid`
+- **Priority Score:** 1452208.2
+- **Functions:** 74/109 matched (target 137)
+- **Missing functions:** `push_negative_literal`, `drop`, `get_cursor`, `fmt`, `fmt`, `fmt`, `from`, `from`, `from`, `from_iter`, `from_iter`, `extend`, `extend`, `invalidate_current_thread_spans`, `call_site`, `join`, `source_text`, `first_byte`, `last_byte`, `fmt`, `fmt`, `fmt`, `eq`, `eq`, `fmt`, `fmt`, `fmt`, `_new`, `from_str_unchecked`, `fmt`, `fmt`, `from_str_checked`, `from_str_unchecked`, `valid`, `valid`
 - **Types:** 4/13 matched (target 10)
 - **Missing types:** `TokenStream`, `LexError`, `Item`, `IntoIter`, `Span`, `Group`, `Ident`, `Literal`, `FromStr2`
 
@@ -76,23 +76,23 @@ Every matched file is listed below with function and type symbol parity.
 ### 5. wrapper
 
 - **Target:** `procmacro2.Wrapper`
-- **Similarity:** 0.04
+- **Similarity:** 0.13
 - **Dependents:** 0
-- **Priority Score:** 669609.6
-- **Functions:** 27/86 matched (target 69)
-- **Missing functions:** `mismatch`, `new`, `evaluate_now`, `into_token_stream`, `new`, `from_str_checked`, `is_empty`, `unwrap_nightly`, `unwrap_stable`, `fmt`, `from`, `from`, `from`, `into_compiler_token`, `from`, `from_iter`, `from_iter`, `extend`, `extend`, `fmt`, `from`, `from`, `fmt`, `fmt`, `into_iter`, `call_site`, `mixed_site`, `def_site`, `unwrap`, `unwrap_nightly`, `from`, `from`, `fmt`, `debug_span_field_if_nontrivial`, `new`, `unwrap_nightly`, `from`, `fmt`, `fmt`, `new_checked`, `new_raw_checked`, `unwrap_nightly`, `from`, `fmt`, `fmt`, `from_str_checked`, `from_str_unchecked`, `f32_unsuffixed`, `f64_unsuffixed`, `string`, `character`, `byte_character`, `byte_string`, `c_string`, `unwrap_nightly`, `from`, `fmt`, `fmt`, `invalidate_current_thread_spans`
-- **Types:** 3/10 matched (target 15)
-- **Missing types:** `TokenStream`, `DeferredTokenStream`, `LexError`, `TokenTreeIter`, `Item`, `IntoIter`, `Span`
+- **Priority Score:** 359608.8
+- **Functions:** 57/86 matched (target 131)
+- **Missing functions:** `fmt`, `from`, `from`, `from`, `from`, `from_iter`, `from_iter`, `extend`, `extend`, `fmt`, `from`, `from`, `fmt`, `fmt`, `into_iter`, `from`, `from`, `fmt`, `debug_span_field_if_nontrivial`, `from`, `fmt`, `fmt`, `from`, `fmt`, `fmt`, `from`, `fmt`, `fmt`, `invalidate_current_thread_spans`
+- **Types:** 4/10 matched (target 22)
+- **Missing types:** `TokenStream`, `LexError`, `TokenTreeIter`, `Item`, `IntoIter`, `Span`
 
 ### 6. rustc_literal_escaper
 
 - **Target:** `procmacro2.RustcLiteralEscaper`
-- **Similarity:** 0.34
+- **Similarity:** 0.30
 - **Dependents:** 0
-- **Priority Score:** 74806.6
-- **Functions:** 38/40 matched (target 59)
-- **Missing functions:** `char2raw_unit`, `char2raw_unit`
-- **Types:** 3/8 matched (target 19)
+- **Priority Score:** 94807.0
+- **Functions:** 36/40 matched (target 55)
+- **Missing functions:** `char2raw_unit`, `char2raw_unit`, `try_from`, `try_from`
+- **Types:** 3/8 matched (target 18)
 - **Missing types:** `CheckRaw`, `RawUnit`, `Error`, `Unescape`, `Unit`
 
 ### 7. rcvec
@@ -125,7 +125,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Priority Score:** 20606.1
 - **Functions:** 4/5 matched
 - **Missing functions:** `initialize`
-- **Types:** 0/1 matched
+- **Types:** 0/1 matched (target 0)
 - **Missing types:** `PanicHook`
 
 ### 10. parse
@@ -153,10 +153,10 @@ Every matched file is listed below with function and type symbol parity.
 ### 12. num
 
 - **Target:** `procmacro2.Num`
-- **Similarity:** 0.25
+- **Similarity:** 0.24
 - **Dependents:** 0
-- **Priority Score:** 307.5
-- **Functions:** 2/2 matched (target 5)
+- **Priority Score:** 307.6
+- **Functions:** 2/2 matched (target 6)
 - **Missing functions:** _none_
 - **Types:** 1/1 matched
 - **Missing types:** _none_

@@ -6,7 +6,7 @@
     "lang": "rust"
   },
   "target": {
-    "path": "src/commonMain/kotlin/io/github/kotlinmania/procmacro2",
+    "path": "src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2",
     "lang": "kotlin"
   },
   "checks": {
