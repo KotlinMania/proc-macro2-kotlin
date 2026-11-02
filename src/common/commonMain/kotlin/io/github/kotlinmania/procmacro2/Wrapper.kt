@@ -72,16 +72,16 @@ internal sealed class WrapperTokenStream {
 
         fun fromStrChecked(src: String): Result<WrapperTokenStream> =
             if (insideProcMacro()) {
-                when (val outcome = ProcmacroTokenStream.fromString(src)) {
-                    is TokenStreamParseOutcome.Ok ->
-                        Result.success(Compiler(DeferredTokenStream.new(outcome.value)))
-                    is TokenStreamParseOutcome.Err -> {
-                        val fallbackCheck = FallbackTokenStream.fromStrChecked(src)
-                        if (fallbackCheck.isSuccess) {
+                val fallbackCheck = FallbackTokenStream.fromStrChecked(src)
+                if (fallbackCheck.isFailure) {
+                    Result.failure(LexErrorException(LexError(WrapperLexError.CompilerPanic)))
+                } else {
+                    when (val outcome = ProcmacroTokenStream.fromString(src)) {
+                        is TokenStreamParseOutcome.Ok ->
+                            Result.success(Compiler(DeferredTokenStream.new(outcome.value)))
+                        is TokenStreamParseOutcome.Err -> {
                             val converted = compilerStreamFromFallback(fallbackCheck.getOrThrow())
                             Result.success(Compiler(DeferredTokenStream.new(converted)))
-                        } else {
-                            Result.failure(LexErrorException(LexError(WrapperLexError.Compiler(outcome.error))))
                         }
                     }
                 }
@@ -244,10 +244,17 @@ internal sealed class WrapperLiteral {
     companion object {
         fun fromStrChecked(repr: String): Result<WrapperLiteral> =
             if (insideProcMacro()) {
-                when (val outcome = ProcmacroLiteral.fromString(repr)) {
-                    is LiteralParseOutcome.Ok -> Result.success(Compiler(outcome.value))
-                    is LiteralParseOutcome.Err ->
-                        Result.failure(LexErrorException(LexError(WrapperLexError.Compiler(outcome.error))))
+                val fallbackCheck = FallbackLiteral.fromStrChecked(repr)
+                if (fallbackCheck.isFailure) {
+                    Result.failure(LexErrorException(LexError(WrapperLexError.CompilerPanic)))
+                } else {
+                    when (val outcome = ProcmacroLiteral.fromString(repr)) {
+                        is LiteralParseOutcome.Ok -> Result.success(Compiler(outcome.value))
+                        is LiteralParseOutcome.Err -> {
+                            val bridged = ProcmacroLiteral.fromStrUnchecked(fallbackCheck.getOrThrow().toString())
+                            Result.success(Compiler(bridged))
+                        }
+                    }
                 }
             } else {
                 FallbackLiteral.fromStrChecked(repr).map(::Fallback)

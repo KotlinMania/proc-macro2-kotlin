@@ -18,6 +18,8 @@
   "reexport_modules": [
     "mod.rs",
     "lib.rs",
-    "probe.rs"
+    "probe.rs",
+    "rustc_literal_escaper.rs",
+    "num.rs"
   ]
 }

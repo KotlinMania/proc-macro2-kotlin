@@ -1,5 +1,10 @@
 package io.github.kotlinmania.procmacro2
 
+import io.github.kotlinmania.rustcliteralescaper.EscapeError
+import io.github.kotlinmania.rustcliteralescaper.unescapeByteStr
+import io.github.kotlinmania.rustcliteralescaper.unescapeCStr
+import io.github.kotlinmania.rustcliteralescaper.unescapeStr
+
 class LiteralParseResult internal constructor(
     val value: Literal?,
     val error: String?,
@@ -192,13 +197,13 @@ class Literal internal constructor(
             val value = StringBuilder(quoted.length)
             var failure: ConversionErrorKind? = null
             unescapeStr(quoted) { _, res ->
-                when (res) {
-                    is EscapeResult.Ok -> value.appendUnicodeScalar(res.value)
-                    is EscapeResult.Err -> {
-                        if (res.error.isFatal()) {
-                            failure = ConversionErrorKind.FailedToUnescape(res.error)
-                        }
+                val err = res.errorOrNull()
+                if (err != null) {
+                    if (err.isFatal()) {
+                        failure = ConversionErrorKind.FailedToUnescape(err)
                     }
+                } else {
+                    value.append(res.unwrapAsString())
                 }
             }
             val finalFailure = failure
@@ -229,21 +234,14 @@ class Literal internal constructor(
             val value = mutableListOf<Byte>()
             var failure: ConversionErrorKind? = null
             unescapeCStr(quoted) { _, res ->
-                when (res) {
-                    is EscapeResult.Ok ->
-                        when (val unit = res.value) {
-                            is MixedUnit.Char -> {
-                                val utf8 = encodeScalarUtf8(unit.value.get())
-                                for (b in utf8) {
-                                    value.add(b)
-                                }
-                            }
-                            is MixedUnit.HighByte -> value.add(unit.value.get().toByte())
-                        }
-                    is EscapeResult.Err -> {
-                        if (res.error.isFatal()) {
-                            failure = ConversionErrorKind.FailedToUnescape(res.error)
-                        }
+                val err = res.errorOrNull()
+                if (err != null) {
+                    if (err.isFatal()) {
+                        failure = ConversionErrorKind.FailedToUnescape(err)
+                    }
+                } else {
+                    for (b in res.unwrap().toUtf8Bytes()) {
+                        value.add(b)
                     }
                 }
             }
@@ -273,13 +271,13 @@ class Literal internal constructor(
             val value = mutableListOf<Byte>()
             var failure: ConversionErrorKind? = null
             unescapeByteStr(quoted) { _, res ->
-                when (res) {
-                    is EscapeResult.Ok -> value.add(res.value.toByte())
-                    is EscapeResult.Err -> {
-                        if (res.error.isFatal()) {
-                            failure = ConversionErrorKind.FailedToUnescape(res.error)
-                        }
+                val err = res.errorOrNull()
+                if (err != null) {
+                    if (err.isFatal()) {
+                        failure = ConversionErrorKind.FailedToUnescape(err)
                     }
+                } else {
+                    value.add(res.unwrap().toByte())
                 }
             }
             val finalFailure = failure

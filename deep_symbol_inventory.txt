@@ -36,22 +36,6 @@ PARSER_REVIEW tmp/proc-macro2/src/fallback.rs:114-114: ERROR ERROR
 PARSER_REVIEW tmp/proc-macro2/src/fallback.rs:116-116: ERROR ERROR
 PARSER_REVIEW tmp/proc-macro2/src/fallback.rs:118-118: ERROR ERROR
 PARSER_REVIEW tmp/proc-macro2/src/fallback.rs:120-120: ERROR ERROR
-PARSER_REVIEW src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt: parser errors; symbol inventory may be incomplete
-PARSER_REVIEW src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:413-413: ERROR ERROR
-PARSER_REVIEW src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:413-413: ERROR ERROR
-PARSER_REVIEW src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:414-414: ERROR ERROR
-PARSER_REVIEW src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:414-414: ERROR ERROR
-PARSER_REVIEW src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:417-417: ERROR ERROR
-PARSER_REVIEW src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:417-417: ERROR ERROR
-PARSER_REVIEW src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:418-418: ERROR ERROR
-PARSER_REVIEW src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:418-418: ERROR ERROR
-PARSER_REVIEW src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:421-421: ERROR ERROR
-PARSER_REVIEW src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:421-421: ERROR ERROR
-PARSER_REVIEW src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:422-422: ERROR ERROR
-PARSER_REVIEW src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:422-422: ERROR ERROR
-PARSER_REVIEW src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:425-425: ERROR ERROR
-PARSER_REVIEW src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:425-425: ERROR ERROR
-PARSER_REVIEW src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:873-873: ERROR ERROR
 PRESENT function force at tmp/proc-macro2/src/fallback.rs:42 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:28
 PRESENT function unforce at tmp/proc-macro2/src/fallback.rs:49 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:36
 MISSING_SYMBOL type TokenStream at tmp/proc-macro2/src/fallback.rs:55
@@ -63,15 +47,15 @@ MISSING_SYMBOL function from_str_checked at tmp/proc-macro2/src/fallback.rs:83
 MISSING_SYMBOL function from_str_unchecked at tmp/proc-macro2/src/fallback.rs:97
 MISSING_SYMBOL function is_empty at tmp/proc-macro2/src/fallback.rs:101
 MISSING_SYMBOL function take_inner at tmp/proc-macro2/src/fallback.rs:105
-PRESENT function push_token_from_proc_macro at tmp/proc-macro2/src/fallback.rs:111 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:136
+PRESENT function push_token_from_proc_macro at tmp/proc-macro2/src/fallback.rs:111 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:151
 MISSING_SYMBOL function drop at tmp/proc-macro2/src/fallback.rs:138
-PRESENT type TokenStreamBuilder at tmp/proc-macro2/src/fallback.rs:169 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:152
+PRESENT type TokenStreamBuilder at tmp/proc-macro2/src/fallback.rs:169 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:170
 MISSING_SYMBOL function new at tmp/proc-macro2/src/fallback.rs:174
 MISSING_SYMBOL function with_capacity at tmp/proc-macro2/src/fallback.rs:180
 MISSING_SYMBOL function push_token_from_parser at tmp/proc-macro2/src/fallback.rs:186
 MISSING_SYMBOL function build at tmp/proc-macro2/src/fallback.rs:190
-PRESENT function get_cursor at tmp/proc-macro2/src/fallback.rs:198 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:182
-PRESENT function get_cursor at tmp/proc-macro2/src/fallback.rs:215 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:182
+PRESENT function get_cursor at tmp/proc-macro2/src/fallback.rs:198 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:186
+PRESENT function get_cursor at tmp/proc-macro2/src/fallback.rs:215 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:186
 MISSING_SYMBOL function fmt at tmp/proc-macro2/src/fallback.rs:220
 MISSING_SYMBOL function fmt at tmp/proc-macro2/src/fallback.rs:226
 MISSING_SYMBOL function fmt at tmp/proc-macro2/src/fallback.rs:249
@@ -82,19 +66,19 @@ MISSING_SYMBOL function from_iter at tmp/proc-macro2/src/fallback.rs:280
 MISSING_SYMBOL function from_iter at tmp/proc-macro2/src/fallback.rs:288
 MISSING_SYMBOL function extend at tmp/proc-macro2/src/fallback.rs:300
 MISSING_SYMBOL function extend at tmp/proc-macro2/src/fallback.rs:309
-PRESENT type_alias TokenTreeIter at tmp/proc-macro2/src/fallback.rs:314 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:112
+PRESENT type_alias TokenTreeIter at tmp/proc-macro2/src/fallback.rs:314 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:131
 MISSING_SYMBOL type_alias Item at tmp/proc-macro2/src/fallback.rs:317
 MISSING_SYMBOL type_alias IntoIter at tmp/proc-macro2/src/fallback.rs:318
 MISSING_SYMBOL function into_iter at tmp/proc-macro2/src/fallback.rs:320
 MISSING_SYMBOL function invalidate_current_thread_spans at tmp/proc-macro2/src/fallback.rs:340
-PRESENT type FileInfo at tmp/proc-macro2/src/fallback.rs:346 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:192
+PRESENT type FileInfo at tmp/proc-macro2/src/fallback.rs:346 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:196
 MISSING_SYMBOL function offset_line_column at tmp/proc-macro2/src/fallback.rs:355
 MISSING_SYMBOL function span_within at tmp/proc-macro2/src/fallback.rs:373
 MISSING_SYMBOL function byte_range at tmp/proc-macro2/src/fallback.rs:377
 MISSING_SYMBOL function byte at tmp/proc-macro2/src/fallback.rs:381
 MISSING_SYMBOL function source_text at tmp/proc-macro2/src/fallback.rs:426
-PRESENT function lines_offsets at tmp/proc-macro2/src/fallback.rs:435 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:262
-PRESENT type SourceMap at tmp/proc-macro2/src/fallback.rs:450 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:274
+PRESENT function lines_offsets at tmp/proc-macro2/src/fallback.rs:435 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:272
+PRESENT type SourceMap at tmp/proc-macro2/src/fallback.rs:450 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:284
 MISSING_SYMBOL function next_start_pos at tmp/proc-macro2/src/fallback.rs:456
 MISSING_SYMBOL function add_file at tmp/proc-macro2/src/fallback.rs:464
 MISSING_SYMBOL function find at tmp/proc-macro2/src/fallback.rs:483
@@ -123,7 +107,7 @@ MISSING_SYMBOL function last_byte at tmp/proc-macro2/src/fallback.rs:677
 MISSING_SYMBOL function last_byte at tmp/proc-macro2/src/fallback.rs:682
 MISSING_SYMBOL function is_call_site at tmp/proc-macro2/src/fallback.rs:690
 MISSING_SYMBOL function fmt at tmp/proc-macro2/src/fallback.rs:696
-PRESENT function debug_span_field_if_nontrivial at tmp/proc-macro2/src/fallback.rs:705 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:377
+PRESENT function debug_span_field_if_nontrivial at tmp/proc-macro2/src/fallback.rs:705 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:397
 MISSING_SYMBOL type Group at tmp/proc-macro2/src/fallback.rs:719
 MISSING_SYMBOL function new at tmp/proc-macro2/src/fallback.rs:726
 MISSING_SYMBOL function delimiter at tmp/proc-macro2/src/fallback.rs:734
@@ -141,10 +125,10 @@ MISSING_SYMBOL function new_raw_checked at tmp/proc-macro2/src/fallback.rs:819
 MISSING_SYMBOL function new_raw_unchecked at tmp/proc-macro2/src/fallback.rs:824
 MISSING_SYMBOL function span at tmp/proc-macro2/src/fallback.rs:832
 MISSING_SYMBOL function set_span at tmp/proc-macro2/src/fallback.rs:836
-PRESENT function is_ident_start at tmp/proc-macro2/src/fallback.rs:841 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:478
-PRESENT function is_ident_continue at tmp/proc-macro2/src/fallback.rs:845 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:480
-PRESENT function validate_ident at tmp/proc-macro2/src/fallback.rs:850 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:505
-PRESENT function validate_ident_raw at tmp/proc-macro2/src/fallback.rs:879 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:524
+PRESENT function is_ident_start at tmp/proc-macro2/src/fallback.rs:841 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:487
+PRESENT function is_ident_continue at tmp/proc-macro2/src/fallback.rs:845 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:489
+PRESENT function validate_ident at tmp/proc-macro2/src/fallback.rs:850 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:514
+PRESENT function validate_ident_raw at tmp/proc-macro2/src/fallback.rs:879 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:533
 MISSING_SYMBOL function eq at tmp/proc-macro2/src/fallback.rs:891
 MISSING_SYMBOL function eq at tmp/proc-macro2/src/fallback.rs:900
 MISSING_SYMBOL function fmt at tmp/proc-macro2/src/fallback.rs:911
@@ -166,7 +150,7 @@ MISSING_SYMBOL function set_span at tmp/proc-macro2/src/fallback.rs:1153
 MISSING_SYMBOL function subspan at tmp/proc-macro2/src/fallback.rs:1157
 MISSING_SYMBOL function fmt at tmp/proc-macro2/src/fallback.rs:1200
 MISSING_SYMBOL function fmt at tmp/proc-macro2/src/fallback.rs:1206
-PRESENT function escape_utf8 at tmp/proc-macro2/src/fallback.rs:1214 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:771
+PRESENT function escape_utf8 at tmp/proc-macro2/src/fallback.rs:1214 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:775
 MISSING_SYMBOL type FromStr2 at tmp/proc-macro2/src/fallback.rs:1239
 MISSING_SYMBOL function FromStr2::from_str_checked at tmp/proc-macro2/src/fallback.rs:1244
 MISSING_SYMBOL function FromStr2::from_str_unchecked at tmp/proc-macro2/src/fallback.rs:1260
@@ -176,153 +160,160 @@ EXTRA_TARGET_SYMBOL type FallbackTokenStream at src/common/commonMain/kotlin/io/
 EXTRA_TARGET_SYMBOL property FallbackTokenStream::inner at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:41
 EXTRA_TARGET_SYMBOL function FallbackTokenStream::Companion::new at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:44
 EXTRA_TARGET_SYMBOL function FallbackTokenStream::Companion::fromStrChecked at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:46
-EXTRA_TARGET_SYMBOL function FallbackTokenStream::Companion::fromTokenTree at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:55
-EXTRA_TARGET_SYMBOL function FallbackTokenStream::Companion::fromTokenStreams at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:61
-EXTRA_TARGET_SYMBOL function FallbackTokenStream::isEmpty at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:70
-EXTRA_TARGET_SYMBOL function FallbackTokenStream::iter at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:72
-EXTRA_TARGET_SYMBOL function FallbackTokenStream::takeInner at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:74
-EXTRA_TARGET_SYMBOL function FallbackTokenStream::extendTokenTrees at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:76
-EXTRA_TARGET_SYMBOL function FallbackTokenStream::extendTokenStreams at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:83
-EXTRA_TARGET_SYMBOL function FallbackTokenStream::intoIter at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:90
-EXTRA_TARGET_SYMBOL function FallbackTokenStream::clone at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:92
-EXTRA_TARGET_SYMBOL function FallbackTokenStream::toString at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:98
-EXTRA_TARGET_SYMBOL type FallbackLexError at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:114
-EXTRA_TARGET_SYMBOL property FallbackLexError::span at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:115
-EXTRA_TARGET_SYMBOL function FallbackLexError::Companion::callSite at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:118
-EXTRA_TARGET_SYMBOL function FallbackLexError::span at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:121
-EXTRA_TARGET_SYMBOL function FallbackLexError::toString at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:123
-EXTRA_TARGET_SYMBOL property TokenStreamBuilder::inner at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:153
-EXTRA_TARGET_SYMBOL function TokenStreamBuilder::Companion::new at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:156
-EXTRA_TARGET_SYMBOL function TokenStreamBuilder::Companion::withCapacity at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:158
-EXTRA_TARGET_SYMBOL function TokenStreamBuilder::pushTokenFromParser at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:161
-EXTRA_TARGET_SYMBOL function TokenStreamBuilder::build at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:179
-EXTRA_TARGET_SYMBOL function invalidateCurrentThreadSpansInternal at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:188
-EXTRA_TARGET_SYMBOL property FileInfo::sourceText at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:193
-EXTRA_TARGET_SYMBOL property FileInfo::span at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:194
-EXTRA_TARGET_SYMBOL property FileInfo::lines at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:195
-EXTRA_TARGET_SYMBOL property FileInfo::charIndexToByteOffset at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:196
-EXTRA_TARGET_SYMBOL function FileInfo::offsetLineColumn at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:198
-EXTRA_TARGET_SYMBOL function FileInfo::sourceUtf16Range at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:218
-EXTRA_TARGET_SYMBOL function FileInfo::spanWithin at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:223
-EXTRA_TARGET_SYMBOL function FileInfo::byteRange at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:227
-EXTRA_TARGET_SYMBOL function FileInfo::byte at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:229
-EXTRA_TARGET_SYMBOL function FileInfo::sourceText at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:251
-EXTRA_TARGET_SYMBOL property SourceMap::files at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:278
-EXTRA_TARGET_SYMBOL function SourceMap::invalidate at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:287
-EXTRA_TARGET_SYMBOL function SourceMap::nextStartPos at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:293
-EXTRA_TARGET_SYMBOL function SourceMap::addFile at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:295
-EXTRA_TARGET_SYMBOL function SourceMap::find at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:303
-EXTRA_TARGET_SYMBOL function SourceMap::filepath at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:309
-EXTRA_TARGET_SYMBOL function SourceMap::fileinfo at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:314
-EXTRA_TARGET_SYMBOL function SourceMap::fileinfoMut at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:316
-EXTRA_TARGET_SYMBOL type FallbackSpan at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:319
-EXTRA_TARGET_SYMBOL property FallbackSpan::lo at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:320
-EXTRA_TARGET_SYMBOL property FallbackSpan::hi at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:321
-EXTRA_TARGET_SYMBOL function FallbackSpan::Companion::callSite at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:324
-EXTRA_TARGET_SYMBOL function FallbackSpan::Companion::mixedSite at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:326
-EXTRA_TARGET_SYMBOL function FallbackSpan::Companion::defSite at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:328
-EXTRA_TARGET_SYMBOL function FallbackSpan::resolvedAt at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:331
-EXTRA_TARGET_SYMBOL function FallbackSpan::locatedAt at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:333
-EXTRA_TARGET_SYMBOL function FallbackSpan::byteRange at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:335
-EXTRA_TARGET_SYMBOL function FallbackSpan::start at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:342
-EXTRA_TARGET_SYMBOL function FallbackSpan::end at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:344
-EXTRA_TARGET_SYMBOL function FallbackSpan::sourceUtf16Range at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:346
-EXTRA_TARGET_SYMBOL function FallbackSpan::file at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:349
-EXTRA_TARGET_SYMBOL function FallbackSpan::localFile at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:351
-EXTRA_TARGET_SYMBOL function FallbackSpan::join at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:353
-EXTRA_TARGET_SYMBOL function FallbackSpan::sourceText at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:361
-EXTRA_TARGET_SYMBOL function FallbackSpan::firstByte at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:368
-EXTRA_TARGET_SYMBOL function FallbackSpan::lastByte at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:370
-EXTRA_TARGET_SYMBOL function FallbackSpan::isCallSite at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:372
-EXTRA_TARGET_SYMBOL function FallbackSpan::toString at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:374
-EXTRA_TARGET_SYMBOL type FallbackGroup at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:379
-EXTRA_TARGET_SYMBOL property FallbackGroup::delimiter at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:380
-EXTRA_TARGET_SYMBOL property FallbackGroup::stream at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:381
-EXTRA_TARGET_SYMBOL property FallbackGroup::span at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:382
-EXTRA_TARGET_SYMBOL function FallbackGroup::delimiter at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:384
-EXTRA_TARGET_SYMBOL function FallbackGroup::stream at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:386
-EXTRA_TARGET_SYMBOL function FallbackGroup::clone at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:388
-EXTRA_TARGET_SYMBOL function FallbackGroup::span at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:390
-EXTRA_TARGET_SYMBOL function FallbackGroup::spanOpen at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:392
-EXTRA_TARGET_SYMBOL function FallbackGroup::spanClose at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:394
-EXTRA_TARGET_SYMBOL function FallbackGroup::setSpan at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:396
-EXTRA_TARGET_SYMBOL function FallbackGroup::toString at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:408
-EXTRA_TARGET_SYMBOL type FallbackIdent at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:435
-EXTRA_TARGET_SYMBOL property FallbackIdent::sym at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:436
-EXTRA_TARGET_SYMBOL property FallbackIdent::span at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:437
-EXTRA_TARGET_SYMBOL property FallbackIdent::raw at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:438
-EXTRA_TARGET_SYMBOL function FallbackIdent::Companion::newChecked at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:441
-EXTRA_TARGET_SYMBOL function FallbackIdent::Companion::newUnchecked at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:446
-EXTRA_TARGET_SYMBOL function FallbackIdent::Companion::newRawChecked at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:448
-EXTRA_TARGET_SYMBOL function FallbackIdent::Companion::newRawUnchecked at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:453
-EXTRA_TARGET_SYMBOL function FallbackIdent::span at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:456
-EXTRA_TARGET_SYMBOL function FallbackIdent::setSpan at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:458
-EXTRA_TARGET_SYMBOL function FallbackIdent::clone at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:462
-EXTRA_TARGET_SYMBOL function FallbackIdent::contentEquals at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:464
-EXTRA_TARGET_SYMBOL function FallbackIdent::toString at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:471
-EXTRA_TARGET_SYMBOL function FallbackIdent::equals at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:473
-EXTRA_TARGET_SYMBOL function FallbackIdent::hashCode at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:475
-EXTRA_TARGET_SYMBOL function isIdentStartCodePoint at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:484
-EXTRA_TARGET_SYMBOL function isIdentContinueCodePoint at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:487
-EXTRA_TARGET_SYMBOL function codePointAndWidthAt at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:493
-EXTRA_TARGET_SYMBOL function identOk at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:511
-EXTRA_TARGET_SYMBOL type FallbackLiteral at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:531
-EXTRA_TARGET_SYMBOL property FallbackLiteral::repr at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:532
-EXTRA_TARGET_SYMBOL property FallbackLiteral::span at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:533
-EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::new at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:536
-EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::fromStrChecked at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:538
-EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::fromStrUnchecked at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:572
-EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::u8Suffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:574
-EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::u16Suffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:576
-EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::u32Suffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:578
-EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::u64Suffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:580
-EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::u128Suffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:582
-EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::usizeSuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:584
-EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::i8Suffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:586
-EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::i16Suffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:588
-EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::i32Suffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:590
-EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::i64Suffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:592
-EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::i128Suffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:594
-EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::isizeSuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:596
-EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::f32Suffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:598
-EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::f64Suffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:600
-EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::u8Unsuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:602
-EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::u16Unsuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:604
-EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::u32Unsuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:606
-EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::u64Unsuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:608
-EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::u128Unsuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:610
-EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::usizeUnsuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:612
-EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::i8Unsuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:614
-EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::i16Unsuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:616
-EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::i32Unsuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:618
-EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::i64Unsuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:620
-EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::i128Unsuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:622
-EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::isizeUnsuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:624
-EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::f32Unsuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:626
-EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::f64Unsuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:634
-EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::string at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:642
-EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::character at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:650
-EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::characterCodePoint at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:663
-EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::byteCharacter at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:677
-EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::byteString at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:694
-EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::cString at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:716
-EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::suffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:737
-EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::floatSuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:742
-EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::unsuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:747
-EXTRA_TARGET_SYMBOL function FallbackLiteral::span at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:750
-EXTRA_TARGET_SYMBOL function FallbackLiteral::setSpan at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:752
-EXTRA_TARGET_SYMBOL function FallbackLiteral::subspan at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:756
-EXTRA_TARGET_SYMBOL function FallbackLiteral::clone at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:762
-EXTRA_TARGET_SYMBOL function FallbackLiteral::toString at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:764
-EXTRA_TARGET_SYMBOL function FallbackLiteral::equals at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:766
-EXTRA_TARGET_SYMBOL function FallbackLiteral::hashCode at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:768
-EXTRA_TARGET_SYMBOL property GRAPHEME_EXTEND_CATEGORIES at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:794
-EXTRA_TARGET_SYMBOL function escapeDebug at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:801
-EXTRA_TARGET_SYMBOL function plainFloatString at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:815
-EXTRA_TARGET_SYMBOL function utf8SequenceLength at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:856
-EXTRA_TARGET_SYMBOL function hexByte at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:881
-EXTRA_TARGET_SYMBOL function codePointByteOffsets at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:886
-EXTRA_TARGET_SYMBOL function substringByUtf8ByteRange at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:910
+EXTRA_TARGET_SYMBOL function FallbackTokenStream::Companion::fromStrUnchecked at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:55
+EXTRA_TARGET_SYMBOL function FallbackTokenStream::Companion::fromTokenTree at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:57
+EXTRA_TARGET_SYMBOL function FallbackTokenStream::Companion::fromTokenStreams at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:63
+EXTRA_TARGET_SYMBOL function FallbackTokenStream::isEmpty at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:72
+EXTRA_TARGET_SYMBOL function FallbackTokenStream::iter at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:74
+EXTRA_TARGET_SYMBOL function FallbackTokenStream::takeInner at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:76
+EXTRA_TARGET_SYMBOL function FallbackTokenStream::drop at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:78
+EXTRA_TARGET_SYMBOL function FallbackTokenStream::extendTokenTrees at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:95
+EXTRA_TARGET_SYMBOL function FallbackTokenStream::extendTokenStreams at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:102
+EXTRA_TARGET_SYMBOL function FallbackTokenStream::intoIter at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:109
+EXTRA_TARGET_SYMBOL function FallbackTokenStream::clone at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:111
+EXTRA_TARGET_SYMBOL function FallbackTokenStream::toString at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:117
+EXTRA_TARGET_SYMBOL type FallbackLexError at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:133
+EXTRA_TARGET_SYMBOL property FallbackLexError::span at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:134
+EXTRA_TARGET_SYMBOL function FallbackLexError::Companion::callSite at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:137
+EXTRA_TARGET_SYMBOL function FallbackLexError::span at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:140
+EXTRA_TARGET_SYMBOL function FallbackLexError::toString at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:142
+EXTRA_TARGET_SYMBOL property TokenStreamBuilder::inner at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:171
+EXTRA_TARGET_SYMBOL function TokenStreamBuilder::Companion::new at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:174
+EXTRA_TARGET_SYMBOL function TokenStreamBuilder::Companion::withCapacity at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:176
+EXTRA_TARGET_SYMBOL function TokenStreamBuilder::pushTokenFromParser at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:179
+EXTRA_TARGET_SYMBOL function TokenStreamBuilder::build at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:183
+EXTRA_TARGET_SYMBOL function invalidateCurrentThreadSpansInternal at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:192
+EXTRA_TARGET_SYMBOL property FileInfo::sourceText at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:197
+EXTRA_TARGET_SYMBOL property FileInfo::span at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:198
+EXTRA_TARGET_SYMBOL property FileInfo::lines at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:199
+EXTRA_TARGET_SYMBOL property FileInfo::charIndexToByteOffset at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:200
+EXTRA_TARGET_SYMBOL function FileInfo::offsetLineColumn at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:202
+EXTRA_TARGET_SYMBOL function FileInfo::sourceUtf16Range at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:222
+EXTRA_TARGET_SYMBOL function FileInfo::spanWithin at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:227
+EXTRA_TARGET_SYMBOL function FileInfo::byteRange at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:231
+EXTRA_TARGET_SYMBOL function FileInfo::byte at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:233
+EXTRA_TARGET_SYMBOL function FileInfo::sourceText at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:261
+EXTRA_TARGET_SYMBOL property SourceMap::files at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:288
+EXTRA_TARGET_SYMBOL function SourceMap::invalidate at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:297
+EXTRA_TARGET_SYMBOL function SourceMap::nextStartPos at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:303
+EXTRA_TARGET_SYMBOL function SourceMap::addFile at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:305
+EXTRA_TARGET_SYMBOL function SourceMap::find at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:313
+EXTRA_TARGET_SYMBOL function SourceMap::filepath at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:329
+EXTRA_TARGET_SYMBOL function SourceMap::fileinfo at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:334
+EXTRA_TARGET_SYMBOL function SourceMap::fileinfoMut at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:336
+EXTRA_TARGET_SYMBOL type FallbackSpan at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:339
+EXTRA_TARGET_SYMBOL property FallbackSpan::lo at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:340
+EXTRA_TARGET_SYMBOL property FallbackSpan::hi at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:341
+EXTRA_TARGET_SYMBOL function FallbackSpan::Companion::callSite at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:344
+EXTRA_TARGET_SYMBOL function FallbackSpan::Companion::mixedSite at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:346
+EXTRA_TARGET_SYMBOL function FallbackSpan::Companion::defSite at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:348
+EXTRA_TARGET_SYMBOL function FallbackSpan::resolvedAt at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:351
+EXTRA_TARGET_SYMBOL function FallbackSpan::locatedAt at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:353
+EXTRA_TARGET_SYMBOL function FallbackSpan::byteRange at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:355
+EXTRA_TARGET_SYMBOL function FallbackSpan::start at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:362
+EXTRA_TARGET_SYMBOL function FallbackSpan::end at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:364
+EXTRA_TARGET_SYMBOL function FallbackSpan::sourceUtf16Range at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:366
+EXTRA_TARGET_SYMBOL function FallbackSpan::file at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:369
+EXTRA_TARGET_SYMBOL function FallbackSpan::localFile at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:371
+EXTRA_TARGET_SYMBOL function FallbackSpan::join at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:373
+EXTRA_TARGET_SYMBOL function FallbackSpan::sourceText at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:381
+EXTRA_TARGET_SYMBOL function FallbackSpan::firstByte at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:388
+EXTRA_TARGET_SYMBOL function FallbackSpan::lastByte at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:390
+EXTRA_TARGET_SYMBOL function FallbackSpan::isCallSite at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:392
+EXTRA_TARGET_SYMBOL function FallbackSpan::toString at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:394
+EXTRA_TARGET_SYMBOL type FallbackGroup at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:399
+EXTRA_TARGET_SYMBOL property FallbackGroup::delimiter at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:400
+EXTRA_TARGET_SYMBOL property FallbackGroup::stream at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:401
+EXTRA_TARGET_SYMBOL property FallbackGroup::span at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:402
+EXTRA_TARGET_SYMBOL function FallbackGroup::delimiter at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:404
+EXTRA_TARGET_SYMBOL function FallbackGroup::stream at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:406
+EXTRA_TARGET_SYMBOL function FallbackGroup::innerStream at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:408
+EXTRA_TARGET_SYMBOL function FallbackGroup::clone at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:410
+EXTRA_TARGET_SYMBOL function FallbackGroup::span at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:412
+EXTRA_TARGET_SYMBOL function FallbackGroup::spanOpen at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:414
+EXTRA_TARGET_SYMBOL function FallbackGroup::spanClose at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:416
+EXTRA_TARGET_SYMBOL function FallbackGroup::setSpan at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:418
+EXTRA_TARGET_SYMBOL function FallbackGroup::toString at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:430
+EXTRA_TARGET_SYMBOL type FallbackIdent at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:444
+EXTRA_TARGET_SYMBOL property FallbackIdent::sym at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:445
+EXTRA_TARGET_SYMBOL property FallbackIdent::span at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:446
+EXTRA_TARGET_SYMBOL property FallbackIdent::raw at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:447
+EXTRA_TARGET_SYMBOL function FallbackIdent::Companion::newChecked at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:450
+EXTRA_TARGET_SYMBOL function FallbackIdent::Companion::newUnchecked at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:455
+EXTRA_TARGET_SYMBOL function FallbackIdent::Companion::newRawChecked at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:457
+EXTRA_TARGET_SYMBOL function FallbackIdent::Companion::newRawUnchecked at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:462
+EXTRA_TARGET_SYMBOL function FallbackIdent::span at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:465
+EXTRA_TARGET_SYMBOL function FallbackIdent::setSpan at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:467
+EXTRA_TARGET_SYMBOL function FallbackIdent::clone at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:471
+EXTRA_TARGET_SYMBOL function FallbackIdent::contentEquals at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:473
+EXTRA_TARGET_SYMBOL function FallbackIdent::toString at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:480
+EXTRA_TARGET_SYMBOL function FallbackIdent::equals at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:482
+EXTRA_TARGET_SYMBOL function FallbackIdent::hashCode at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:484
+EXTRA_TARGET_SYMBOL function isIdentStartCodePoint at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:493
+EXTRA_TARGET_SYMBOL function isIdentContinueCodePoint at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:496
+EXTRA_TARGET_SYMBOL function codePointAndWidthAt at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:502
+EXTRA_TARGET_SYMBOL function identOk at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:520
+EXTRA_TARGET_SYMBOL type FallbackLiteral at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:540
+EXTRA_TARGET_SYMBOL property FallbackLiteral::repr at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:541
+EXTRA_TARGET_SYMBOL property FallbackLiteral::span at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:542
+EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::new at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:545
+EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::fromStrChecked at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:547
+EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::fromStrUnchecked at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:582
+EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::u8Suffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:584
+EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::u16Suffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:586
+EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::u32Suffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:588
+EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::u64Suffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:590
+EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::u128Suffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:592
+EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::usizeSuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:594
+EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::i8Suffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:596
+EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::i16Suffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:598
+EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::i32Suffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:600
+EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::i64Suffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:602
+EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::i128Suffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:604
+EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::isizeSuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:606
+EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::f32Suffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:608
+EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::f64Suffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:610
+EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::u8Unsuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:612
+EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::u16Unsuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:614
+EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::u32Unsuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:616
+EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::u64Unsuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:618
+EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::u128Unsuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:620
+EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::usizeUnsuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:622
+EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::i8Unsuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:624
+EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::i16Unsuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:626
+EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::i32Unsuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:628
+EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::i64Unsuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:630
+EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::i128Unsuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:632
+EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::isizeUnsuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:634
+EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::f32Unsuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:636
+EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::f64Unsuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:644
+EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::string at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:652
+EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::character at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:660
+EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::characterCodePoint at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:665
+EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::byteCharacter at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:681
+EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::byteString at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:698
+EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::cString at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:720
+EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::suffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:741
+EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::floatSuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:746
+EXTRA_TARGET_SYMBOL function FallbackLiteral::Companion::unsuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:751
+EXTRA_TARGET_SYMBOL function FallbackLiteral::span at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:754
+EXTRA_TARGET_SYMBOL function FallbackLiteral::setSpan at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:756
+EXTRA_TARGET_SYMBOL function FallbackLiteral::subspan at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:760
+EXTRA_TARGET_SYMBOL function FallbackLiteral::clone at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:766
+EXTRA_TARGET_SYMBOL function FallbackLiteral::toString at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:768
+EXTRA_TARGET_SYMBOL function FallbackLiteral::equals at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:770
+EXTRA_TARGET_SYMBOL function FallbackLiteral::hashCode at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:772
+EXTRA_TARGET_SYMBOL function escapeDebugScalar at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:797
+EXTRA_TARGET_SYMBOL property PRINTABLE_BMP_CATEGORIES at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:842
+EXTRA_TARGET_SYMBOL function isPrintableUnicode at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:866
+EXTRA_TARGET_SYMBOL function isGraphemeExtendScalar at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:874
+EXTRA_TARGET_SYMBOL function isPrintableSupplementary at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:884
+EXTRA_TARGET_SYMBOL function isSupplementaryGraphemeExtend at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:896
+EXTRA_TARGET_SYMBOL function appendUnicodeScalar at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:904
+EXTRA_TARGET_SYMBOL function plainFloatString at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:918
+EXTRA_TARGET_SYMBOL function utf8SequenceLength at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:959
+EXTRA_TARGET_SYMBOL function hexByte at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:986
+EXTRA_TARGET_SYMBOL function utf8ByteCountBetween at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Fallback.kt:991
 MISSING_FILE lib.rs
 MISSING_SYMBOL type TokenStream at tmp/proc-macro2/src/lib.rs:211
 MISSING_SYMBOL type LexError at tmp/proc-macro2/src/lib.rs:217
@@ -469,16 +460,10 @@ EXTRA_TARGET_SYMBOL function LineColumn::partialCmp at src/common/commonMain/kot
 EXTRA_TARGET_SYMBOL function LineColumn::compareTo at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Location.kt:31
 PRESENT type ProcMacroAutoTraits at tmp/proc-macro2/src/marker.rs:12 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Marker.kt:6
 PRESENT property MARKER at tmp/proc-macro2/src/marker.rs:14 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Marker.kt:8
-PRESENT type NonZeroChar at tmp/proc-macro2/src/num.rs:3 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Num.kt:4
+MISSING_FILE num.rs
+MISSING_SYMBOL type NonZeroChar at tmp/proc-macro2/src/num.rs:3
 MISSING_SYMBOL function new at tmp/proc-macro2/src/num.rs:6
 MISSING_SYMBOL function get at tmp/proc-macro2/src/num.rs:14
-EXTRA_TARGET_SYMBOL property NonZeroChar::value at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Num.kt:5
-EXTRA_TARGET_SYMBOL function NonZeroChar::Companion::new at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Num.kt:8
-EXTRA_TARGET_SYMBOL function NonZeroChar::Companion::new at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Num.kt:15
-EXTRA_TARGET_SYMBOL function NonZeroChar::get at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Num.kt:23
-EXTRA_TARGET_SYMBOL function NonZeroChar::equals at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Num.kt:25
-EXTRA_TARGET_SYMBOL function NonZeroChar::hashCode at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Num.kt:27
-EXTRA_TARGET_SYMBOL function NonZeroChar::toString at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Num.kt:29
 PRESENT type Cursor at tmp/proc-macro2/src/parse.rs:13 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:4
 MISSING_SYMBOL function advance at tmp/proc-macro2/src/parse.rs:20
 MISSING_SYMBOL function starts_with at tmp/proc-macro2/src/parse.rs:29
@@ -491,48 +476,48 @@ MISSING_SYMBOL function bytes at tmp/proc-macro2/src/parse.rs:56
 MISSING_SYMBOL function chars at tmp/proc-macro2/src/parse.rs:60
 MISSING_SYMBOL function char_indices at tmp/proc-macro2/src/parse.rs:64
 MISSING_SYMBOL function parse at tmp/proc-macro2/src/parse.rs:68
-PRESENT type Reject at tmp/proc-macro2/src/parse.rs:77 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:67
-PRESENT type_alias PResult at tmp/proc-macro2/src/parse.rs:78 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:69
-PRESENT function skip_whitespace at tmp/proc-macro2/src/parse.rs:80 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:73
-PRESENT function block_comment at tmp/proc-macro2/src/parse.rs:128 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:121
-PRESENT function is_whitespace at tmp/proc-macro2/src/parse.rs:155 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:148
-PRESENT function word_break at tmp/proc-macro2/src/parse.rs:160 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:150
-PRESENT property ERROR at tmp/proc-macro2/src/parse.rs:169 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:156
-PRESENT function token_stream at tmp/proc-macro2/src/parse.rs:171 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:158
-PRESENT function lex_error at tmp/proc-macro2/src/parse.rs:252 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:229
-PRESENT function leaf_token at tmp/proc-macro2/src/parse.rs:265 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:231
-PRESENT function ident at tmp/proc-macro2/src/parse.rs:282 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:255
-PRESENT function ident_any at tmp/proc-macro2/src/parse.rs:295 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:264
-PRESENT function ident_not_raw at tmp/proc-macro2/src/parse.rs:317 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:281
-PRESENT function literal at tmp/proc-macro2/src/parse.rs:336 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:304
-PRESENT function literal_nocapture at tmp/proc-macro2/src/parse.rs:342 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:314
-PRESENT function literal_suffix at tmp/proc-macro2/src/parse.rs:362 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:325
-PRESENT function string at tmp/proc-macro2/src/parse.rs:369 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:330
-PRESENT function cooked_string at tmp/proc-macro2/src/parse.rs:379 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:342
-PRESENT function raw_string at tmp/proc-macro2/src/parse.rs:413 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:383
-PRESENT function byte_string at tmp/proc-macro2/src/parse.rs:432 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:401
-PRESENT function cooked_byte_string at tmp/proc-macro2/src/parse.rs:442 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:413
-PRESENT function delimiter_of_raw_string at tmp/proc-macro2/src/parse.rs:473 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:450
-PRESENT function raw_byte_string at tmp/proc-macro2/src/parse.rs:490 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:466
-PRESENT function c_string at tmp/proc-macro2/src/parse.rs:513 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:486
-PRESENT function raw_c_string at tmp/proc-macro2/src/parse.rs:523 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:498
-PRESENT function cooked_c_string at tmp/proc-macro2/src/parse.rs:543 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:517
-PRESENT function byte at tmp/proc-macro2/src/parse.rs:580 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:555
-PRESENT function character at tmp/proc-macro2/src/parse.rs:602 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:581
-PRESENT function backslash_x_char at tmp/proc-macro2/src/parse.rs:634 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:608
-PRESENT function backslash_x_byte at tmp/proc-macro2/src/parse.rs:643 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:614
-PRESENT function backslash_x_nonzero at tmp/proc-macro2/src/parse.rs:652 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:620
-PRESENT function backslash_u at tmp/proc-macro2/src/parse.rs:665 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:634
-PRESENT function trailing_backslash at tmp/proc-macro2/src/parse.rs:691 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:671
-PRESENT function float at tmp/proc-macro2/src/parse.rs:710 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:688
-PRESENT function float_digits at tmp/proc-macro2/src/parse.rs:720 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:697
-PRESENT function int at tmp/proc-macro2/src/parse.rs:805 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:754
-PRESENT function digits at tmp/proc-macro2/src/parse.rs:815 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:763
-PRESENT function punct at tmp/proc-macro2/src/parse.rs:870 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:807
-PRESENT function punct_char at tmp/proc-macro2/src/parse.rs:890 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:825
-PRESENT function doc_comment at tmp/proc-macro2/src/parse.rs:908 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:837
-PRESENT function doc_comment_contents at tmp/proc-macro2/src/parse.rs:956 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:883
-PRESENT function take_until_newline_or_eof at tmp/proc-macro2/src/parse.rs:979 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:911
+PRESENT type Reject at tmp/proc-macro2/src/parse.rs:77 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:77
+PRESENT type_alias PResult at tmp/proc-macro2/src/parse.rs:78 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:79
+PRESENT function skip_whitespace at tmp/proc-macro2/src/parse.rs:80 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:83
+PRESENT function block_comment at tmp/proc-macro2/src/parse.rs:128 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:131
+PRESENT function is_whitespace at tmp/proc-macro2/src/parse.rs:155 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:158
+PRESENT function word_break at tmp/proc-macro2/src/parse.rs:160 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:173
+PRESENT property ERROR at tmp/proc-macro2/src/parse.rs:169 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:181
+PRESENT function token_stream at tmp/proc-macro2/src/parse.rs:171 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:183
+PRESENT function lex_error at tmp/proc-macro2/src/parse.rs:252 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:254
+PRESENT function leaf_token at tmp/proc-macro2/src/parse.rs:265 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:256
+PRESENT function ident at tmp/proc-macro2/src/parse.rs:282 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:280
+PRESENT function ident_any at tmp/proc-macro2/src/parse.rs:295 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:289
+PRESENT function ident_not_raw at tmp/proc-macro2/src/parse.rs:317 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:306
+PRESENT function literal at tmp/proc-macro2/src/parse.rs:336 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:329
+PRESENT function literal_nocapture at tmp/proc-macro2/src/parse.rs:342 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:339
+PRESENT function literal_suffix at tmp/proc-macro2/src/parse.rs:362 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:350
+PRESENT function string at tmp/proc-macro2/src/parse.rs:369 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:355
+PRESENT function cooked_string at tmp/proc-macro2/src/parse.rs:379 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:367
+PRESENT function raw_string at tmp/proc-macro2/src/parse.rs:413 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:408
+PRESENT function byte_string at tmp/proc-macro2/src/parse.rs:432 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:426
+PRESENT function cooked_byte_string at tmp/proc-macro2/src/parse.rs:442 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:438
+PRESENT function delimiter_of_raw_string at tmp/proc-macro2/src/parse.rs:473 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:475
+PRESENT function raw_byte_string at tmp/proc-macro2/src/parse.rs:490 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:491
+PRESENT function c_string at tmp/proc-macro2/src/parse.rs:513 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:510
+PRESENT function raw_c_string at tmp/proc-macro2/src/parse.rs:523 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:522
+PRESENT function cooked_c_string at tmp/proc-macro2/src/parse.rs:543 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:541
+PRESENT function byte at tmp/proc-macro2/src/parse.rs:580 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:582
+PRESENT function character at tmp/proc-macro2/src/parse.rs:602 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:609
+PRESENT function backslash_x_char at tmp/proc-macro2/src/parse.rs:634 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:638
+PRESENT function backslash_x_byte at tmp/proc-macro2/src/parse.rs:643 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:644
+PRESENT function backslash_x_nonzero at tmp/proc-macro2/src/parse.rs:652 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:650
+PRESENT function backslash_u at tmp/proc-macro2/src/parse.rs:665 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:664
+PRESENT function trailing_backslash at tmp/proc-macro2/src/parse.rs:691 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:701
+PRESENT function float at tmp/proc-macro2/src/parse.rs:710 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:718
+PRESENT function float_digits at tmp/proc-macro2/src/parse.rs:720 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:726
+PRESENT function int at tmp/proc-macro2/src/parse.rs:805 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:786
+PRESENT function digits at tmp/proc-macro2/src/parse.rs:815 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:794
+PRESENT function punct at tmp/proc-macro2/src/parse.rs:870 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:839
+PRESENT function punct_char at tmp/proc-macro2/src/parse.rs:890 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:857
+PRESENT function doc_comment at tmp/proc-macro2/src/parse.rs:908 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:869
+PRESENT function doc_comment_contents at tmp/proc-macro2/src/parse.rs:956 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:915
+PRESENT function take_until_newline_or_eof at tmp/proc-macro2/src/parse.rs:979 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:943
 EXTRA_TARGET_SYMBOL property Cursor::rest at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:5
 EXTRA_TARGET_SYMBOL property Cursor::off at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:6
 EXTRA_TARGET_SYMBOL property Cursor::ascii at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:10
@@ -546,11 +531,11 @@ EXTRA_TARGET_SYMBOL function Cursor::len at src/common/commonMain/kotlin/io/gith
 EXTRA_TARGET_SYMBOL function Cursor::asBytes at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:32
 EXTRA_TARGET_SYMBOL function Cursor::bytes at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:36
 EXTRA_TARGET_SYMBOL function Cursor::firstByte at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:52
-EXTRA_TARGET_SYMBOL function Cursor::chars at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:55
-EXTRA_TARGET_SYMBOL function Cursor::charIndices at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:57
-EXTRA_TARGET_SYMBOL function Cursor::parse at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:59
-EXTRA_TARGET_SYMBOL function reject at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:71
-EXTRA_TARGET_SYMBOL function isHexDigit at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:922
+EXTRA_TARGET_SYMBOL function Cursor::chars at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:65
+EXTRA_TARGET_SYMBOL function Cursor::charIndices at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:67
+EXTRA_TARGET_SYMBOL function Cursor::parse at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:69
+EXTRA_TARGET_SYMBOL function reject at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:81
+EXTRA_TARGET_SYMBOL function isHexDigit at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:954
 MISSING_FILE probe.rs
 MISSING_SYMBOL function byte_range at tmp/proc-macro2/src/probe/proc_macro_span.rs:17
 MISSING_SYMBOL function start at tmp/proc-macro2/src/probe/proc_macro_span.rs:21
@@ -645,54 +630,50 @@ EXTRA_TARGET_SYMBOL function RcVecIntoIter::clone at src/common/commonMain/kotli
 EXTRA_TARGET_SYMBOL type SharedList at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Rcvec.kt:122
 EXTRA_TARGET_SYMBOL property SharedList::list at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Rcvec.kt:123
 EXTRA_TARGET_SYMBOL property SharedList::refCount at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Rcvec.kt:124
-PARSER_REVIEW src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt: parser errors; symbol inventory may be incomplete
-PARSER_REVIEW src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:435-435: ERROR ERROR
-PARSER_REVIEW src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:436-436: ERROR ERROR
-PARSER_REVIEW src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:459-460: ERROR ERROR
-PARSER_REVIEW src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:460-460: ERROR ERROR
-PRESENT type EscapeError at tmp/proc-macro2/src/rustc_literal_escaper.rs:17 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:17
-PRESENT enum_variant EscapeError::ZeroChars at tmp/proc-macro2/src/rustc_literal_escaper.rs:19 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:19
-PRESENT enum_variant EscapeError::MoreThanOneChar at tmp/proc-macro2/src/rustc_literal_escaper.rs:21 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:22
-PRESENT enum_variant EscapeError::LoneSlash at tmp/proc-macro2/src/rustc_literal_escaper.rs:24 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:25
-PRESENT enum_variant EscapeError::InvalidEscape at tmp/proc-macro2/src/rustc_literal_escaper.rs:26 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:28
-PRESENT enum_variant EscapeError::BareCarriageReturn at tmp/proc-macro2/src/rustc_literal_escaper.rs:28 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:31
-PRESENT enum_variant EscapeError::BareCarriageReturnInRawString at tmp/proc-macro2/src/rustc_literal_escaper.rs:30 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:34
-PRESENT enum_variant EscapeError::EscapeOnlyChar at tmp/proc-macro2/src/rustc_literal_escaper.rs:32 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:37
-PRESENT enum_variant EscapeError::TooShortHexEscape at tmp/proc-macro2/src/rustc_literal_escaper.rs:35 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:40
-PRESENT enum_variant EscapeError::InvalidCharInHexEscape at tmp/proc-macro2/src/rustc_literal_escaper.rs:37 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:43
-PRESENT enum_variant EscapeError::OutOfRangeHexEscape at tmp/proc-macro2/src/rustc_literal_escaper.rs:39 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:46
-PRESENT enum_variant EscapeError::NoBraceInUnicodeEscape at tmp/proc-macro2/src/rustc_literal_escaper.rs:42 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:49
-PRESENT enum_variant EscapeError::InvalidCharInUnicodeEscape at tmp/proc-macro2/src/rustc_literal_escaper.rs:44 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:52
-PRESENT enum_variant EscapeError::EmptyUnicodeEscape at tmp/proc-macro2/src/rustc_literal_escaper.rs:46 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:55
-PRESENT enum_variant EscapeError::UnclosedUnicodeEscape at tmp/proc-macro2/src/rustc_literal_escaper.rs:48 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:58
-PRESENT enum_variant EscapeError::LeadingUnderscoreUnicodeEscape at tmp/proc-macro2/src/rustc_literal_escaper.rs:50 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:61
-PRESENT enum_variant EscapeError::OverlongUnicodeEscape at tmp/proc-macro2/src/rustc_literal_escaper.rs:52 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:64
-PRESENT enum_variant EscapeError::LoneSurrogateUnicodeEscape at tmp/proc-macro2/src/rustc_literal_escaper.rs:54 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:67
-PRESENT enum_variant EscapeError::OutOfRangeUnicodeEscape at tmp/proc-macro2/src/rustc_literal_escaper.rs:56 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:70
-PRESENT enum_variant EscapeError::UnicodeEscapeInByte at tmp/proc-macro2/src/rustc_literal_escaper.rs:59 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:73
-PRESENT enum_variant EscapeError::NonAsciiCharInByte at tmp/proc-macro2/src/rustc_literal_escaper.rs:61 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:76
-PRESENT enum_variant EscapeError::NulInCStr at tmp/proc-macro2/src/rustc_literal_escaper.rs:64 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:79
-PRESENT enum_variant EscapeError::UnskippedWhitespaceWarning at tmp/proc-macro2/src/rustc_literal_escaper.rs:68 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:85
-PRESENT enum_variant EscapeError::MultipleSkippedLinesWarning at tmp/proc-macro2/src/rustc_literal_escaper.rs:71 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:88
+MISSING_FILE rustc_literal_escaper.rs
+MISSING_SYMBOL type EscapeError at tmp/proc-macro2/src/rustc_literal_escaper.rs:17
+MISSING_SYMBOL enum_variant EscapeError::ZeroChars at tmp/proc-macro2/src/rustc_literal_escaper.rs:19
+MISSING_SYMBOL enum_variant EscapeError::MoreThanOneChar at tmp/proc-macro2/src/rustc_literal_escaper.rs:21
+MISSING_SYMBOL enum_variant EscapeError::LoneSlash at tmp/proc-macro2/src/rustc_literal_escaper.rs:24
+MISSING_SYMBOL enum_variant EscapeError::InvalidEscape at tmp/proc-macro2/src/rustc_literal_escaper.rs:26
+MISSING_SYMBOL enum_variant EscapeError::BareCarriageReturn at tmp/proc-macro2/src/rustc_literal_escaper.rs:28
+MISSING_SYMBOL enum_variant EscapeError::BareCarriageReturnInRawString at tmp/proc-macro2/src/rustc_literal_escaper.rs:30
+MISSING_SYMBOL enum_variant EscapeError::EscapeOnlyChar at tmp/proc-macro2/src/rustc_literal_escaper.rs:32
+MISSING_SYMBOL enum_variant EscapeError::TooShortHexEscape at tmp/proc-macro2/src/rustc_literal_escaper.rs:35
+MISSING_SYMBOL enum_variant EscapeError::InvalidCharInHexEscape at tmp/proc-macro2/src/rustc_literal_escaper.rs:37
+MISSING_SYMBOL enum_variant EscapeError::OutOfRangeHexEscape at tmp/proc-macro2/src/rustc_literal_escaper.rs:39
+MISSING_SYMBOL enum_variant EscapeError::NoBraceInUnicodeEscape at tmp/proc-macro2/src/rustc_literal_escaper.rs:42
+MISSING_SYMBOL enum_variant EscapeError::InvalidCharInUnicodeEscape at tmp/proc-macro2/src/rustc_literal_escaper.rs:44
+MISSING_SYMBOL enum_variant EscapeError::EmptyUnicodeEscape at tmp/proc-macro2/src/rustc_literal_escaper.rs:46
+MISSING_SYMBOL enum_variant EscapeError::UnclosedUnicodeEscape at tmp/proc-macro2/src/rustc_literal_escaper.rs:48
+MISSING_SYMBOL enum_variant EscapeError::LeadingUnderscoreUnicodeEscape at tmp/proc-macro2/src/rustc_literal_escaper.rs:50
+MISSING_SYMBOL enum_variant EscapeError::OverlongUnicodeEscape at tmp/proc-macro2/src/rustc_literal_escaper.rs:52
+MISSING_SYMBOL enum_variant EscapeError::LoneSurrogateUnicodeEscape at tmp/proc-macro2/src/rustc_literal_escaper.rs:54
+MISSING_SYMBOL enum_variant EscapeError::OutOfRangeUnicodeEscape at tmp/proc-macro2/src/rustc_literal_escaper.rs:56
+MISSING_SYMBOL enum_variant EscapeError::UnicodeEscapeInByte at tmp/proc-macro2/src/rustc_literal_escaper.rs:59
+MISSING_SYMBOL enum_variant EscapeError::NonAsciiCharInByte at tmp/proc-macro2/src/rustc_literal_escaper.rs:61
+MISSING_SYMBOL enum_variant EscapeError::NulInCStr at tmp/proc-macro2/src/rustc_literal_escaper.rs:64
+MISSING_SYMBOL enum_variant EscapeError::UnskippedWhitespaceWarning at tmp/proc-macro2/src/rustc_literal_escaper.rs:68
+MISSING_SYMBOL enum_variant EscapeError::MultipleSkippedLinesWarning at tmp/proc-macro2/src/rustc_literal_escaper.rs:71
 MISSING_SYMBOL function is_fatal at tmp/proc-macro2/src/rustc_literal_escaper.rs:76
-PRESENT function check_raw_str at tmp/proc-macro2/src/rustc_literal_escaper.rs:90 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:149
-PRESENT function check_raw_byte_str at tmp/proc-macro2/src/rustc_literal_escaper.rs:100 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:163
-PRESENT function check_raw_c_str at tmp/proc-macro2/src/rustc_literal_escaper.rs:110 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:177
+MISSING_SYMBOL function check_raw_str at tmp/proc-macro2/src/rustc_literal_escaper.rs:90
+MISSING_SYMBOL function check_raw_byte_str at tmp/proc-macro2/src/rustc_literal_escaper.rs:100
+MISSING_SYMBOL function check_raw_c_str at tmp/proc-macro2/src/rustc_literal_escaper.rs:110
 MISSING_SYMBOL type CheckRaw at tmp/proc-macro2/src/rustc_literal_escaper.rs:118
 MISSING_SYMBOL function CheckRaw::check_raw at tmp/proc-macro2/src/rustc_literal_escaper.rs:130
 MISSING_SYMBOL type_alias RawUnit at tmp/proc-macro2/src/rustc_literal_escaper.rs:160
-PRESENT function char2raw_unit at tmp/proc-macro2/src/rustc_literal_escaper.rs:163 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:204
+MISSING_SYMBOL function char2raw_unit at tmp/proc-macro2/src/rustc_literal_escaper.rs:163
 MISSING_SYMBOL type_alias RawUnit at tmp/proc-macro2/src/rustc_literal_escaper.rs:169
-PRESENT function char2raw_unit at tmp/proc-macro2/src/rustc_literal_escaper.rs:172 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:204
-PRESENT function char2byte at tmp/proc-macro2/src/rustc_literal_escaper.rs:179 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:211
+MISSING_SYMBOL function char2raw_unit at tmp/proc-macro2/src/rustc_literal_escaper.rs:172
+MISSING_SYMBOL function char2byte at tmp/proc-macro2/src/rustc_literal_escaper.rs:179
 MISSING_SYMBOL type_alias RawUnit at tmp/proc-macro2/src/rustc_literal_escaper.rs:189
-PRESENT function char2raw_unit at tmp/proc-macro2/src/rustc_literal_escaper.rs:192 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:204
-PRESENT function unescape_char at tmp/proc-macro2/src/rustc_literal_escaper.rs:202 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:224
-PRESENT function unescape_byte at tmp/proc-macro2/src/rustc_literal_escaper.rs:211 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:232
-PRESENT function unescape_str at tmp/proc-macro2/src/rustc_literal_escaper.rs:220 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:241
-PRESENT function unescape_byte_str at tmp/proc-macro2/src/rustc_literal_escaper.rs:229 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:255
-PRESENT function unescape_c_str at tmp/proc-macro2/src/rustc_literal_escaper.rs:238 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:269
-PRESENT type MixedUnit at tmp/proc-macro2/src/rustc_literal_escaper.rs:250 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:282
+MISSING_SYMBOL function char2raw_unit at tmp/proc-macro2/src/rustc_literal_escaper.rs:192
+MISSING_SYMBOL function unescape_char at tmp/proc-macro2/src/rustc_literal_escaper.rs:202
+MISSING_SYMBOL function unescape_byte at tmp/proc-macro2/src/rustc_literal_escaper.rs:211
+MISSING_SYMBOL function unescape_str at tmp/proc-macro2/src/rustc_literal_escaper.rs:220
+MISSING_SYMBOL function unescape_byte_str at tmp/proc-macro2/src/rustc_literal_escaper.rs:229
+MISSING_SYMBOL function unescape_c_str at tmp/proc-macro2/src/rustc_literal_escaper.rs:238
+MISSING_SYMBOL type MixedUnit at tmp/proc-macro2/src/rustc_literal_escaper.rs:250
 MISSING_SYMBOL enum_variant MixedUnit::Char at tmp/proc-macro2/src/rustc_literal_escaper.rs:257
 MISSING_SYMBOL enum_variant MixedUnit::HighByte at tmp/proc-macro2/src/rustc_literal_escaper.rs:264
 MISSING_SYMBOL function from at tmp/proc-macro2/src/rustc_literal_escaper.rs:269
@@ -706,10 +687,10 @@ MISSING_SYMBOL property Unescape::ZERO_RESULT at tmp/proc-macro2/src/rustc_liter
 MISSING_SYMBOL function Unescape::unescape_single at tmp/proc-macro2/src/rustc_literal_escaper.rs:328
 MISSING_SYMBOL function Unescape::unescape_1 at tmp/proc-macro2/src/rustc_literal_escaper.rs:342
 MISSING_SYMBOL function Unescape::unescape at tmp/proc-macro2/src/rustc_literal_escaper.rs:370
-PRESENT function simple_escape at tmp/proc-macro2/src/rustc_literal_escaper.rs:404 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:408
-PRESENT function hex_escape at tmp/proc-macro2/src/rustc_literal_escaper.rs:422 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:440
-PRESENT function unicode_escape at tmp/proc-macro2/src/rustc_literal_escaper.rs:437 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:450
-PRESENT function skip_ascii_whitespace at tmp/proc-macro2/src/rustc_literal_escaper.rs:488 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:487
+MISSING_SYMBOL function simple_escape at tmp/proc-macro2/src/rustc_literal_escaper.rs:404
+MISSING_SYMBOL function hex_escape at tmp/proc-macro2/src/rustc_literal_escaper.rs:422
+MISSING_SYMBOL function unicode_escape at tmp/proc-macro2/src/rustc_literal_escaper.rs:437
+MISSING_SYMBOL function skip_ascii_whitespace at tmp/proc-macro2/src/rustc_literal_escaper.rs:488
 MISSING_SYMBOL type_alias Unit at tmp/proc-macro2/src/rustc_literal_escaper.rs:517
 MISSING_SYMBOL property ZERO_RESULT at tmp/proc-macro2/src/rustc_literal_escaper.rs:519
 MISSING_SYMBOL function nonzero_byte2unit at tmp/proc-macro2/src/rustc_literal_escaper.rs:522
@@ -728,93 +709,18 @@ MISSING_SYMBOL function nonzero_byte2unit at tmp/proc-macro2/src/rustc_literal_e
 MISSING_SYMBOL function char2unit at tmp/proc-macro2/src/rustc_literal_escaper.rs:583
 MISSING_SYMBOL function hex2unit at tmp/proc-macro2/src/rustc_literal_escaper.rs:588
 MISSING_SYMBOL function unicode2unit at tmp/proc-macro2/src/rustc_literal_escaper.rs:593
-PRESENT type Mode at tmp/proc-macro2/src/rustc_literal_escaper.rs:600 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:584
-PRESENT enum_variant Mode::Char at tmp/proc-macro2/src/rustc_literal_escaper.rs:602 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:585
-PRESENT enum_variant Mode::Byte at tmp/proc-macro2/src/rustc_literal_escaper.rs:605 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:586
-PRESENT enum_variant Mode::Str at tmp/proc-macro2/src/rustc_literal_escaper.rs:608 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:587
-PRESENT enum_variant Mode::RawStr at tmp/proc-macro2/src/rustc_literal_escaper.rs:610 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:588
-PRESENT enum_variant Mode::ByteStr at tmp/proc-macro2/src/rustc_literal_escaper.rs:613 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:589
-PRESENT enum_variant Mode::RawByteStr at tmp/proc-macro2/src/rustc_literal_escaper.rs:615 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:590
-PRESENT enum_variant Mode::CStr at tmp/proc-macro2/src/rustc_literal_escaper.rs:618 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:591
-PRESENT enum_variant Mode::RawCStr at tmp/proc-macro2/src/rustc_literal_escaper.rs:620 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:592
+MISSING_SYMBOL type Mode at tmp/proc-macro2/src/rustc_literal_escaper.rs:600
+MISSING_SYMBOL enum_variant Mode::Char at tmp/proc-macro2/src/rustc_literal_escaper.rs:602
+MISSING_SYMBOL enum_variant Mode::Byte at tmp/proc-macro2/src/rustc_literal_escaper.rs:605
+MISSING_SYMBOL enum_variant Mode::Str at tmp/proc-macro2/src/rustc_literal_escaper.rs:608
+MISSING_SYMBOL enum_variant Mode::RawStr at tmp/proc-macro2/src/rustc_literal_escaper.rs:610
+MISSING_SYMBOL enum_variant Mode::ByteStr at tmp/proc-macro2/src/rustc_literal_escaper.rs:613
+MISSING_SYMBOL enum_variant Mode::RawByteStr at tmp/proc-macro2/src/rustc_literal_escaper.rs:615
+MISSING_SYMBOL enum_variant Mode::CStr at tmp/proc-macro2/src/rustc_literal_escaper.rs:618
+MISSING_SYMBOL enum_variant Mode::RawCStr at tmp/proc-macro2/src/rustc_literal_escaper.rs:620
 MISSING_SYMBOL function in_double_quotes at tmp/proc-macro2/src/rustc_literal_escaper.rs:624
 MISSING_SYMBOL function prefix_noraw at tmp/proc-macro2/src/rustc_literal_escaper.rs:636
-PRESENT function check_for_errors at tmp/proc-macro2/src/rustc_literal_escaper.rs:652 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:625
-EXTRA_TARGET_SYMBOL function EscapeError::isFatal at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:92
-EXTRA_TARGET_SYMBOL type ByteRange at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:96
-EXTRA_TARGET_SYMBOL property ByteRange::start at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:97
-EXTRA_TARGET_SYMBOL property ByteRange::end at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:98
-EXTRA_TARGET_SYMBOL type EscapeResult at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:106
-EXTRA_TARGET_SYMBOL type EscapeResult::Ok at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:107
-EXTRA_TARGET_SYMBOL property EscapeResult::Ok::value at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:108
-EXTRA_TARGET_SYMBOL type EscapeResult::Err at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:111
-EXTRA_TARGET_SYMBOL property EscapeResult::Err::error at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:112
-EXTRA_TARGET_SYMBOL type NonZeroU8 at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:120
-EXTRA_TARGET_SYMBOL property NonZeroU8::value at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:121
-EXTRA_TARGET_SYMBOL function NonZeroU8::Companion::new at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:124
-EXTRA_TARGET_SYMBOL function NonZeroU8::get at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:132
-EXTRA_TARGET_SYMBOL function NonZeroU8::equals at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:134
-EXTRA_TARGET_SYMBOL function NonZeroU8::hashCode at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:136
-EXTRA_TARGET_SYMBOL function NonZeroU8::toString at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:138
-EXTRA_TARGET_SYMBOL function checkRaw at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:184
-EXTRA_TARGET_SYMBOL function byte2rawUnit at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:206
-EXTRA_TARGET_SYMBOL function cstr2rawUnit at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:208
-EXTRA_TARGET_SYMBOL type MixedUnit::Char at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:283
-EXTRA_TARGET_SYMBOL property MixedUnit::Char::value at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:284
-EXTRA_TARGET_SYMBOL type MixedUnit::HighByte at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:287
-EXTRA_TARGET_SYMBOL property MixedUnit::HighByte::value at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:288
-EXTRA_TARGET_SYMBOL function MixedUnit::Companion::from at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:292
-EXTRA_TARGET_SYMBOL function MixedUnit::Companion::from at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:294
-EXTRA_TARGET_SYMBOL function MixedUnit::Companion::tryFromScalar at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:301
-EXTRA_TARGET_SYMBOL function MixedUnit::Companion::tryFromByte at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:304
-EXTRA_TARGET_SYMBOL type UnescapeStrategy at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:311
-EXTRA_TARGET_SYMBOL property UnescapeStrategy::zeroResult at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:312
-EXTRA_TARGET_SYMBOL function UnescapeStrategy::nonzeroByte2unit at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:314
-EXTRA_TARGET_SYMBOL function UnescapeStrategy::char2unit at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:316
-EXTRA_TARGET_SYMBOL function UnescapeStrategy::hex2unit at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:318
-EXTRA_TARGET_SYMBOL function UnescapeStrategy::unicode2unit at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:320
-EXTRA_TARGET_SYMBOL function unescapeSingle at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:323
-EXTRA_TARGET_SYMBOL function unescape1 at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:346
-EXTRA_TARGET_SYMBOL function unescape at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:377
-EXTRA_TARGET_SYMBOL type SimpleEscape at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:422
-EXTRA_TARGET_SYMBOL type SimpleEscape::Known at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:423
-EXTRA_TARGET_SYMBOL property SimpleEscape::Known::byte at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:424
-EXTRA_TARGET_SYMBOL type SimpleEscape::Unknown at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:427
-EXTRA_TARGET_SYMBOL property SimpleEscape::Unknown::codePoint at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:428
-EXTRA_TARGET_SYMBOL function hexDigitValue at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:432
-EXTRA_TARGET_SYMBOL function isUnicodeWhiteSpace at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:520
-EXTRA_TARGET_SYMBOL type CharUnescape at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:533
-EXTRA_TARGET_SYMBOL property CharUnescape::zeroResult at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:534
-EXTRA_TARGET_SYMBOL function CharUnescape::nonzeroByte2unit at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:536
-EXTRA_TARGET_SYMBOL function CharUnescape::char2unit at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:538
-EXTRA_TARGET_SYMBOL function CharUnescape::hex2unit at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:540
-EXTRA_TARGET_SYMBOL function CharUnescape::unicode2unit at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:547
-EXTRA_TARGET_SYMBOL type ByteUnescape at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:550
-EXTRA_TARGET_SYMBOL property ByteUnescape::zeroResult at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:551
-EXTRA_TARGET_SYMBOL function ByteUnescape::nonzeroByte2unit at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:553
-EXTRA_TARGET_SYMBOL function ByteUnescape::char2unit at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:555
-EXTRA_TARGET_SYMBOL function ByteUnescape::hex2unit at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:557
-EXTRA_TARGET_SYMBOL function ByteUnescape::unicode2unit at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:559
-EXTRA_TARGET_SYMBOL type CStrUnescape at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:567
-EXTRA_TARGET_SYMBOL property CStrUnescape::zeroResult at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:568
-EXTRA_TARGET_SYMBOL function CStrUnescape::nonzeroByte2unit at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:570
-EXTRA_TARGET_SYMBOL function CStrUnescape::char2unit at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:572
-EXTRA_TARGET_SYMBOL function CStrUnescape::hex2unit at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:574
-EXTRA_TARGET_SYMBOL function CStrUnescape::unicode2unit at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:576
-EXTRA_TARGET_SYMBOL function Mode::inDoubleQuotes at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:595
-EXTRA_TARGET_SYMBOL function Mode::prefixNoraw at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:609
-EXTRA_TARGET_SYMBOL function scalarValueToCodePoint at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:684
-EXTRA_TARGET_SYMBOL function ok at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:691
-EXTRA_TARGET_SYMBOL function err at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:693
-EXTRA_TARGET_SYMBOL type ScalarCursor at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:695
-EXTRA_TARGET_SYMBOL property ScalarCursor::src at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:696
-EXTRA_TARGET_SYMBOL property ScalarCursor::index at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:698
-EXTRA_TARGET_SYMBOL property ScalarCursor::byteIndex at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:699
-EXTRA_TARGET_SYMBOL function ScalarCursor::next at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:702
-EXTRA_TARGET_SYMBOL function ScalarCursor::peek at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:724
-EXTRA_TARGET_SYMBOL function utf8ScalarLen at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:741
-EXTRA_TARGET_SYMBOL function appendUnicodeScalar at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:749
-EXTRA_TARGET_SYMBOL function encodeScalarUtf8 at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/RustcLiteralEscaper.kt:762
+MISSING_SYMBOL function check_for_errors at tmp/proc-macro2/src/rustc_literal_escaper.rs:652
 MISSING_SYMBOL type TokenStream at tmp/proc-macro2/src/wrapper.rs:25
 MISSING_SYMBOL enum_variant TokenStream::Compiler at tmp/proc-macro2/src/wrapper.rs:26
 MISSING_SYMBOL enum_variant TokenStream::Fallback at tmp/proc-macro2/src/wrapper.rs:27
@@ -823,28 +729,28 @@ MISSING_SYMBOL type LexError at tmp/proc-macro2/src/wrapper.rs:40
 MISSING_SYMBOL enum_variant LexError::Compiler at tmp/proc-macro2/src/wrapper.rs:41
 MISSING_SYMBOL enum_variant LexError::Fallback at tmp/proc-macro2/src/wrapper.rs:42
 MISSING_SYMBOL enum_variant LexError::CompilerPanic at tmp/proc-macro2/src/wrapper.rs:46
-PRESENT function mismatch at tmp/proc-macro2/src/wrapper.rs:50 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:397
+PRESENT function mismatch at tmp/proc-macro2/src/wrapper.rs:50 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:404
 MISSING_SYMBOL function new at tmp/proc-macro2/src/wrapper.rs:63
-PRESENT function is_empty at tmp/proc-macro2/src/wrapper.rs:70 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:436
+PRESENT function is_empty at tmp/proc-macro2/src/wrapper.rs:70 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:443
 MISSING_SYMBOL function evaluate_now at tmp/proc-macro2/src/wrapper.rs:74
 MISSING_SYMBOL function into_token_stream at tmp/proc-macro2/src/wrapper.rs:83
 MISSING_SYMBOL function new at tmp/proc-macro2/src/wrapper.rs:90
 MISSING_SYMBOL function from_str_checked at tmp/proc-macro2/src/wrapper.rs:98
-PRESENT function is_empty at tmp/proc-macro2/src/wrapper.rs:110 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:436
-PRESENT function unwrap_nightly at tmp/proc-macro2/src/wrapper.rs:117 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:728
-PRESENT function unwrap_stable at tmp/proc-macro2/src/wrapper.rs:124 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:406
+PRESENT function is_empty at tmp/proc-macro2/src/wrapper.rs:110 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:443
+PRESENT function unwrap_nightly at tmp/proc-macro2/src/wrapper.rs:117 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:735
+PRESENT function unwrap_stable at tmp/proc-macro2/src/wrapper.rs:124 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:413
 MISSING_SYMBOL function fmt at tmp/proc-macro2/src/wrapper.rs:133
 MISSING_SYMBOL function from at tmp/proc-macro2/src/wrapper.rs:142
 MISSING_SYMBOL function from at tmp/proc-macro2/src/wrapper.rs:148
 MISSING_SYMBOL function from at tmp/proc-macro2/src/wrapper.rs:159
-PRESENT function into_compiler_token at tmp/proc-macro2/src/wrapper.rs:165 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:418
+PRESENT function into_compiler_token at tmp/proc-macro2/src/wrapper.rs:165 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:425
 MISSING_SYMBOL function from at tmp/proc-macro2/src/wrapper.rs:183
 MISSING_SYMBOL function from_iter at tmp/proc-macro2/src/wrapper.rs:195
 MISSING_SYMBOL function from_iter at tmp/proc-macro2/src/wrapper.rs:207
 MISSING_SYMBOL function extend at tmp/proc-macro2/src/wrapper.rs:231
 MISSING_SYMBOL function extend at tmp/proc-macro2/src/wrapper.rs:245
 MISSING_SYMBOL function fmt at tmp/proc-macro2/src/wrapper.rs:260
-PRESENT function span at tmp/proc-macro2/src/wrapper.rs:269 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:884
+PRESENT function span at tmp/proc-macro2/src/wrapper.rs:269 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:891
 MISSING_SYMBOL function from at tmp/proc-macro2/src/wrapper.rs:278
 MISSING_SYMBOL function from at tmp/proc-macro2/src/wrapper.rs:284
 MISSING_SYMBOL function fmt at tmp/proc-macro2/src/wrapper.rs:290
@@ -864,18 +770,18 @@ MISSING_SYMBOL enum_variant Span::Fallback at tmp/proc-macro2/src/wrapper.rs:376
 MISSING_SYMBOL function call_site at tmp/proc-macro2/src/wrapper.rs:380
 MISSING_SYMBOL function mixed_site at tmp/proc-macro2/src/wrapper.rs:388
 MISSING_SYMBOL function def_site at tmp/proc-macro2/src/wrapper.rs:397
-PRESENT function resolved_at at tmp/proc-macro2/src/wrapper.rs:405 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:591
-PRESENT function located_at at tmp/proc-macro2/src/wrapper.rs:414 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:600
-PRESENT function unwrap at tmp/proc-macro2/src/wrapper.rs:423 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:579
-PRESENT function byte_range at tmp/proc-macro2/src/wrapper.rs:431 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:609
-PRESENT function start at tmp/proc-macro2/src/wrapper.rs:442 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:615
-PRESENT function end at tmp/proc-macro2/src/wrapper.rs:456 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:627
-PRESENT function file at tmp/proc-macro2/src/wrapper.rs:473 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:639
-PRESENT function local_file at tmp/proc-macro2/src/wrapper.rs:484 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:645
-PRESENT function join at tmp/proc-macro2/src/wrapper.rs:494 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:651
-PRESENT function eq at tmp/proc-macro2/src/wrapper.rs:505 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:843
-PRESENT function source_text at tmp/proc-macro2/src/wrapper.rs:513 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:660
-PRESENT function unwrap_nightly at tmp/proc-macro2/src/wrapper.rs:523 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:728
+PRESENT function resolved_at at tmp/proc-macro2/src/wrapper.rs:405 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:598
+PRESENT function located_at at tmp/proc-macro2/src/wrapper.rs:414 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:607
+PRESENT function unwrap at tmp/proc-macro2/src/wrapper.rs:423 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:586
+PRESENT function byte_range at tmp/proc-macro2/src/wrapper.rs:431 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:616
+PRESENT function start at tmp/proc-macro2/src/wrapper.rs:442 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:622
+PRESENT function end at tmp/proc-macro2/src/wrapper.rs:456 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:634
+PRESENT function file at tmp/proc-macro2/src/wrapper.rs:473 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:646
+PRESENT function local_file at tmp/proc-macro2/src/wrapper.rs:484 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:652
+PRESENT function join at tmp/proc-macro2/src/wrapper.rs:494 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:658
+PRESENT function eq at tmp/proc-macro2/src/wrapper.rs:505 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:850
+PRESENT function source_text at tmp/proc-macro2/src/wrapper.rs:513 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:667
+PRESENT function unwrap_nightly at tmp/proc-macro2/src/wrapper.rs:523 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:735
 MISSING_SYMBOL function from at tmp/proc-macro2/src/wrapper.rs:532
 MISSING_SYMBOL function from at tmp/proc-macro2/src/wrapper.rs:538
 MISSING_SYMBOL function fmt at tmp/proc-macro2/src/wrapper.rs:544
@@ -884,13 +790,13 @@ MISSING_SYMBOL type Group at tmp/proc-macro2/src/wrapper.rs:562
 MISSING_SYMBOL enum_variant Group::Compiler at tmp/proc-macro2/src/wrapper.rs:563
 MISSING_SYMBOL enum_variant Group::Fallback at tmp/proc-macro2/src/wrapper.rs:564
 MISSING_SYMBOL function new at tmp/proc-macro2/src/wrapper.rs:568
-PRESENT function delimiter at tmp/proc-macro2/src/wrapper.rs:585 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:691
-PRESENT function stream at tmp/proc-macro2/src/wrapper.rs:597 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:697
-PRESENT function span at tmp/proc-macro2/src/wrapper.rs:604 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:884
-PRESENT function span_open at tmp/proc-macro2/src/wrapper.rs:611 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:749
-PRESENT function span_close at tmp/proc-macro2/src/wrapper.rs:618 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:755
-PRESENT function set_span at tmp/proc-macro2/src/wrapper.rs:625 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:892
-PRESENT function unwrap_nightly at tmp/proc-macro2/src/wrapper.rs:634 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:728
+PRESENT function delimiter at tmp/proc-macro2/src/wrapper.rs:585 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:698
+PRESENT function stream at tmp/proc-macro2/src/wrapper.rs:597 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:704
+PRESENT function span at tmp/proc-macro2/src/wrapper.rs:604 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:891
+PRESENT function span_open at tmp/proc-macro2/src/wrapper.rs:611 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:756
+PRESENT function span_close at tmp/proc-macro2/src/wrapper.rs:618 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:762
+PRESENT function set_span at tmp/proc-macro2/src/wrapper.rs:625 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:899
+PRESENT function unwrap_nightly at tmp/proc-macro2/src/wrapper.rs:634 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:735
 MISSING_SYMBOL function from at tmp/proc-macro2/src/wrapper.rs:643
 MISSING_SYMBOL function fmt at tmp/proc-macro2/src/wrapper.rs:649
 MISSING_SYMBOL function fmt at tmp/proc-macro2/src/wrapper.rs:658
@@ -899,12 +805,12 @@ MISSING_SYMBOL enum_variant Ident::Compiler at tmp/proc-macro2/src/wrapper.rs:66
 MISSING_SYMBOL enum_variant Ident::Fallback at tmp/proc-macro2/src/wrapper.rs:669
 MISSING_SYMBOL function new_checked at tmp/proc-macro2/src/wrapper.rs:674
 MISSING_SYMBOL function new_raw_checked at tmp/proc-macro2/src/wrapper.rs:682
-PRESENT function span at tmp/proc-macro2/src/wrapper.rs:689 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:884
-PRESENT function set_span at tmp/proc-macro2/src/wrapper.rs:696 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:892
-PRESENT function unwrap_nightly at tmp/proc-macro2/src/wrapper.rs:705 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:728
+PRESENT function span at tmp/proc-macro2/src/wrapper.rs:689 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:891
+PRESENT function set_span at tmp/proc-macro2/src/wrapper.rs:696 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:899
+PRESENT function unwrap_nightly at tmp/proc-macro2/src/wrapper.rs:705 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:735
 MISSING_SYMBOL function from at tmp/proc-macro2/src/wrapper.rs:714
-PRESENT function eq at tmp/proc-macro2/src/wrapper.rs:720 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:843
-PRESENT function eq at tmp/proc-macro2/src/wrapper.rs:734 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:843
+PRESENT function eq at tmp/proc-macro2/src/wrapper.rs:720 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:850
+PRESENT function eq at tmp/proc-macro2/src/wrapper.rs:734 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:850
 MISSING_SYMBOL function fmt at tmp/proc-macro2/src/wrapper.rs:744
 MISSING_SYMBOL function fmt at tmp/proc-macro2/src/wrapper.rs:753
 MISSING_SYMBOL type Literal at tmp/proc-macro2/src/wrapper.rs:762
@@ -919,10 +825,10 @@ MISSING_SYMBOL function character at tmp/proc-macro2/src/wrapper.rs:867
 MISSING_SYMBOL function byte_character at tmp/proc-macro2/src/wrapper.rs:875
 MISSING_SYMBOL function byte_string at tmp/proc-macro2/src/wrapper.rs:894
 MISSING_SYMBOL function c_string at tmp/proc-macro2/src/wrapper.rs:902
-PRESENT function span at tmp/proc-macro2/src/wrapper.rs:921 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:884
-PRESENT function set_span at tmp/proc-macro2/src/wrapper.rs:928 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:892
-PRESENT function subspan at tmp/proc-macro2/src/wrapper.rs:937 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:831
-PRESENT function unwrap_nightly at tmp/proc-macro2/src/wrapper.rs:947 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:728
+PRESENT function span at tmp/proc-macro2/src/wrapper.rs:921 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:891
+PRESENT function set_span at tmp/proc-macro2/src/wrapper.rs:928 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:899
+PRESENT function subspan at tmp/proc-macro2/src/wrapper.rs:937 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:838
+PRESENT function unwrap_nightly at tmp/proc-macro2/src/wrapper.rs:947 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:735
 MISSING_SYMBOL function from at tmp/proc-macro2/src/wrapper.rs:956
 MISSING_SYMBOL function fmt at tmp/proc-macro2/src/wrapper.rs:962
 MISSING_SYMBOL function fmt at tmp/proc-macro2/src/wrapper.rs:971
@@ -973,118 +879,118 @@ EXTRA_TARGET_SYMBOL property WrapperLiteral::Compiler::literal at src/common/com
 EXTRA_TARGET_SYMBOL type WrapperLiteral::Fallback at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:240
 EXTRA_TARGET_SYMBOL property WrapperLiteral::Fallback::literal at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:241
 EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::fromStrChecked at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:245
-EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::fromStrUnchecked at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:256
-EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::u8Suffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:263
-EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::u16Suffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:266
-EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::u32Suffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:269
-EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::u64Suffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:272
-EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::u128Suffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:275
-EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::usizeSuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:278
-EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::i8Suffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:281
-EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::i16Suffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:284
-EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::i32Suffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:287
-EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::i64Suffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:290
-EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::i128Suffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:293
-EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::isizeSuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:296
-EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::f32Suffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:299
-EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::f64Suffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:302
-EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::u8Unsuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:305
-EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::u16Unsuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:308
-EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::u32Unsuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:311
-EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::u64Unsuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:314
-EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::u128Unsuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:317
-EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::usizeUnsuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:320
-EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::i8Unsuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:323
-EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::i16Unsuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:326
-EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::i32Unsuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:329
-EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::i64Unsuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:332
-EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::i128Unsuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:335
-EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::isizeUnsuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:338
-EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::f32Unsuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:341
-EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::f64Unsuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:344
-EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::string at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:347
-EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::character at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:350
-EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::characterCodePoint at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:353
-EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::byteCharacter at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:360
-EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::byteString at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:367
-EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::cString at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:374
-EXTRA_TARGET_SYMBOL type WrapperLexError at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:383
-EXTRA_TARGET_SYMBOL type WrapperLexError::Compiler at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:384
-EXTRA_TARGET_SYMBOL property WrapperLexError::Compiler::error at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:385
-EXTRA_TARGET_SYMBOL type WrapperLexError::Fallback at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:388
-EXTRA_TARGET_SYMBOL property WrapperLexError::Fallback::error at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:389
-EXTRA_TARGET_SYMBOL type WrapperLexError::CompilerPanic at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:392
-EXTRA_TARGET_SYMBOL function useCompiler at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:395
-EXTRA_TARGET_SYMBOL function fromTokenStream at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:412
-EXTRA_TARGET_SYMBOL function toString_ at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:442
-EXTRA_TARGET_SYMBOL function clone_ at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:448
-EXTRA_TARGET_SYMBOL function extendTokenTrees at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:454
-EXTRA_TARGET_SYMBOL function extendTokenStreams at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:465
-EXTRA_TARGET_SYMBOL function iter at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:476
-EXTRA_TARGET_SYMBOL function intoIterW at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:490
-EXTRA_TARGET_SYMBOL type WrapperTokenStreamIntoIter at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:498
-EXTRA_TARGET_SYMBOL type WrapperTokenStreamIntoIter::Compiler at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:499
-EXTRA_TARGET_SYMBOL property WrapperTokenStreamIntoIter::Compiler::iter at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:500
-EXTRA_TARGET_SYMBOL function WrapperTokenStreamIntoIter::Compiler::hasNext at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:502
-EXTRA_TARGET_SYMBOL function WrapperTokenStreamIntoIter::Compiler::next at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:504
-EXTRA_TARGET_SYMBOL function WrapperTokenStreamIntoIter::Compiler::sizeHint at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:506
-EXTRA_TARGET_SYMBOL function WrapperTokenStreamIntoIter::Compiler::remainingPublicTrees at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:511
-EXTRA_TARGET_SYMBOL type WrapperTokenStreamIntoIter::Fallback at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:521
-EXTRA_TARGET_SYMBOL property WrapperTokenStreamIntoIter::Fallback::iter at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:522
-EXTRA_TARGET_SYMBOL function WrapperTokenStreamIntoIter::Fallback::hasNext at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:524
-EXTRA_TARGET_SYMBOL function WrapperTokenStreamIntoIter::Fallback::next at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:526
-EXTRA_TARGET_SYMBOL function WrapperTokenStreamIntoIter::Fallback::sizeHint at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:528
-EXTRA_TARGET_SYMBOL function WrapperTokenStreamIntoIter::Fallback::remainingPublicTrees at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:530
-EXTRA_TARGET_SYMBOL function WrapperTokenStreamIntoIter::hasNext at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:533
-EXTRA_TARGET_SYMBOL function WrapperTokenStreamIntoIter::next at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:535
-EXTRA_TARGET_SYMBOL function WrapperTokenStreamIntoIter::sizeHint at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:537
-EXTRA_TARGET_SYMBOL function WrapperTokenStreamIntoIter::remainingPublicTrees at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:539
-EXTRA_TARGET_SYMBOL type TokenEqualityKey at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:542
-EXTRA_TARGET_SYMBOL type TokenEqualityKey::GroupKey at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:543
-EXTRA_TARGET_SYMBOL property TokenEqualityKey::GroupKey::delimiter at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:544
-EXTRA_TARGET_SYMBOL property TokenEqualityKey::GroupKey::items at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:545
-EXTRA_TARGET_SYMBOL type TokenEqualityKey::IdentKey at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:548
-EXTRA_TARGET_SYMBOL property TokenEqualityKey::IdentKey::text at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:549
-EXTRA_TARGET_SYMBOL type TokenEqualityKey::PunctKey at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:552
-EXTRA_TARGET_SYMBOL property TokenEqualityKey::PunctKey::ch at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:553
-EXTRA_TARGET_SYMBOL property TokenEqualityKey::PunctKey::spacing at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:554
-EXTRA_TARGET_SYMBOL type TokenEqualityKey::LiteralKey at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:557
-EXTRA_TARGET_SYMBOL property TokenEqualityKey::LiteralKey::text at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:558
-EXTRA_TARGET_SYMBOL function toEqualityKey at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:562
-EXTRA_TARGET_SYMBOL function toEqualityKeys at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:574
-EXTRA_TARGET_SYMBOL function toTokenStreamEqualityItems at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:577
-EXTRA_TARGET_SYMBOL function toString_ at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:666
-EXTRA_TARGET_SYMBOL function hashCode_ at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:679
-EXTRA_TARGET_SYMBOL function cloneToken at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:704
-EXTRA_TARGET_SYMBOL function cloneToken at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:719
-EXTRA_TARGET_SYMBOL function cloneToken at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:734
-EXTRA_TARGET_SYMBOL function toString_ at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:769
-EXTRA_TARGET_SYMBOL function hashCode_ at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:779
-EXTRA_TARGET_SYMBOL function toString_ at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:805
-EXTRA_TARGET_SYMBOL function contentEquals at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:811
-EXTRA_TARGET_SYMBOL function toString_ at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:837
-EXTRA_TARGET_SYMBOL function toString_ at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:846
-EXTRA_TARGET_SYMBOL type WrapperTokenTree at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:860
-EXTRA_TARGET_SYMBOL type WrapperTokenTree::Group at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:861
-EXTRA_TARGET_SYMBOL property WrapperTokenTree::Group::value at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:862
-EXTRA_TARGET_SYMBOL type WrapperTokenTree::Ident at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:865
-EXTRA_TARGET_SYMBOL property WrapperTokenTree::Ident::value at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:866
-EXTRA_TARGET_SYMBOL type WrapperTokenTree::Punct at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:869
-EXTRA_TARGET_SYMBOL property WrapperTokenTree::Punct::value at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:870
-EXTRA_TARGET_SYMBOL type WrapperTokenTree::Literal at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:873
-EXTRA_TARGET_SYMBOL property WrapperTokenTree::Literal::value at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:874
-EXTRA_TARGET_SYMBOL type WrapperPunct at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:878
-EXTRA_TARGET_SYMBOL property WrapperPunct::ch at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:879
-EXTRA_TARGET_SYMBOL property WrapperPunct::spacing at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:880
-EXTRA_TARGET_SYMBOL property WrapperPunct::span at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:881
-EXTRA_TARGET_SYMBOL function toPublicTree at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:909
-EXTRA_TARGET_SYMBOL function toWrapperTree at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:917
-EXTRA_TARGET_SYMBOL function toWrapperTree at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:935
-EXTRA_TARGET_SYMBOL function compilerTreeFromFallback at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:944
-EXTRA_TARGET_SYMBOL function compilerStreamFromFallback at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:982
-EXTRA_TARGET_SYMBOL function toProcmacro2Delimiter at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:997
-EXTRA_TARGET_SYMBOL function toProcmacroDelimiter at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:1005
-EXTRA_TARGET_SYMBOL function toProcmacro2Spacing at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:1013
-EXTRA_TARGET_SYMBOL function toProcmacroSpacing at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:1019
-EXTRA_TARGET_SYMBOL function wrapperInvalidateCurrentThreadSpans at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:1025
-Inventory totals: present=164, declaration_only=0, missing=415
+EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::fromStrUnchecked at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:263
+EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::u8Suffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:270
+EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::u16Suffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:273
+EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::u32Suffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:276
+EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::u64Suffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:279
+EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::u128Suffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:282
+EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::usizeSuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:285
+EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::i8Suffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:288
+EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::i16Suffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:291
+EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::i32Suffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:294
+EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::i64Suffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:297
+EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::i128Suffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:300
+EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::isizeSuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:303
+EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::f32Suffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:306
+EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::f64Suffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:309
+EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::u8Unsuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:312
+EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::u16Unsuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:315
+EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::u32Unsuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:318
+EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::u64Unsuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:321
+EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::u128Unsuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:324
+EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::usizeUnsuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:327
+EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::i8Unsuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:330
+EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::i16Unsuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:333
+EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::i32Unsuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:336
+EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::i64Unsuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:339
+EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::i128Unsuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:342
+EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::isizeUnsuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:345
+EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::f32Unsuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:348
+EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::f64Unsuffixed at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:351
+EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::string at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:354
+EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::character at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:357
+EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::characterCodePoint at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:360
+EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::byteCharacter at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:367
+EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::byteString at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:374
+EXTRA_TARGET_SYMBOL function WrapperLiteral::Companion::cString at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:381
+EXTRA_TARGET_SYMBOL type WrapperLexError at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:390
+EXTRA_TARGET_SYMBOL type WrapperLexError::Compiler at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:391
+EXTRA_TARGET_SYMBOL property WrapperLexError::Compiler::error at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:392
+EXTRA_TARGET_SYMBOL type WrapperLexError::Fallback at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:395
+EXTRA_TARGET_SYMBOL property WrapperLexError::Fallback::error at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:396
+EXTRA_TARGET_SYMBOL type WrapperLexError::CompilerPanic at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:399
+EXTRA_TARGET_SYMBOL function useCompiler at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:402
+EXTRA_TARGET_SYMBOL function fromTokenStream at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:419
+EXTRA_TARGET_SYMBOL function toString_ at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:449
+EXTRA_TARGET_SYMBOL function clone_ at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:455
+EXTRA_TARGET_SYMBOL function extendTokenTrees at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:461
+EXTRA_TARGET_SYMBOL function extendTokenStreams at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:472
+EXTRA_TARGET_SYMBOL function iter at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:483
+EXTRA_TARGET_SYMBOL function intoIterW at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:497
+EXTRA_TARGET_SYMBOL type WrapperTokenStreamIntoIter at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:505
+EXTRA_TARGET_SYMBOL type WrapperTokenStreamIntoIter::Compiler at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:506
+EXTRA_TARGET_SYMBOL property WrapperTokenStreamIntoIter::Compiler::iter at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:507
+EXTRA_TARGET_SYMBOL function WrapperTokenStreamIntoIter::Compiler::hasNext at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:509
+EXTRA_TARGET_SYMBOL function WrapperTokenStreamIntoIter::Compiler::next at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:511
+EXTRA_TARGET_SYMBOL function WrapperTokenStreamIntoIter::Compiler::sizeHint at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:513
+EXTRA_TARGET_SYMBOL function WrapperTokenStreamIntoIter::Compiler::remainingPublicTrees at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:518
+EXTRA_TARGET_SYMBOL type WrapperTokenStreamIntoIter::Fallback at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:528
+EXTRA_TARGET_SYMBOL property WrapperTokenStreamIntoIter::Fallback::iter at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:529
+EXTRA_TARGET_SYMBOL function WrapperTokenStreamIntoIter::Fallback::hasNext at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:531
+EXTRA_TARGET_SYMBOL function WrapperTokenStreamIntoIter::Fallback::next at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:533
+EXTRA_TARGET_SYMBOL function WrapperTokenStreamIntoIter::Fallback::sizeHint at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:535
+EXTRA_TARGET_SYMBOL function WrapperTokenStreamIntoIter::Fallback::remainingPublicTrees at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:537
+EXTRA_TARGET_SYMBOL function WrapperTokenStreamIntoIter::hasNext at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:540
+EXTRA_TARGET_SYMBOL function WrapperTokenStreamIntoIter::next at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:542
+EXTRA_TARGET_SYMBOL function WrapperTokenStreamIntoIter::sizeHint at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:544
+EXTRA_TARGET_SYMBOL function WrapperTokenStreamIntoIter::remainingPublicTrees at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:546
+EXTRA_TARGET_SYMBOL type TokenEqualityKey at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:549
+EXTRA_TARGET_SYMBOL type TokenEqualityKey::GroupKey at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:550
+EXTRA_TARGET_SYMBOL property TokenEqualityKey::GroupKey::delimiter at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:551
+EXTRA_TARGET_SYMBOL property TokenEqualityKey::GroupKey::items at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:552
+EXTRA_TARGET_SYMBOL type TokenEqualityKey::IdentKey at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:555
+EXTRA_TARGET_SYMBOL property TokenEqualityKey::IdentKey::text at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:556
+EXTRA_TARGET_SYMBOL type TokenEqualityKey::PunctKey at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:559
+EXTRA_TARGET_SYMBOL property TokenEqualityKey::PunctKey::ch at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:560
+EXTRA_TARGET_SYMBOL property TokenEqualityKey::PunctKey::spacing at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:561
+EXTRA_TARGET_SYMBOL type TokenEqualityKey::LiteralKey at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:564
+EXTRA_TARGET_SYMBOL property TokenEqualityKey::LiteralKey::text at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:565
+EXTRA_TARGET_SYMBOL function toEqualityKey at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:569
+EXTRA_TARGET_SYMBOL function toEqualityKeys at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:581
+EXTRA_TARGET_SYMBOL function toTokenStreamEqualityItems at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:584
+EXTRA_TARGET_SYMBOL function toString_ at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:673
+EXTRA_TARGET_SYMBOL function hashCode_ at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:686
+EXTRA_TARGET_SYMBOL function cloneToken at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:711
+EXTRA_TARGET_SYMBOL function cloneToken at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:726
+EXTRA_TARGET_SYMBOL function cloneToken at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:741
+EXTRA_TARGET_SYMBOL function toString_ at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:776
+EXTRA_TARGET_SYMBOL function hashCode_ at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:786
+EXTRA_TARGET_SYMBOL function toString_ at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:812
+EXTRA_TARGET_SYMBOL function contentEquals at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:818
+EXTRA_TARGET_SYMBOL function toString_ at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:844
+EXTRA_TARGET_SYMBOL function toString_ at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:853
+EXTRA_TARGET_SYMBOL type WrapperTokenTree at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:867
+EXTRA_TARGET_SYMBOL type WrapperTokenTree::Group at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:868
+EXTRA_TARGET_SYMBOL property WrapperTokenTree::Group::value at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:869
+EXTRA_TARGET_SYMBOL type WrapperTokenTree::Ident at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:872
+EXTRA_TARGET_SYMBOL property WrapperTokenTree::Ident::value at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:873
+EXTRA_TARGET_SYMBOL type WrapperTokenTree::Punct at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:876
+EXTRA_TARGET_SYMBOL property WrapperTokenTree::Punct::value at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:877
+EXTRA_TARGET_SYMBOL type WrapperTokenTree::Literal at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:880
+EXTRA_TARGET_SYMBOL property WrapperTokenTree::Literal::value at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:881
+EXTRA_TARGET_SYMBOL type WrapperPunct at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:885
+EXTRA_TARGET_SYMBOL property WrapperPunct::ch at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:886
+EXTRA_TARGET_SYMBOL property WrapperPunct::spacing at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:887
+EXTRA_TARGET_SYMBOL property WrapperPunct::span at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:888
+EXTRA_TARGET_SYMBOL function toPublicTree at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:916
+EXTRA_TARGET_SYMBOL function toWrapperTree at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:924
+EXTRA_TARGET_SYMBOL function toWrapperTree at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:942
+EXTRA_TARGET_SYMBOL function compilerTreeFromFallback at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:951
+EXTRA_TARGET_SYMBOL function compilerStreamFromFallback at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:989
+EXTRA_TARGET_SYMBOL function toProcmacro2Delimiter at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:1004
+EXTRA_TARGET_SYMBOL function toProcmacroDelimiter at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:1012
+EXTRA_TARGET_SYMBOL function toProcmacro2Spacing at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:1020
+EXTRA_TARGET_SYMBOL function toProcmacroSpacing at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:1026
+EXTRA_TARGET_SYMBOL function wrapperInvalidateCurrentThreadSpans at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Wrapper.kt:1032
+Inventory totals: present=112, declaration_only=0, missing=467

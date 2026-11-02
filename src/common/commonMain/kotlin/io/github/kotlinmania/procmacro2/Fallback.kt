@@ -38,7 +38,7 @@ fun unforce() {
 }
 
 internal class FallbackTokenStream internal constructor(
-    private var inner: RcVec<TokenTree>,
+    internal var inner: RcVec<TokenTree>,
 ) {
     companion object {
         fun new(): FallbackTokenStream = FallbackTokenStream(RcVecBuilder.new<TokenTree>().build())
@@ -51,6 +51,8 @@ internal class FallbackTokenStream internal constructor(
             }
             return tokenStream(cursor)
         }
+
+        fun fromStrUnchecked(src: String): FallbackTokenStream = fromStrChecked(src).getOrThrow()
 
         fun fromTokenTree(tree: TokenTree): FallbackTokenStream {
             val stream = RcVecBuilder.new<TokenTree>()
@@ -72,6 +74,23 @@ internal class FallbackTokenStream internal constructor(
     fun iter(): Iterator<TokenTree> = inner.iter()
 
     private fun takeInner(): RcVecBuilder<TokenTree> = inner.makeOwned()
+
+    fun drop() {
+        val firstMut = inner.getMut() ?: return
+        val stack = ArrayDeque<Iterator<TokenTree>>()
+        var current: Iterator<TokenTree> = firstMut.take().intoIter()
+        while (true) {
+            while (current.hasNext()) {
+                val token = current.next()
+                val group = (token as? TokenTree.Group)?.value?.inner ?: continue
+                val fallbackGroup = (group as? WrapperGroup.Fallback)?.group ?: continue
+                val childMut = fallbackGroup.innerStream().inner.getMut() ?: continue
+                stack.addLast(current)
+                current = childMut.take().intoIter()
+            }
+            current = stack.removeLastOrNull() ?: return
+        }
+    }
 
     fun extendTokenTrees(tokens: Iterable<TokenTree>) {
         val vec = inner.makeMut()
@@ -128,21 +147,20 @@ internal class FallbackLexError(
  * into a leading minus [Punct] and a positive [Literal] so the printed token
  * stream survives lossless round-tripping. See
  * https://github.com/dtolnay/proc-macro2/issues/235.
- *
- * The upstream version factors the negative-split path into a nested cold-
- * path helper; the Kotlin port inlines it because there is no equivalent
- * cold-path placement hint and the inline form is observably the same.
  */
 private fun pushTokenFromProcMacro(vec: RcVecMut<TokenTree>, token: TokenTree) {
+    fun pushNegativeLiteral(target: RcVecMut<TokenTree>, literal: FallbackLiteral) {
+        literal.repr = literal.repr.removePrefix("-")
+        val punct = Punct('-', Spacing.Alone)
+        punct.setSpan(Span.newFallback(literal.span()))
+        target.push(TokenTree.Punct(punct))
+        target.push(TokenTree.Literal(Literal.newFallback(literal)))
+    }
+
     if (token is TokenTree.Literal) {
         val wl = token.value.inner
         if (wl is WrapperLiteral.Fallback && wl.literal.repr.startsWith('-')) {
-            val literal = wl.literal.clone()
-            literal.repr = literal.repr.removePrefix("-")
-            val punct = Punct('-', Spacing.Alone)
-            punct.setSpan(Span.newFallback(literal.span()))
-            vec.push(TokenTree.Punct(punct))
-            vec.push(TokenTree.Literal(Literal.newFallback(literal)))
+            pushNegativeLiteral(vec, wl.literal.clone())
             return
         }
     }
@@ -159,21 +177,7 @@ internal class TokenStreamBuilder private constructor(
     }
 
     fun pushTokenFromParser(tt: TokenTree) {
-        when (tt) {
-            is TokenTree.Literal -> {
-                val wl = tt.value.inner
-                if (wl is WrapperLiteral.Fallback && wl.literal.repr.startsWith('-')) {
-                    wl.literal.repr = wl.literal.repr.substring(1)
-                    val punct = Punct('-', Spacing.Alone)
-                    punct.setSpan(Span.newFallback(wl.literal.span()))
-                    inner.push(TokenTree.Punct(punct))
-                    inner.push(tt)
-                } else {
-                    inner.push(tt)
-                }
-            }
-            else -> inner.push(tt)
-        }
+        inner.push(tt)
     }
 
     fun build(): FallbackTokenStream = FallbackTokenStream(inner.build())
@@ -230,27 +234,33 @@ private data class FileInfo(
         val charIndex = ch - span.lo
         charIndexToByteOffset[charIndex]?.let { return it }
 
-        val previous =
-            charIndexToByteOffset.entries
-                .filter { it.key <= charIndex }
-                .maxByOrNull { it.key }
-        val previousCharIndex = previous?.key ?: 0
-        val previousByteOffset = previous?.value ?: 0
+        var previousCharIndex = 0
+        var previousByteOffset = 0
+        var nextCharIndex = -1
+        var nextByteOffset = 0
+        for ((cachedChar, cachedByte) in charIndexToByteOffset) {
+            if (cachedChar < charIndex && cachedChar >= previousCharIndex) {
+                previousCharIndex = cachedChar
+                previousByteOffset = cachedByte
+            } else if (cachedChar > charIndex && (nextCharIndex < 0 || cachedChar < nextCharIndex)) {
+                nextCharIndex = cachedChar
+                nextByteOffset = cachedByte
+            }
+        }
+
         val byteOffset =
-            sourceText
-                .substring(previousByteOffset)
-                .codePointByteOffsets()
-                .drop(charIndex - previousCharIndex)
-                .firstOrNull()
-                ?.let { previousByteOffset + it }
-                ?: sourceText.encodeToByteArray().size
+            if (nextCharIndex >= 0 && nextCharIndex - charIndex < charIndex - previousCharIndex) {
+                nextByteOffset - utf8ByteCountBetween(sourceText, charIndex, nextCharIndex)
+            } else {
+                previousByteOffset + utf8ByteCountBetween(sourceText, previousCharIndex, charIndex)
+            }
         charIndexToByteOffset[charIndex] = byteOffset
         return byteOffset
     }
 
     fun sourceText(span: FallbackSpan): String {
-        val byteRange = byteRange(span)
-        return sourceText.substringByUtf8ByteRange(byteRange)
+        require(spanWithin(span))
+        return sourceText.substring(span.lo - this.span.lo, span.hi - this.span.lo)
     }
 }
 
@@ -301,7 +311,17 @@ private object SourceMap {
     }
 
     private fun find(span: FallbackSpan): Int {
-        val index = files.indexOfFirst { it.spanWithin(span) }
+        val index =
+            files.binarySearch { file ->
+                when {
+                    file.span.hi < span.lo -> -1
+                    file.span.lo > span.hi -> 1
+                    else -> {
+                        check(file.spanWithin(span)) { "invalid span with no related file info" }
+                        0
+                    }
+                }
+            }
         check(index >= 0) { "invalid span with no related file info" }
         return index
     }
@@ -385,6 +405,8 @@ internal data class FallbackGroup(
 
     fun stream(): FallbackTokenStream = stream.clone()
 
+    internal fun innerStream(): FallbackTokenStream = stream
+
     fun clone(): FallbackGroup = FallbackGroup(delimiter, stream.clone(), span)
 
     fun span(): FallbackSpan = span
@@ -406,26 +428,13 @@ internal data class FallbackGroup(
     //   Empty braces:     { }
     //   Nonempty braces:  { ... }
     override fun toString(): String {
-        val open: String
-        val close: String
-        when (delimiter) {
-            Delimiter.Parenthesis -> {
-                open = "("
-                close = ")"
+        val (open, close) =
+            when (delimiter) {
+                Delimiter.Parenthesis -> "(" to ")"
+                Delimiter.Brace -> "{ " to "}"
+                Delimiter.Bracket -> "[" to "]"
+                Delimiter.None -> "" to ""
             }
-            Delimiter.Brace -> {
-                open = "{ "
-                close = "}"
-            }
-            Delimiter.Bracket -> {
-                open = "["
-                close = "]"
-            }
-            Delimiter.None -> {
-                open = ""
-                close = ""
-            }
-        }
         val body = stream.toString()
         val space = if (delimiter == Delimiter.Brace && !stream.isEmpty()) " " else ""
         return "$open$body$space$close"
@@ -548,7 +557,8 @@ internal class FallbackLiteral internal constructor(
                 }
             }
             return literal(cursor).fold(
-                onSuccess = { (rest, literal) ->
+                onSuccess = { parsed ->
+                    val (rest, literal) = parsed
                     if (rest.isEmpty()) {
                         if (negative) {
                             literal.repr = "-${literal.repr}"
@@ -649,27 +659,21 @@ internal class FallbackLiteral internal constructor(
 
         fun character(ch: Char): FallbackLiteral {
             require(!ch.isSurrogate()) { "Surrogate code unit is not a valid Unicode scalar: ${ch.code}" }
-            val repr = StringBuilder()
-            repr.append('\'')
-            when (ch) {
-                '"' -> repr.append(ch)
-                '\u0000' -> repr.append("\\0")
-                else -> repr.append(ch.escapeDebug())
-            }
-            repr.append('\'')
-            return FallbackLiteral(repr.toString())
+            return characterCodePoint(ch.code)
         }
 
         fun characterCodePoint(codePoint: Int): FallbackLiteral {
             require(codePoint in 0..0x10FFFF && codePoint !in 0xD800..0xDFFF) {
                 "Invalid Unicode scalar value: $codePoint"
             }
-            if (codePoint <= 0xFFFF) {
-                return character(codePoint.toChar())
-            }
             val repr = StringBuilder()
             repr.append('\'')
-            repr.appendUnicodeScalar(codePoint)
+            escapeDebugScalar(
+                codePoint = codePoint,
+                escapeSingleQuote = true,
+                escapeDoubleQuote = false,
+                repr = repr,
+            )
             repr.append('\'')
             return FallbackLiteral(repr.toString())
         }
@@ -677,14 +681,14 @@ internal class FallbackLiteral internal constructor(
         fun byteCharacter(byte: UByte): FallbackLiteral {
             val b = byte.toInt()
             val repr = StringBuilder("b'")
-            when (b) {
-                0 -> repr.append("\\0")
-                '\t'.code -> repr.append("\\t")
-                '\n'.code -> repr.append("\\n")
-                '\r'.code -> repr.append("\\r")
-                '\''.code -> repr.append("\\'")
-                '\\'.code -> repr.append("\\\\")
-                in 0x20..0x7e -> repr.append(b.toChar())
+            when {
+                b == 0x00 -> repr.append("\\0")
+                b == 0x09 -> repr.append("\\t")
+                b == 0x0a -> repr.append("\\n")
+                b == 0x0d -> repr.append("\\r")
+                b == 0x27 -> repr.append("\\'")
+                b == 0x5c -> repr.append("\\\\")
+                b in 0x20..0x7e -> repr.append(b.toChar())
                 else -> repr.append("\\x").append(b.toString(16).uppercase().padStart(2, '0'))
             }
             repr.append('\'')
@@ -695,17 +699,17 @@ internal class FallbackLiteral internal constructor(
             val repr = StringBuilder("b\"")
             for ((index, raw) in bytes.withIndex()) {
                 val b = raw.toInt() and 0xff
-                when (b) {
-                    0 -> {
+                when {
+                    b == 0x00 -> {
                         val next = bytes.getOrNull(index + 1)?.toInt()?.and(0xff)
-                        repr.append(if (next != null && next in '0'.code..'7'.code) "\\x00" else "\\0")
+                        repr.append(if (next != null && next in 0x30..0x37) "\\x00" else "\\0")
                     }
-                    '\t'.code -> repr.append("\\t")
-                    '\n'.code -> repr.append("\\n")
-                    '\r'.code -> repr.append("\\r")
-                    '"'.code -> repr.append("\\\"")
-                    '\\'.code -> repr.append("\\\\")
-                    in 0x20..0x7e -> repr.append(b.toChar())
+                    b == 0x09 -> repr.append("\\t")
+                    b == 0x0a -> repr.append("\\n")
+                    b == 0x0d -> repr.append("\\r")
+                    b == 0x22 -> repr.append("\\\"")
+                    b == 0x5c -> repr.append("\\\\")
+                    b in 0x20..0x7e -> repr.append(b.toChar())
                     else -> repr.append("\\x").append(b.toString(16).uppercase().padStart(2, '0'))
                 }
             }
@@ -771,43 +775,142 @@ internal class FallbackLiteral internal constructor(
 private fun escapeUtf8(string: String, repr: StringBuilder) {
     var i = 0
     while (i < string.length) {
-        val ch = string[i]
-        when {
-            ch == '\u0000' -> {
-                // Peek (without consuming) at the next character: a following octal
-                // digit forces the explicit `\x00` form so it cannot be misread as a
-                // longer octal escape. Previously this advanced the iterator, which
-                // dropped the peeked character from the output entirely.
-                val nextIsOctal = i + 1 < string.length && string[i + 1] in '0'..'7'
-                repr.append(if (nextIsOctal) "\\x00" else "\\0")
-            }
-            ch == '\'' -> repr.append(ch)
-            else -> repr.append(ch.escapeDebug())
+        val (codePoint, width) = string.codePointAndWidthAt(i)
+        if (codePoint == 0) {
+            // Peek (without consuming) at the next character: a following octal
+            // digit forces the explicit `\x00` form so it cannot be misread as a
+            // longer octal escape.
+            val nextIsOctal = i + width < string.length && string[i + width] in '0'..'7'
+            repr.append(if (nextIsOctal) "\\x00" else "\\0")
+        } else {
+            escapeDebugScalar(
+                codePoint = codePoint,
+                escapeSingleQuote = false,
+                escapeDoubleQuote = true,
+                repr = repr,
+            )
         }
-        i++
+        i += width
     }
 }
 
-// Mirrors escapeDebug: besides the usual control escapes, grapheme-
-// extending marks (combining characters) are escaped as `\u{..}` so debug output
-// stays unambiguous, rather than being emitted as zero-width glyphs.
-private val GRAPHEME_EXTEND_CATEGORIES =
+private fun escapeDebugScalar(
+    codePoint: Int,
+    escapeSingleQuote: Boolean,
+    escapeDoubleQuote: Boolean,
+    repr: StringBuilder,
+) {
+    when (codePoint) {
+        0x00 -> {
+            repr.append("\\0")
+            return
+        }
+        0x09 -> {
+            repr.append("\\t")
+            return
+        }
+        0x0a -> {
+            repr.append("\\n")
+            return
+        }
+        0x0d -> {
+            repr.append("\\r")
+            return
+        }
+        0x5c -> {
+            repr.append("\\\\")
+            return
+        }
+        0x27 -> {
+            repr.append(if (escapeSingleQuote) "\\'" else "'")
+            return
+        }
+        0x22 -> {
+            repr.append(if (escapeDoubleQuote) "\\\"" else "\"")
+            return
+        }
+    }
+    if (isPrintableUnicode(codePoint) && !isGraphemeExtendScalar(codePoint)) {
+        repr.appendUnicodeScalar(codePoint)
+    } else {
+        repr.append("\\u{")
+        repr.append(codePoint.toString(16))
+        repr.append('}')
+    }
+}
+
+private val PRINTABLE_BMP_CATEGORIES =
     setOf(
-        CharCategory.NON_SPACING_MARK,
-        CharCategory.ENCLOSING_MARK,
+        CharCategory.UPPERCASE_LETTER,
+        CharCategory.LOWERCASE_LETTER,
+        CharCategory.TITLECASE_LETTER,
+        CharCategory.MODIFIER_LETTER,
+        CharCategory.OTHER_LETTER,
         CharCategory.COMBINING_SPACING_MARK,
+        CharCategory.DECIMAL_DIGIT_NUMBER,
+        CharCategory.LETTER_NUMBER,
+        CharCategory.OTHER_NUMBER,
+        CharCategory.CONNECTOR_PUNCTUATION,
+        CharCategory.DASH_PUNCTUATION,
+        CharCategory.START_PUNCTUATION,
+        CharCategory.END_PUNCTUATION,
+        CharCategory.INITIAL_QUOTE_PUNCTUATION,
+        CharCategory.FINAL_QUOTE_PUNCTUATION,
+        CharCategory.OTHER_PUNCTUATION,
+        CharCategory.MATH_SYMBOL,
+        CharCategory.CURRENCY_SYMBOL,
+        CharCategory.MODIFIER_SYMBOL,
+        CharCategory.OTHER_SYMBOL,
     )
 
-private fun Char.escapeDebug(): String =
-    when (this) {
-        '\t' -> "\\t"
-        '\n' -> "\\n"
-        '\r' -> "\\r"
-        '"' -> "\\\""
-        '\'' -> "\\'"
-        '\\' -> "\\\\"
-        else -> if (isISOControl() || category in GRAPHEME_EXTEND_CATEGORIES) "\\u{${code.toString(16)}}" else toString()
+private fun isPrintableUnicode(codePoint: Int): Boolean {
+    if (codePoint in 0x20..0x7e) return true
+    if (codePoint > 0xffff) {
+        return isPrintableSupplementary(codePoint)
     }
+    return codePoint.toChar().category in PRINTABLE_BMP_CATEGORIES
+}
+
+private fun isGraphemeExtendScalar(codePoint: Int): Boolean {
+    if (codePoint > 0xffff) {
+        return isSupplementaryGraphemeExtend(codePoint)
+    }
+    val category = codePoint.toChar().category
+    return category == CharCategory.NON_SPACING_MARK ||
+        category == CharCategory.ENCLOSING_MARK ||
+        category == CharCategory.COMBINING_SPACING_MARK
+}
+
+private fun isPrintableSupplementary(codePoint: Int): Boolean {
+    if (codePoint !in 0x10000..0x3ffff) return false
+    if ((codePoint and 0xfffe) == 0xfffe) return false
+    return !(
+        codePoint == 0x110bd ||
+            codePoint == 0x110cd ||
+            codePoint in 0x13430..0x1343f ||
+            codePoint in 0x1bca0..0x1bca3 ||
+            codePoint in 0x1d173..0x1d17a
+    )
+}
+
+private fun isSupplementaryGraphemeExtend(codePoint: Int): Boolean =
+    codePoint in 0x1d165..0x1d169 ||
+        codePoint in 0x1d16d..0x1d172 ||
+        codePoint in 0x1d17b..0x1d182 ||
+        codePoint in 0x1d185..0x1d18b ||
+        codePoint in 0x1d1aa..0x1d1ad ||
+        codePoint in 0xe0100..0xe01ef
+
+internal fun StringBuilder.appendUnicodeScalar(codePoint: Int): StringBuilder {
+    if (codePoint <= 0xFFFF) {
+        append(codePoint.toChar())
+    } else {
+        val offset = codePoint - 0x10000
+        append((0xD800 + (offset ushr 10)).toChar())
+        append((0xDC00 + (offset and 0x3FF)).toChar())
+    }
+    return this
+}
 
 // Renders a Kotlin Float/Double `toString()` result in plain (non-scientific)
 // decimal form, matching Rust's `{}` float Display which never uses exponent
@@ -855,23 +958,25 @@ private fun plainFloatString(s: String): String {
 // out-of-range scalars the same way a strict UTF-8 decoder would.
 private fun utf8SequenceLength(bytes: ByteArray, index: Int): Int {
     val b0 = bytes[index].toInt() and 0xff
+    if (b0 < 0x80) return 1
     val len =
         when {
-            b0 < 0x80 -> return 1
             b0 in 0xC2..0xDF -> 2
-            b0 in 0xE0..0xEF -> 3
+            b0 >= 0xE0 && b0 <= 0xEF -> 3
             b0 in 0xF0..0xF4 -> 4
-            else -> return 0
+            else -> 0
         }
-    if (index + len > bytes.size) return 0
+    if (len == 0 || index + len > bytes.size) return 0
     val b1 = bytes[index + 1].toInt() and 0xff
-    when (b0) {
-        0xE0 -> if (b1 !in 0xA0..0xBF) return 0
-        0xED -> if (b1 !in 0x80..0x9F) return 0 // exclude surrogates U+D800..U+DFFF
-        0xF0 -> if (b1 !in 0x90..0xBF) return 0
-        0xF4 -> if (b1 !in 0x80..0x8F) return 0 // cap at U+10FFFF
-        else -> if (b1 !in 0x80..0xBF) return 0
-    }
+    val validSecond =
+        when (b0) {
+            0xE0 -> b1 in 0xA0..0xBF
+            0xED -> b1 in 0x80..0x9F // exclude surrogates U+D800..U+DFFF
+            0xF0 -> b1 in 0x90..0xBF
+            0xF4 -> b1 in 0x80..0x8F // cap at U+10FFFF
+            else -> b1 in 0x80..0xBF
+        }
+    if (!validSecond) return 0
     for (k in 2 until len) {
         if ((bytes[index + k].toInt() and 0xC0) != 0x80) return 0
     }
@@ -883,32 +988,28 @@ private fun hexByte(value: Int): String {
     return "${hex[value shr 4 and 0xF]}${hex[value and 0xF]}"
 }
 
-private fun String.codePointByteOffsets(): List<Int> {
-    val offsets = mutableListOf<Int>()
-    var byteOffset = 0
-    var i = 0
-    while (i < length) {
-        offsets.add(byteOffset)
-        val ch = this[i]
-        if (ch.isHighSurrogate() && i + 1 < length && this[i + 1].isLowSurrogate()) {
-            // A supplementary scalar occupies two UTF-16 code units but a single
-            // 4-byte UTF-8 sequence; encoding each half alone would yield U+FFFD
-            // replacement bytes and corrupt the offset table.
-            val pairBytes = substring(i, i + 2).encodeToByteArray().size
-            offsets.add(byteOffset + (pairBytes + 1) / 2)
-            byteOffset += pairBytes
-            i += 2
+private fun utf8ByteCountBetween(
+    s: String,
+    startUtf16: Int,
+    endUtf16: Int,
+): Int {
+    var bytes = 0
+    var i = startUtf16
+    while (i < endUtf16) {
+        val (cp, width) = s.codePointAndWidthAt(i)
+        if (i + width <= endUtf16) {
+            bytes +=
+                when {
+                    cp < 0x80 -> 1
+                    cp < 0x800 -> 2
+                    cp < 0x10000 -> 3
+                    else -> 4
+                }
+            i += width
         } else {
-            byteOffset += ch.toString().encodeToByteArray().size
+            bytes += 2
             i += 1
         }
     }
-    offsets.add(byteOffset)
-    return offsets
-}
-
-private fun String.substringByUtf8ByteRange(range: IntRange): String {
-    val bytes = encodeToByteArray()
-    val endExclusive = (range.last + 1).coerceAtMost(bytes.size)
-    return bytes.copyOfRange(range.first.coerceAtLeast(0), endExclusive).decodeToString()
+    return bytes
 }

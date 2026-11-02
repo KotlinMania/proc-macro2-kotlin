@@ -1,6 +1,7 @@
 #if canImport(Testing)
 import Testing
 import ProcMacro2
+import RustcLiteralEscaper
 
 @Suite("ProcMacro2 Swift Export Tests")
 struct ProcMacro2ExportTests {
@@ -52,6 +53,9 @@ struct ProcMacro2ExportTests {
 
         let crabChar = Literal.Companion.shared.characterCodePoint(codePoint: 0x1F980)
         #expect(crabChar.toString() == "'🦀'")
+        let parsedCrabChar = Literal.Companion.shared.fromString(repr: "'🦀'")
+        #expect(parsedCrabChar.isSuccess())
+        #expect(parsedCrabChar.getOrThrow().toString() == "'🦀'")
 
         let crabStr = Literal.Companion.shared.fromString(repr: #""\u{1F980}""#)
         #expect(crabStr.isSuccess())
@@ -80,6 +84,7 @@ struct ProcMacro2ExportTests {
 #elseif canImport(XCTest)
 import XCTest
 import ProcMacro2
+import RustcLiteralEscaper
 
 final class ProcMacro2ExportTests: XCTestCase {
     func testTokenStreamParsingAndFormatting() {

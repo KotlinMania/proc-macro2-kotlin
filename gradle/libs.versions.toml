@@ -10,6 +10,7 @@ ktlint = "14.2.0"
 ktlintEngine = "1.8.0"
 kotlinxBenchmark = "0.5.0"
 unicodeIdent = "0.1.1"
+rustcLiteralEscaper = "0.1.0"
 procMacro = "0.1.5"
 quote = "0.2.5"
 
@@ -31,6 +32,7 @@ kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.
 collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "collectionsImmutable" }
 kotlinx-benchmark-runtime = { module = "org.jetbrains.kotlinx:kotlinx-benchmark-runtime", version.ref = "kotlinxBenchmark" }
 unicode-ident-kotlin = { module = "io.github.kotlinmania:unicode-ident-kotlin", version.ref = "unicodeIdent" }
+rustc-literal-escaper-kotlin = { module = "io.github.kotlinmania:rustc-literal-escaper-kotlin", version.ref = "rustcLiteralEscaper" }
 proc-macro-kotlin = { module = "io.github.kotlinmania:proc-macro-kotlin", version.ref = "procMacro" }
 quote-kotlin = { module = "io.github.kotlinmania:quote-kotlin", version.ref = "quote" }
 
@@ -40,6 +42,7 @@ proc-macro2-commonMain = [
 ]
 proc-macro2-commonMainApi = [
   "proc-macro-kotlin",
+  "rustc-literal-escaper-kotlin",
 ]
 proc-macro2-commonTest = [
   "quote-kotlin",

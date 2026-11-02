@@ -203,10 +203,35 @@ class TestTest {
                 "...\t...".encodeToByteArray(),
                 "...\\...".encodeToByteArray(),
                 "...\u0000...".encodeToByteArray(),
-                byteArrayOf('.'.code.toByte(), '.'.code.toByte(), '.'.code.toByte(), 0xF0.toByte(), '.'.code.toByte(), '.'.code.toByte(), '.'.code.toByte()),
+                byteArrayOf(
+                    '.'.code.toByte(),
+                    '.'.code.toByte(),
+                    '.'.code.toByte(),
+                    0xF0.toByte(),
+                    '.'.code.toByte(),
+                    '.'.code.toByte(),
+                    '.'.code.toByte(),
+                ),
             )
         for (bytestr in byteStrings) {
             assertTrue(bytestr.contentEquals(Literal.byteString(bytestr).byteStrValue().getOrThrow()))
+            val ascii = if (bytestr.all { it.toInt() in 0..0x7f }) bytestr.decodeToString() else null
+            if (ascii != null) {
+                val rawParsed =
+                    Literal
+                        .fromString("br\"$ascii\"")
+                        .getOrThrow()
+                        .byteStrValue()
+                        .getOrThrow()
+                assertTrue(bytestr.contentEquals(rawParsed))
+                val rawHashedParsed =
+                    Literal
+                        .fromString("br##\"$ascii\"##")
+                        .getOrThrow()
+                        .byteStrValue()
+                        .getOrThrow()
+                assertTrue(bytestr.contentEquals(rawHashedParsed))
+            }
         }
     }
 
@@ -260,15 +285,40 @@ class TestTest {
     fun literalCStringValue() {
         val cstrings =
             listOf(
-                "",
-                "...",
-                "...\t...",
-                "...\\...",
-                "...\u0001...",
+                byteArrayOf() to "",
+                "...".encodeToByteArray() to "...",
+                "...\t...".encodeToByteArray() to "...\t...",
+                "...\\...".encodeToByteArray() to "...\\...",
+                "...\u0001...".encodeToByteArray() to "...\u0001...",
+                byteArrayOf(
+                    '.'.code.toByte(),
+                    '.'.code.toByte(),
+                    '.'.code.toByte(),
+                    0xF0.toByte(),
+                    '.'.code.toByte(),
+                    '.'.code.toByte(),
+                    '.'.code.toByte(),
+                ) to null,
             )
-        for (cstr in cstrings) {
-            val expected = cstr.encodeToByteArray() + byteArrayOf(0)
-            assertTrue(expected.contentEquals(Literal.cString(cstr.encodeToByteArray()).cstrValue().getOrThrow()))
+        for ((bytes, validUtf8) in cstrings) {
+            val expected = bytes + byteArrayOf(0)
+            assertTrue(expected.contentEquals(Literal.cString(bytes).cstrValue().getOrThrow()))
+            if (validUtf8 != null) {
+                val rawParsed =
+                    Literal
+                        .fromString("cr\"$validUtf8\"")
+                        .getOrThrow()
+                        .cstrValue()
+                        .getOrThrow()
+                assertTrue(expected.contentEquals(rawParsed))
+                val rawHashedParsed =
+                    Literal
+                        .fromString("cr##\"$validUtf8\"##")
+                        .getOrThrow()
+                        .cstrValue()
+                        .getOrThrow()
+                assertTrue(expected.contentEquals(rawHashedParsed))
+            }
         }
     }
 
@@ -765,6 +815,50 @@ class TestTest {
         val span = createSpan()
         invalidateCurrentThreadSpans()
         assertFailsWith<IllegalStateException> { span.sourceText() }
+    }
+
+    @Test
+    fun supplementaryUnicodeLexingEscapingAndSpans() {
+        // Supplementary character literal lexing and escaping
+        val parsedCrab = parse("'🦀'").iterator().next()
+        assertEquals("'🦀'", parsedCrab.toString())
+        assertEquals("'🦀'", Literal.fromString("'🦀'").getOrThrow().toString())
+        assertEquals("'\\u{10ffff}'", Literal.characterCodePoint(0x10FFFF).toString())
+
+        // Non-ASCII byte literals must be rejected
+        parseErr("b'á'")
+        parseErr("b'🦀'")
+
+        // Multibyte whitespace before tokens must advance by UTF-16 width, not UTF-8 byte count
+        val ltrIdent = assertIs<TokenTree.Ident>(parse("\u200eab").iterator().next())
+        assertEquals("ab", ltrIdent.value.toString())
+        val nelIdent = assertIs<TokenTree.Ident>(parse("\u0085ab").iterator().next())
+        assertEquals("ab", nelIdent.value.toString())
+
+        // Supplementary XID scalars after numbers (dot-access vs suffix vs word break)
+        assertEquals(3, tokenCount("1.𓀕"))
+        assertEquals("0e1𓀕", parse("0e1𓀕").iterator().next().toString())
+        assertEquals("123𓀕", Literal.fromString("123𓀕").getOrThrow().toString())
+
+        // Supplementary string escaping: printable emoji vs variation selector vs format scalar
+        assertEquals("\"🦀\"", Literal.string("🦀").toString())
+        assertEquals("\"\\u{e0100}\"", Literal.string("\uDB40\uDD00").toString())
+        assertEquals("\"\\u{1bca0}\"", Literal.string("\uD82F\uDCA0").toString())
+
+        // Multi-token supplementary sourceText() and byteRange() in both forward and reverse order
+        val forwardTokens = parse("𓀕 𓀕 + a").toList()
+        assertEquals(listOf("𓀕", "𓀕", "+", "a"), forwardTokens.map { it.span().sourceText() })
+        assertEquals(listOf(0..3, 5..8, 10..10, 12..12), forwardTokens.map { it.span().byteRange() })
+
+        val reverseTokens = parse("𓀕+𓀕+a").toList()
+        assertEquals(
+            listOf(10..10, 9..9, 5..8, 4..4, 0..3),
+            reverseTokens.asReversed().map { it.span().byteRange() },
+        )
+        assertEquals(
+            listOf("𓀕", "+", "𓀕", "+", "a"),
+            reverseTokens.map { it.span().sourceText() },
+        )
     }
 }
 

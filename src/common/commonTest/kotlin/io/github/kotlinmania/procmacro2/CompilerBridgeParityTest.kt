@@ -1,6 +1,7 @@
 package io.github.kotlinmania.procmacro2
 
 import io.github.kotlinmania.procmacro.bridge.BridgeClientState
+import io.github.kotlinmania.rustcliteralescaper.EscapeError
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals

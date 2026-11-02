@@ -12,10 +12,10 @@ internal data class Cursor(
     private fun isAscii(): Boolean = ascii ?: rest.all { it.code < 0x80 }.also { ascii = it }
 
     fun advance(bytes: Int): Cursor {
-        val front = rest.take(bytes)
+        val step = bytes.coerceAtMost(rest.length)
         return Cursor(
-            rest = rest.drop(bytes),
-            off = off + front.length,
+            rest = rest.substring(step),
+            off = off + step,
         ).also { it.ascii = ascii }
     }
 
@@ -49,12 +49,22 @@ internal data class Cursor(
             asBytes().map { it.toInt() and 0xff }
         }
 
-    fun firstByte(): Int? =
-        if (isAscii()) rest.firstOrNull()?.code else asBytes().firstOrNull()?.let { it.toInt() and 0xff }
+    fun firstByte(): Int? {
+        if (rest.isEmpty()) return null
+        val first = rest[0].code
+        if (first < 0x80) return first
+        val (cp, _) = rest.codePointAndWidthAt(0)
+        return when {
+            cp < 0x800 -> 0xC0 or (cp shr 6)
+            cp in 0xD800..0xDFFF -> rest.substring(0, 1).encodeToByteArray()[0].toInt() and 0xff
+            cp < 0x10000 -> 0xE0 or (cp shr 12)
+            else -> 0xF0 or (cp shr 18)
+        }
+    }
 
     fun chars(): Iterable<Char> = rest.asIterable()
 
-    fun charIndices(): List<Pair<Int, Char>> = rest.mapIndexed { index, ch -> index to ch }
+    fun charIndices(): Sequence<Pair<Int, Char>> = rest.asSequence().mapIndexed { index, ch -> index to ch }
 
     fun parse(tag: String): Result<Cursor> =
         if (startsWith(tag)) {
@@ -106,9 +116,9 @@ private fun skipWhitespace(input: Cursor): Cursor {
             }
             in 0..0x7f -> Unit
             else -> {
-                val ch = s.rest.first()
-                if (isWhitespace(ch)) {
-                    s = s.advance(ch.toString().encodeToByteArray().size)
+                val (cp, width) = s.rest.codePointAndWidthAt(0)
+                if (isWhitespace(cp)) {
+                    s = s.advance(width)
                     continue
                 }
             }
@@ -145,13 +155,28 @@ private fun blockComment(input: Cursor): PResult<String> {
     return reject()
 }
 
-private fun isWhitespace(ch: Char): Boolean = ch.isWhitespace() || ch == '\u200e' || ch == '\u200f'
+private fun isWhitespace(cp: Int): Boolean =
+    cp in 0x0009..0x000D ||
+        cp == 0x0020 ||
+        cp == 0x0085 ||
+        cp == 0x00A0 ||
+        cp == 0x1680 ||
+        cp in 0x2000..0x200A ||
+        cp == 0x200E ||
+        cp == 0x200F ||
+        cp == 0x2028 ||
+        cp == 0x2029 ||
+        cp == 0x202F ||
+        cp == 0x205F ||
+        cp == 0x3000
 
-private fun wordBreak(input: Cursor): Result<Cursor> =
-    when (val ch = input.rest.firstOrNull()) {
-        null -> Result.success(input)
-        else -> if (isIdentContinue(ch)) reject() else Result.success(input)
+private fun wordBreak(input: Cursor): Result<Cursor> {
+    if (input.rest.isEmpty()) {
+        return Result.success(input)
     }
+    val (cp, _) = input.rest.codePointAndWidthAt(0)
+    return if (isIdentContinueCodePoint(cp)) reject() else Result.success(input)
+}
 
 private const val ERROR = "(/*ERROR*/)"
 
@@ -388,7 +413,7 @@ private fun rawString(input: Cursor): Result<Cursor> {
     while (i < body.rest.length) {
         val byte = body.rest[i]
         when {
-            byte == '"' && body.rest.drop(i + 1).startsWith(delimiter) -> {
+            byte == '"' && body.rest.startsWith(delimiter, startIndex = i + 1) -> {
                 return Result.success(literalSuffix(body.advance(i + 1 + delimiter.length)))
             }
             byte == '\r' && body.rest.getOrNull(i + 1) != '\n' -> return reject()
@@ -413,34 +438,34 @@ private fun byteString(input: Cursor): Result<Cursor> {
 private fun cookedByteString(inputCursor: Cursor): Result<Cursor> {
     var input = inputCursor
     var offset = 0
-    // `bytes` must track `input`: a string-continuation escape advances `input`, so
-    // the byte view has to be recomputed afterwards (otherwise the loop keeps reading
-    // the pre-continuation bytes and mis-parses the remainder).
-    var bytes = input.bytes()
-    while (offset < bytes.size) {
-        when (val b = bytes[offset]) {
-            '"'.code -> return Result.success(literalSuffix(input.advance(offset + 1)))
-            '\r'.code -> if (bytes.getOrNull(offset + 1) != '\n'.code) return reject() else offset += 1
-            '\\'.code -> {
-                val next = bytes.getOrNull(offset + 1) ?: return reject()
+    while (offset < input.rest.length) {
+        when (val ch = input.rest[offset]) {
+            '"' -> return Result.success(literalSuffix(input.advance(offset + 1)))
+            '\r' -> {
+                if (input.rest.getOrNull(offset + 1) != '\n') return reject()
+                offset += 1
+            }
+            '\\' -> {
+                val next = input.rest.getOrNull(offset + 1) ?: return reject()
                 when (next) {
-                    'x'.code -> {
-                        if (backslashXByte(bytes, offset + 2).isFailure) return reject()
+                    'x' -> {
+                        if (backslashXByte(input.rest, offset + 2).isFailure) return reject()
                         offset += 3
                     }
-                    'n'.code, 'r'.code, 't'.code, '\\'.code, '0'.code, '\''.code, '"'.code -> offset += 1
-                    '\n'.code, '\r'.code -> {
+                    'n', 'r', 't', '\\', '0', '\'', '"' -> offset += 1
+                    '\n', '\r' -> {
                         input = input.advance(offset + 2)
-                        val trailed = trailingBackslash(input, next.toChar())
+                        val trailed = trailingBackslash(input, next)
                         if (trailed.isFailure) return reject()
                         input = trailed.getOrThrow()
-                        bytes = input.bytes()
                         offset = -1
                     }
                     else -> return reject()
                 }
             }
-            else -> if (b !in 0..0x7f) return reject()
+            else -> {
+                if (ch.code !in 0..0x7f) return reject()
+            }
         }
         offset += 1
     }
@@ -448,15 +473,15 @@ private fun cookedByteString(inputCursor: Cursor): Result<Cursor> {
 }
 
 private fun delimiterOfRawString(input: Cursor): PResult<String> {
-    for ((i, byte) in input.bytes().withIndex()) {
-        when (byte) {
-            '"'.code -> {
+    for (i in input.rest.indices) {
+        when (input.rest[i]) {
+            '"' -> {
                 if (i > 255) {
                     return reject()
                 }
                 return Result.success(input.advance(i + 1) to input.rest.substring(0, i))
             }
-            '#'.code -> Unit
+            '#' -> Unit
             else -> return reject()
         }
     }
@@ -468,15 +493,14 @@ private fun rawByteString(input: Cursor): Result<Cursor> {
     if (parsed.isFailure) return reject()
     val (body, delimiter) = parsed.getOrThrow()
     var i = 0
-    val bytes = body.bytes()
-    while (i < bytes.size) {
-        val byte = bytes[i]
+    while (i < body.rest.length) {
+        val ch = body.rest[i]
         when {
-            byte == '"'.code && body.rest.drop(i + 1).startsWith(delimiter) -> {
+            ch == '"' && body.rest.startsWith(delimiter, startIndex = i + 1) -> {
                 return Result.success(literalSuffix(body.advance(i + 1 + delimiter.length)))
             }
-            byte == '\r'.code && bytes.getOrNull(i + 1) != '\n'.code -> return reject()
-            byte !in 0..0x7f -> return reject()
+            ch == '\r' && body.rest.getOrNull(i + 1) != '\n' -> return reject()
+            ch.code !in 0..0x7f -> return reject()
         }
         i += 1
     }
@@ -503,7 +527,7 @@ private fun rawCString(input: Cursor): Result<Cursor> {
     while (i < body.rest.length) {
         val byte = body.rest[i]
         when {
-            byte == '"' && body.rest.drop(i + 1).startsWith(delimiter) -> {
+            byte == '"' && body.rest.startsWith(delimiter, startIndex = i + 1) -> {
                 return Result.success(literalSuffix(body.advance(i + 1 + delimiter.length)))
             }
             byte == '\r' && body.rest.getOrNull(i + 1) != '\n' -> return reject()
@@ -521,7 +545,10 @@ private fun cookedCString(inputCursor: Cursor): Result<Cursor> {
         val ch = input.rest[i]
         when (ch) {
             '"' -> return Result.success(literalSuffix(input.advance(i + 1)))
-            '\r' -> if (input.rest.getOrNull(i + 1) != '\n') return reject() else i += 1
+            '\r' -> {
+                if (input.rest.getOrNull(i + 1) != '\n') return reject()
+                i += 1
+            }
             '\\' -> {
                 val next = input.rest.getOrNull(i + 1) ?: return reject()
                 when (next) {
@@ -556,22 +583,23 @@ private fun byte(input: Cursor): Result<Cursor> {
     val parsed = input.parse("b'")
     if (parsed.isFailure) return reject()
     val body = parsed.getOrThrow()
-    val bytes = body.bytes()
-    if (bytes.isEmpty()) return reject()
+    val chars = body.rest
+    if (chars.isEmpty()) return reject()
     var offset =
-        if (bytes[0] == '\\'.code) {
-            when (bytes.getOrNull(1)) {
-                'x'.code -> {
-                    if (backslashXByte(bytes, 2).isFailure) return reject()
+        if (chars[0] == '\\') {
+            when (chars.getOrNull(1)) {
+                'x' -> {
+                    if (backslashXByte(chars, 2).isFailure) return reject()
                     4
                 }
-                'n'.code, 'r'.code, 't'.code, '\\'.code, '0'.code, '\''.code, '"'.code -> 2
+                'n', 'r', 't', '\\', '0', '\'', '"' -> 2
                 else -> return reject()
             }
         } else {
+            if (chars[0].code !in 0..0x7f) return reject()
             1
         }
-    if (body.rest.getOrNull(offset) != '\'') {
+    if (chars.getOrNull(offset) != '\'') {
         return reject()
     }
     offset += 1
@@ -596,9 +624,11 @@ private fun character(input: Cursor): Result<Cursor> {
                 else -> return reject()
             }
         } else {
-            1
+            val (cp, width) = chars.codePointAndWidthAt(0)
+            if (cp in 0xD800..0xDFFF) return reject()
+            width
         }
-    if (body.rest.getOrNull(idx) != '\'') {
+    if (chars.getOrNull(idx) != '\'') {
         return reject()
     }
     idx += 1
@@ -611,9 +641,9 @@ private fun backslashXChar(chars: String, start: Int): Result<Unit> {
     return if (first in '0'..'7' && second.isHexDigit()) Result.success(Unit) else reject()
 }
 
-private fun backslashXByte(bytes: List<Int>, start: Int): Result<Unit> {
-    val first = bytes.getOrNull(start)?.toChar() ?: return reject()
-    val second = bytes.getOrNull(start + 1)?.toChar() ?: return reject()
+private fun backslashXByte(chars: String, start: Int): Result<Unit> {
+    val first = chars.getOrNull(start) ?: return reject()
+    val second = chars.getOrNull(start + 1) ?: return reject()
     return if (first.isHexDigit() && second.isHexDigit()) Result.success(Unit) else reject()
 }
 
@@ -687,8 +717,7 @@ private fun trailingBackslash(input: Cursor, lastInput: Char): Result<Cursor> {
 
 private fun float(input: Cursor): Result<Cursor> {
     var rest = floatDigits(input).getOrElse { return reject() }
-    val ch = rest.rest.firstOrNull()
-    if (ch != null && isIdentStart(ch)) {
+    if (rest.rest.isNotEmpty() && isIdentStartCodePoint(rest.rest.codePointAndWidthAt(0).first)) {
         rest = identNotRaw(rest).getOrElse { return reject() }.first
     }
     return wordBreak(rest)
@@ -707,7 +736,10 @@ private fun floatDigits(input: Cursor): Result<Cursor> {
             in '0'..'9', '_' -> len += 1
             '.' -> {
                 if (hasDot) break
-                if (chars.getOrNull(len + 1)?.let { it == '.' || isIdentStart(it) } == true) {
+                if (
+                    len + 1 < chars.length &&
+                    (chars[len + 1] == '.' || isIdentStartCodePoint(chars.codePointAndWidthAt(len + 1).first))
+                ) {
                     return reject()
                 }
                 hasDot = true
@@ -753,8 +785,7 @@ private fun floatDigits(input: Cursor): Result<Cursor> {
 
 private fun int(input: Cursor): Result<Cursor> {
     var rest = digits(input).getOrElse { return reject() }
-    val ch = rest.rest.firstOrNull()
-    if (ch != null && isIdentStart(ch)) {
+    if (rest.rest.isNotEmpty() && isIdentStartCodePoint(rest.rest.codePointAndWidthAt(0).first)) {
         rest = identNotRaw(rest).getOrElse { return reject() }.first
     }
     return wordBreak(rest)
@@ -777,7 +808,8 @@ private fun digits(inputCursor: Cursor): Result<Cursor> {
         }
     var len = 0
     var empty = true
-    for (byte in input.bytes()) {
+    for (ch in input.rest) {
+        val byte = ch.code
         when (byte) {
             in '0'.code..'9'.code -> {
                 val digit = byte - '0'.code
@@ -828,7 +860,7 @@ private fun punctChar(input: Cursor): PResult<Char> {
     }
     val first = input.rest.firstOrNull() ?: return reject()
     return if (first in "~!@#$%^&*-=+|;:,<.>/?'") {
-        Result.success(input.advance(first.toString().encodeToByteArray().size) to first)
+        Result.success(input.advance(1) to first)
     } else {
         reject()
     }
@@ -900,7 +932,7 @@ private fun docCommentContents(input: Cursor): PResult<Pair<String, Boolean>> {
                 Result.success(rest to (s to false))
             }
         }
-        input.startsWith("/**") && !input.rest.drop(3).startsWith('*') -> {
+        input.startsWith("/**") && input.rest.getOrNull(3) != '*' -> {
             val block = blockComment(input).getOrElse { return reject() }
             Result.success(block.first to (block.second.substring(3, block.second.length - 2) to false))
         }
@@ -912,7 +944,7 @@ private fun takeUntilNewlineOrEof(input: Cursor): Pair<Cursor, String> {
     for ((i, ch) in input.charIndices()) {
         if (ch == '\n') {
             return input.advance(i) to input.rest.substring(0, i)
-        } else if (ch == '\r' && input.rest.drop(i + 1).startsWith('\n')) {
+        } else if (ch == '\r' && i + 1 < input.rest.length && input.rest[i + 1] == '\n') {
             return input.advance(i + 1) to input.rest.substring(0, i)
         }
     }

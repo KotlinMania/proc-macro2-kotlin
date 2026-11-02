@@ -4,14 +4,14 @@ Based on AST analysis, here are the concrete next steps.
 
 ## Summary
 
-- **Files Present:** 13/15 (86.7%)
-- **Function parity:** 264/335 matched (target 436) — 78.8%
-- **Class/type parity:** 23/46 matched (target 68) — 50.0%
-- **Combined symbol parity:** 287/381 matched (target 504) — 75.3%
-- **Average inline-code cosine:** 0.32 (function body across 13 matched files)
-- **Average documentation cosine:** 0.25 (doc text across 13 matched files)
+- **Files Present:** 11/15 (73.3%)
+- **Function parity:** 229/293 matched (target 383) — 78.2%
+- **Class/type parity:** 19/37 matched (target 49) — 51.4%
+- **Combined symbol parity:** 248/330 matched (target 432) — 75.2%
+- **Average inline-code cosine:** 0.32 (function body across 11 matched files)
+- **Average documentation cosine:** 0.22 (doc text across 11 matched files)
 - **Cheat-zeroed Files:** 0
-- **Critical Issues:** 12 files with <0.60 function similarity
+- **Critical Issues:** 10 files with <0.60 function similarity
 - **Needs Review:** 0 files with 0.60-0.84 function similarity
 - **Excellent:** 1 files with >=0.85 function similarity
 
@@ -31,12 +31,12 @@ Every matched file is listed below with function and type symbol parity.
 
 ### 1. fallback
 
-- **Target:** `procmacro2.Fallback`
-- **Similarity:** 0.18
+- **Target:** `Fallback`
+- **Similarity:** 0.19
 - **Dependents:** 1
-- **Priority Score:** 1452208.2
-- **Functions:** 74/109 matched (target 137)
-- **Missing functions:** `push_negative_literal`, `drop`, `get_cursor`, `fmt`, `fmt`, `fmt`, `from`, `from`, `from`, `from_iter`, `from_iter`, `extend`, `extend`, `invalidate_current_thread_spans`, `call_site`, `join`, `source_text`, `first_byte`, `last_byte`, `fmt`, `fmt`, `fmt`, `eq`, `eq`, `fmt`, `fmt`, `fmt`, `_new`, `from_str_unchecked`, `fmt`, `fmt`, `from_str_checked`, `from_str_unchecked`, `valid`, `valid`
+- **Priority Score:** 1422208.1
+- **Functions:** 77/109 matched (target 145)
+- **Missing functions:** `get_cursor`, `fmt`, `fmt`, `fmt`, `from`, `from`, `from`, `from_iter`, `from_iter`, `extend`, `extend`, `invalidate_current_thread_spans`, `call_site`, `join`, `source_text`, `first_byte`, `last_byte`, `fmt`, `fmt`, `fmt`, `eq`, `eq`, `fmt`, `fmt`, `fmt`, `_new`, `fmt`, `fmt`, `from_str_checked`, `from_str_unchecked`, `valid`, `valid`
 - **Types:** 4/13 matched (target 10)
 - **Missing types:** `TokenStream`, `LexError`, `Item`, `IntoIter`, `Span`, `Group`, `Ident`, `Literal`, `FromStr2`
 
@@ -75,7 +75,7 @@ Every matched file is listed below with function and type symbol parity.
 
 ### 5. wrapper
 
-- **Target:** `procmacro2.Wrapper`
+- **Target:** `Wrapper`
 - **Similarity:** 0.13
 - **Dependents:** 0
 - **Priority Score:** 359608.8
@@ -84,20 +84,9 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 4/10 matched (target 22)
 - **Missing types:** `TokenStream`, `LexError`, `TokenTreeIter`, `Item`, `IntoIter`, `Span`
 
-### 6. rustc_literal_escaper
+### 6. rcvec
 
-- **Target:** `procmacro2.RustcLiteralEscaper`
-- **Similarity:** 0.30
-- **Dependents:** 0
-- **Priority Score:** 94807.0
-- **Functions:** 36/40 matched (target 55)
-- **Missing functions:** `char2raw_unit`, `char2raw_unit`, `try_from`, `try_from`
-- **Types:** 3/8 matched (target 18)
-- **Missing types:** `CheckRaw`, `RawUnit`, `Error`, `Unescape`, `Unit`
-
-### 7. rcvec
-
-- **Target:** `procmacro2.Rcvec`
+- **Target:** `Rcvec`
 - **Similarity:** 0.15
 - **Dependents:** 0
 - **Priority Score:** 22608.5
@@ -106,9 +95,9 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 4/6 matched (target 5)
 - **Missing types:** `Item`, `IntoIter`
 
-### 8. extra
+### 7. extra
 
-- **Target:** `procmacro2.Extra`
+- **Target:** `Extra`
 - **Similarity:** 0.14
 - **Dependents:** 0
 - **Priority Score:** 20808.6
@@ -117,9 +106,9 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 2/2 matched (target 4)
 - **Missing types:** _none_
 
-### 9. detection
+### 8. detection
 
-- **Target:** `procmacro2.Detection`
+- **Target:** `Detection`
 - **Similarity:** 0.39
 - **Dependents:** 0
 - **Priority Score:** 20606.1
@@ -128,20 +117,20 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 0/1 matched (target 0)
 - **Missing types:** `PanicHook`
 
-### 10. parse
+### 9. parse
 
-- **Target:** `procmacro2.Parse`
-- **Similarity:** 0.26
+- **Target:** `Parse`
+- **Similarity:** 0.23
 - **Dependents:** 0
-- **Priority Score:** 5307.4
+- **Priority Score:** 5307.7
 - **Functions:** 50/50 matched (target 55)
 - **Missing functions:** _none_
 - **Types:** 3/3 matched
 - **Missing types:** _none_
 
-### 11. location
+### 10. location
 
-- **Target:** `procmacro2.Location`
+- **Target:** `Location`
 - **Similarity:** 0.18
 - **Dependents:** 0
 - **Priority Score:** 308.2
@@ -150,20 +139,9 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 1/1 matched
 - **Missing types:** _none_
 
-### 12. num
+### 11. marker
 
-- **Target:** `procmacro2.Num`
-- **Similarity:** 0.24
-- **Dependents:** 0
-- **Priority Score:** 307.6
-- **Functions:** 2/2 matched (target 6)
-- **Missing functions:** _none_
-- **Types:** 1/1 matched
-- **Missing types:** _none_
-
-### 13. marker
-
-- **Target:** `procmacro2.Marker`
+- **Target:** `Marker`
 - **Similarity:** 1.00
 - **Dependents:** 0
 - **Priority Score:** 100.0
@@ -193,5 +171,7 @@ do not treat them as the next implementation target by default.
 | Source | Expected target | Deps | Source path | Expected path |
 |--------|-----------------|------|-------------|---------------|
 | `lib` | `Lib` | 0 | `lib.rs` | `Lib.kt` |
+| `num` | `Num` | 0 | `num.rs` | `Num.kt` |
 | `probe` | `probe.Probe` | 0 | `probe.rs` | `probe/Probe.kt` |
+| `rustc_literal_escaper` | `RustcLiteralEscaper` | 0 | `rustc_literal_escaper.rs` | `RustcLiteralEscaper.kt` |
 
