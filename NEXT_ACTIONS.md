@@ -31,7 +31,7 @@ Every matched file is listed below with function and type symbol parity.
 
 ### 1. fallback
 
-- **Target:** `Fallback`
+- **Target:** `procmacro2.Fallback`
 - **Similarity:** 0.19
 - **Dependents:** 1
 - **Priority Score:** 1422208.1
@@ -75,7 +75,7 @@ Every matched file is listed below with function and type symbol parity.
 
 ### 5. wrapper
 
-- **Target:** `Wrapper`
+- **Target:** `procmacro2.Wrapper`
 - **Similarity:** 0.13
 - **Dependents:** 0
 - **Priority Score:** 359608.8
@@ -86,7 +86,7 @@ Every matched file is listed below with function and type symbol parity.
 
 ### 6. rcvec
 
-- **Target:** `Rcvec`
+- **Target:** `procmacro2.Rcvec`
 - **Similarity:** 0.15
 - **Dependents:** 0
 - **Priority Score:** 22608.5
@@ -97,7 +97,7 @@ Every matched file is listed below with function and type symbol parity.
 
 ### 7. extra
 
-- **Target:** `Extra`
+- **Target:** `procmacro2.Extra`
 - **Similarity:** 0.14
 - **Dependents:** 0
 - **Priority Score:** 20808.6
@@ -108,7 +108,7 @@ Every matched file is listed below with function and type symbol parity.
 
 ### 8. detection
 
-- **Target:** `Detection`
+- **Target:** `procmacro2.Detection`
 - **Similarity:** 0.39
 - **Dependents:** 0
 - **Priority Score:** 20606.1
@@ -119,7 +119,7 @@ Every matched file is listed below with function and type symbol parity.
 
 ### 9. parse
 
-- **Target:** `Parse`
+- **Target:** `procmacro2.Parse`
 - **Similarity:** 0.23
 - **Dependents:** 0
 - **Priority Score:** 5307.7
@@ -130,7 +130,7 @@ Every matched file is listed below with function and type symbol parity.
 
 ### 10. location
 
-- **Target:** `Location`
+- **Target:** `procmacro2.Location`
 - **Similarity:** 0.18
 - **Dependents:** 0
 - **Priority Score:** 308.2
@@ -141,7 +141,7 @@ Every matched file is listed below with function and type symbol parity.
 
 ### 11. marker
 
-- **Target:** `Marker`
+- **Target:** `procmacro2.Marker`
 - **Similarity:** 1.00
 - **Dependents:** 0
 - **Priority Score:** 100.0
