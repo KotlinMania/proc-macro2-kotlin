@@ -476,66 +476,73 @@ MISSING_SYMBOL function bytes at tmp/proc-macro2/src/parse.rs:56
 MISSING_SYMBOL function chars at tmp/proc-macro2/src/parse.rs:60
 MISSING_SYMBOL function char_indices at tmp/proc-macro2/src/parse.rs:64
 MISSING_SYMBOL function parse at tmp/proc-macro2/src/parse.rs:68
-PRESENT type Reject at tmp/proc-macro2/src/parse.rs:77 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:77
-PRESENT type_alias PResult at tmp/proc-macro2/src/parse.rs:78 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:79
-PRESENT function skip_whitespace at tmp/proc-macro2/src/parse.rs:80 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:83
-PRESENT function block_comment at tmp/proc-macro2/src/parse.rs:128 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:131
-PRESENT function is_whitespace at tmp/proc-macro2/src/parse.rs:155 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:158
-PRESENT function word_break at tmp/proc-macro2/src/parse.rs:160 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:173
-PRESENT property ERROR at tmp/proc-macro2/src/parse.rs:169 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:181
-PRESENT function token_stream at tmp/proc-macro2/src/parse.rs:171 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:183
-PRESENT function lex_error at tmp/proc-macro2/src/parse.rs:252 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:254
-PRESENT function leaf_token at tmp/proc-macro2/src/parse.rs:265 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:256
-PRESENT function ident at tmp/proc-macro2/src/parse.rs:282 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:280
-PRESENT function ident_any at tmp/proc-macro2/src/parse.rs:295 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:289
-PRESENT function ident_not_raw at tmp/proc-macro2/src/parse.rs:317 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:306
-PRESENT function literal at tmp/proc-macro2/src/parse.rs:336 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:329
-PRESENT function literal_nocapture at tmp/proc-macro2/src/parse.rs:342 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:339
-PRESENT function literal_suffix at tmp/proc-macro2/src/parse.rs:362 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:350
-PRESENT function string at tmp/proc-macro2/src/parse.rs:369 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:355
-PRESENT function cooked_string at tmp/proc-macro2/src/parse.rs:379 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:367
-PRESENT function raw_string at tmp/proc-macro2/src/parse.rs:413 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:408
-PRESENT function byte_string at tmp/proc-macro2/src/parse.rs:432 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:426
-PRESENT function cooked_byte_string at tmp/proc-macro2/src/parse.rs:442 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:438
-PRESENT function delimiter_of_raw_string at tmp/proc-macro2/src/parse.rs:473 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:475
-PRESENT function raw_byte_string at tmp/proc-macro2/src/parse.rs:490 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:491
+PRESENT type Reject at tmp/proc-macro2/src/parse.rs:77 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:75
+PRESENT type_alias PResult at tmp/proc-macro2/src/parse.rs:78 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:77
+PRESENT function skip_whitespace at tmp/proc-macro2/src/parse.rs:80 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:81
+PRESENT function block_comment at tmp/proc-macro2/src/parse.rs:128 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:129
+PRESENT function is_whitespace at tmp/proc-macro2/src/parse.rs:155 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:155
+PRESENT function word_break at tmp/proc-macro2/src/parse.rs:160 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:170
+PRESENT property ERROR at tmp/proc-macro2/src/parse.rs:169 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:178
+PRESENT function token_stream at tmp/proc-macro2/src/parse.rs:171 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:180
+PRESENT function lex_error at tmp/proc-macro2/src/parse.rs:252 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:251
+PRESENT function leaf_token at tmp/proc-macro2/src/parse.rs:265 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:253
+PRESENT function ident at tmp/proc-macro2/src/parse.rs:282 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:277
+PRESENT function ident_any at tmp/proc-macro2/src/parse.rs:295 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:286
+PRESENT function ident_not_raw at tmp/proc-macro2/src/parse.rs:317 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:303
+PRESENT function literal at tmp/proc-macro2/src/parse.rs:336 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:326
+PRESENT function literal_nocapture at tmp/proc-macro2/src/parse.rs:342 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:336
+PRESENT function literal_suffix at tmp/proc-macro2/src/parse.rs:362 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:347
+PRESENT function string at tmp/proc-macro2/src/parse.rs:369 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:352
+PRESENT function cooked_string at tmp/proc-macro2/src/parse.rs:379 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:364
+PRESENT function raw_string at tmp/proc-macro2/src/parse.rs:413 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:405
+PRESENT function byte_string at tmp/proc-macro2/src/parse.rs:432 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:424
+PRESENT function cooked_byte_string at tmp/proc-macro2/src/parse.rs:442 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:436
+PRESENT function delimiter_of_raw_string at tmp/proc-macro2/src/parse.rs:473 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:473
+PRESENT function raw_byte_string at tmp/proc-macro2/src/parse.rs:490 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:490
 PRESENT function c_string at tmp/proc-macro2/src/parse.rs:513 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:510
 PRESENT function raw_c_string at tmp/proc-macro2/src/parse.rs:523 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:522
-PRESENT function cooked_c_string at tmp/proc-macro2/src/parse.rs:543 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:541
-PRESENT function byte at tmp/proc-macro2/src/parse.rs:580 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:582
-PRESENT function character at tmp/proc-macro2/src/parse.rs:602 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:609
+PRESENT function cooked_c_string at tmp/proc-macro2/src/parse.rs:543 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:542
+PRESENT function byte at tmp/proc-macro2/src/parse.rs:580 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:583
+PRESENT function character at tmp/proc-macro2/src/parse.rs:602 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:610
 PRESENT function backslash_x_char at tmp/proc-macro2/src/parse.rs:634 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:638
 PRESENT function backslash_x_byte at tmp/proc-macro2/src/parse.rs:643 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:644
 PRESENT function backslash_x_nonzero at tmp/proc-macro2/src/parse.rs:652 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:650
 PRESENT function backslash_u at tmp/proc-macro2/src/parse.rs:665 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:664
-PRESENT function trailing_backslash at tmp/proc-macro2/src/parse.rs:691 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:701
-PRESENT function float at tmp/proc-macro2/src/parse.rs:710 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:718
-PRESENT function float_digits at tmp/proc-macro2/src/parse.rs:720 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:726
-PRESENT function int at tmp/proc-macro2/src/parse.rs:805 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:786
-PRESENT function digits at tmp/proc-macro2/src/parse.rs:815 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:794
-PRESENT function punct at tmp/proc-macro2/src/parse.rs:870 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:839
-PRESENT function punct_char at tmp/proc-macro2/src/parse.rs:890 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:857
-PRESENT function doc_comment at tmp/proc-macro2/src/parse.rs:908 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:869
-PRESENT function doc_comment_contents at tmp/proc-macro2/src/parse.rs:956 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:915
-PRESENT function take_until_newline_or_eof at tmp/proc-macro2/src/parse.rs:979 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:943
-EXTRA_TARGET_SYMBOL property Cursor::rest at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:5
-EXTRA_TARGET_SYMBOL property Cursor::off at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:6
-EXTRA_TARGET_SYMBOL property Cursor::ascii at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:10
-EXTRA_TARGET_SYMBOL function Cursor::isAscii at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:12
-EXTRA_TARGET_SYMBOL function Cursor::advance at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:14
-EXTRA_TARGET_SYMBOL function Cursor::startsWith at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:22
-EXTRA_TARGET_SYMBOL function Cursor::startsWithChar at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:24
-EXTRA_TARGET_SYMBOL function Cursor::startsWithFn at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:26
-EXTRA_TARGET_SYMBOL function Cursor::isEmpty at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:28
-EXTRA_TARGET_SYMBOL function Cursor::len at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:30
-EXTRA_TARGET_SYMBOL function Cursor::asBytes at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:32
-EXTRA_TARGET_SYMBOL function Cursor::bytes at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:36
-EXTRA_TARGET_SYMBOL function Cursor::firstByte at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:52
-EXTRA_TARGET_SYMBOL function Cursor::chars at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:65
-EXTRA_TARGET_SYMBOL function Cursor::charIndices at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:67
-EXTRA_TARGET_SYMBOL function Cursor::parse at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:69
-EXTRA_TARGET_SYMBOL function reject at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:81
-EXTRA_TARGET_SYMBOL function isHexDigit at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:954
+PRESENT function trailing_backslash at tmp/proc-macro2/src/parse.rs:691 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:702
+PRESENT function float at tmp/proc-macro2/src/parse.rs:710 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:719
+PRESENT function float_digits at tmp/proc-macro2/src/parse.rs:720 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:727
+PRESENT function int at tmp/proc-macro2/src/parse.rs:805 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:787
+PRESENT function digits at tmp/proc-macro2/src/parse.rs:815 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:795
+PRESENT function punct at tmp/proc-macro2/src/parse.rs:870 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:841
+PRESENT function punct_char at tmp/proc-macro2/src/parse.rs:890 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:859
+PRESENT function doc_comment at tmp/proc-macro2/src/parse.rs:908 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:871
+PRESENT function doc_comment_contents at tmp/proc-macro2/src/parse.rs:956 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:914
+PRESENT function take_until_newline_or_eof at tmp/proc-macro2/src/parse.rs:979 -> src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:942
+EXTRA_TARGET_SYMBOL property Cursor::backing at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:5
+EXTRA_TARGET_SYMBOL property Cursor::pos at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:6
+EXTRA_TARGET_SYMBOL property Cursor::off at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:7
+EXTRA_TARGET_SYMBOL property Cursor::rest at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:14
+EXTRA_TARGET_SYMBOL function Cursor::isAscii at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:17
+EXTRA_TARGET_SYMBOL function Cursor::advance at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:19
+EXTRA_TARGET_SYMBOL function Cursor::startsWith at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:32
+EXTRA_TARGET_SYMBOL function Cursor::startsWithChar at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:34
+EXTRA_TARGET_SYMBOL function Cursor::startsWithFn at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:36
+EXTRA_TARGET_SYMBOL function Cursor::isEmpty at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:38
+EXTRA_TARGET_SYMBOL function Cursor::len at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:40
+EXTRA_TARGET_SYMBOL function Cursor::asBytes at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:42
+EXTRA_TARGET_SYMBOL function Cursor::bytes at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:44
+EXTRA_TARGET_SYMBOL function Cursor::firstByte at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:46
+EXTRA_TARGET_SYMBOL function Cursor::chars at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:48
+EXTRA_TARGET_SYMBOL function Cursor::charIndices at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:50
+EXTRA_TARGET_SYMBOL function Cursor::parse at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:52
+EXTRA_TARGET_SYMBOL function Cursor::component1 at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:59
+EXTRA_TARGET_SYMBOL function Cursor::component2 at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:61
+EXTRA_TARGET_SYMBOL function Cursor::copy at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:63
+EXTRA_TARGET_SYMBOL function Cursor::equals at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:68
+EXTRA_TARGET_SYMBOL function Cursor::hashCode at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:70
+EXTRA_TARGET_SYMBOL function Cursor::toString at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:72
+EXTRA_TARGET_SYMBOL function reject at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:79
+EXTRA_TARGET_SYMBOL function isHexDigit at src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2/Parse.kt:955
 MISSING_FILE probe.rs
 MISSING_SYMBOL function byte_range at tmp/proc-macro2/src/probe/proc_macro_span.rs:17
 MISSING_SYMBOL function start at tmp/proc-macro2/src/probe/proc_macro_span.rs:21

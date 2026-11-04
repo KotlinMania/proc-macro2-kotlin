@@ -5,9 +5,9 @@ Based on AST analysis, here are the concrete next steps.
 ## Summary
 
 - **Files Present:** 11/15 (73.3%)
-- **Function parity:** 229/293 matched (target 383) — 78.2%
+- **Function parity:** 229/293 matched (target 388) — 78.2%
 - **Class/type parity:** 19/37 matched (target 49) — 51.4%
-- **Combined symbol parity:** 248/330 matched (target 432) — 75.2%
+- **Combined symbol parity:** 248/330 matched (target 437) — 75.2%
 - **Average inline-code cosine:** 0.32 (function body across 11 matched files)
 - **Average documentation cosine:** 0.22 (doc text across 11 matched files)
 - **Cheat-zeroed Files:** 0
@@ -31,7 +31,7 @@ Every matched file is listed below with function and type symbol parity.
 
 ### 1. fallback
 
-- **Target:** `procmacro2.Fallback`
+- **Target:** `Fallback`
 - **Similarity:** 0.19
 - **Dependents:** 1
 - **Priority Score:** 1422208.1
@@ -75,7 +75,7 @@ Every matched file is listed below with function and type symbol parity.
 
 ### 5. wrapper
 
-- **Target:** `procmacro2.Wrapper`
+- **Target:** `Wrapper`
 - **Similarity:** 0.13
 - **Dependents:** 0
 - **Priority Score:** 359608.8
@@ -86,7 +86,7 @@ Every matched file is listed below with function and type symbol parity.
 
 ### 6. rcvec
 
-- **Target:** `procmacro2.Rcvec`
+- **Target:** `Rcvec`
 - **Similarity:** 0.15
 - **Dependents:** 0
 - **Priority Score:** 22608.5
@@ -97,7 +97,7 @@ Every matched file is listed below with function and type symbol parity.
 
 ### 7. extra
 
-- **Target:** `procmacro2.Extra`
+- **Target:** `Extra`
 - **Similarity:** 0.14
 - **Dependents:** 0
 - **Priority Score:** 20808.6
@@ -108,7 +108,7 @@ Every matched file is listed below with function and type symbol parity.
 
 ### 8. detection
 
-- **Target:** `procmacro2.Detection`
+- **Target:** `Detection`
 - **Similarity:** 0.39
 - **Dependents:** 0
 - **Priority Score:** 20606.1
@@ -119,18 +119,18 @@ Every matched file is listed below with function and type symbol parity.
 
 ### 9. parse
 
-- **Target:** `procmacro2.Parse`
-- **Similarity:** 0.23
+- **Target:** `Parse`
+- **Similarity:** 0.21
 - **Dependents:** 0
-- **Priority Score:** 5307.7
-- **Functions:** 50/50 matched (target 55)
+- **Priority Score:** 5307.9
+- **Functions:** 50/50 matched (target 60)
 - **Missing functions:** _none_
 - **Types:** 3/3 matched
 - **Missing types:** _none_
 
 ### 10. location
 
-- **Target:** `procmacro2.Location`
+- **Target:** `Location`
 - **Similarity:** 0.18
 - **Dependents:** 0
 - **Priority Score:** 308.2
@@ -141,7 +141,7 @@ Every matched file is listed below with function and type symbol parity.
 
 ### 11. marker
 
-- **Target:** `procmacro2.Marker`
+- **Target:** `Marker`
 - **Similarity:** 1.00
 - **Dependents:** 0
 - **Priority Score:** 100.0
