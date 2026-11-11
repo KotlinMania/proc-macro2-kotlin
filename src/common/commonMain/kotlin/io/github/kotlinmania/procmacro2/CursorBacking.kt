@@ -187,7 +187,8 @@ internal class CursorBacking(
     }
 }
 
-private val loneSurrogateUtf8: ByteArray = "\uD800".encodeToByteArray()
+private val loneSurrogateUtf8: ByteArray =
+    charArrayOf(0xD800.toChar()).concatToString().encodeToByteArray()
 
 internal fun Cursor.charAt(index: Int): Char = backing.source[pos + index]
 

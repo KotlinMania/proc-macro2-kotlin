@@ -25,6 +25,18 @@ class CursorByteAccessTest {
     }
 
     @Test
+    fun isolatedSurrogateReplacementMatchesTheRuntimeEncoder() {
+        for (code in listOf(0xD800, 0xDC00)) {
+            val source = charArrayOf(code.toChar()).concatToString()
+            val cursor = Cursor(source, 0)
+            val expected = cursor.asBytes().map { it.toInt() and 0xff }
+            assertEquals(expected, cursor.bytes())
+            assertEquals(expected.firstOrNull(), cursor.firstByte())
+            assertEquals(expected, cursor.bytes())
+        }
+    }
+
+    @Test
     fun cachedViewsDoNotChangeValueSemanticsOrOutliveTheirSource() {
         val original = Cursor("abc", 2)
         val expected = original.copy()

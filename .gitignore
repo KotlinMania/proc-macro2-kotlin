@@ -73,6 +73,17 @@ package-lock.json
 !**/native/node-*/package-lock.json
 !**/src/js/node-*/**/package-lock.json
 
+# Sensitive credentials and environment files
+maven.properties
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.keystore
+credentials*.json
+
 # Java build helpers are source; buildSrc/build remains generated output.
 !buildSrc/
 !buildSrc/src/
