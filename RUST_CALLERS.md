@@ -16,15 +16,15 @@ For every Rust crate this repo owns (under `tmp/`), this file lists every **cros
 
 | package | module | inbound use sites | distinct caller crates | distinct caller repos | codex sites |
 |---|---|---:|---:|---:|---:|
-| `proc-macro2` | `proc_macro2` | 438 | 17 | 11 | 1 |
+| `proc-macro2` | `proc_macro2` | 553 | 29 | 17 | 1 |
 
 ## `proc-macro2`
 
-### Inbound symbols (12 distinct, 438 total `use` sites)
+### Inbound symbols (12 distinct, 553 total `use` sites)
 
 Sorted by codex demand, then total demand. The first symbols are the priority queue for porting `proc-macro2`.
 
-#### `proc_macro2::Span` — 89 site(s) (1 codex, 88 other, 14 caller crates)
+#### `proc_macro2::Span` — 121 site(s) (1 codex, 120 other, 21 caller crates)
 
 - ✅ `codex-kotlin/codex-experimental-api-macros` `src/lib.rs:2` — `use proc_macro2::Span`
 - `async-trait-kotlin/async-trait` `src/args.rs:1` — `use proc_macro2::Span`
@@ -35,12 +35,12 @@ Sorted by codex demand, then total demand. The first symbols are the priority qu
 - `futures-kotlin/futures-macro` `src/executor.rs:2` — `use proc_macro2::Span`
 - `futures-kotlin/futures-macro` `src/join.rs:4` — `use proc_macro2::Span`
 - `futures-kotlin/futures-macro` `src/select.rs:4` — `use proc_macro2::Span`
+- `gazebo-kotlin/gazebo_derive` `src/variant.rs:1` — `use proc_macro2::Span`
 - `logos-kotlin/logos-codegen` `src/error.rs:1` — `use proc_macro2::Span`
 - `logos-kotlin/logos-codegen` `src/graph/export.rs:224` — `use proc_macro2::Span`
-- `logos-kotlin/logos-codegen` `src/leaf.rs:3` — `use proc_macro2::Span`
-- _… and 77 more site(s)._
+- _… and 109 more site(s)._
 
-#### `proc_macro2::TokenStream` — 139 site(s) (0 codex, 139 other, 14 caller crates)
+#### `proc_macro2::TokenStream` — 190 site(s) (0 codex, 190 other, 25 caller crates)
 
 - `async-trait-kotlin/async-trait` `src/bound.rs:1` — `use proc_macro2::TokenStream`
 - `async-trait-kotlin/async-trait` `src/expand.rs:6` — `use proc_macro2::TokenStream`
@@ -49,124 +49,124 @@ Sorted by codex demand, then total demand. The first symbols are the priority qu
 - `async-trait-kotlin/async-trait` `src/verbatim.rs:1` — `use proc_macro2::TokenStream`
 - `futures-kotlin/futures-macro` `src/join.rs:4` — `use proc_macro2::TokenStream as TokenStream2`
 - `futures-kotlin/futures-macro` `src/stream_select.rs:1` — `use proc_macro2::TokenStream`
+- `gazebo-kotlin/dupe_derive` `src/dupe.rs:1` — `use proc_macro2::TokenStream`
+- `gazebo-kotlin/dupe_derive` `src/util.rs:4` — `use proc_macro2::TokenStream`
+- `gazebo-kotlin/gazebo_derive` `src/default.rs:1` — `use proc_macro2::TokenStream`
 - `logos-kotlin/logos-cli` `src/main.rs:11` — `use proc_macro2::TokenStream`
 - `logos-kotlin/logos-codegen` `src/error.rs:1` — `use proc_macro2::TokenStream`
-- `logos-kotlin/logos-codegen` `src/generator/fast_loop.rs:1` — `use proc_macro2::TokenStream`
-- `logos-kotlin/logos-codegen` `src/generator/fork.rs:2` — `use proc_macro2::TokenStream`
-- `logos-kotlin/logos-codegen` `src/generator/leaf.rs:1` — `use proc_macro2::TokenStream`
-- _… and 127 more site(s)._
+- _… and 178 more site(s)._
 
-#### `proc_macro2::Ident` — 49 site(s) (0 codex, 49 other, 11 caller crates)
+#### `proc_macro2::Ident` — 59 site(s) (0 codex, 59 other, 17 caller crates)
 
 - `async-trait-kotlin/async-trait` `src/bound.rs:1` — `use proc_macro2::Ident`
+- `criterion-kotlin/criterion-macro` `src/lib.rs:3` — `use proc_macro2::Ident`
 - `logos-kotlin/logos-codegen` `src/parser/definition.rs:2` — `use proc_macro2::Ident`
 - `logos-kotlin/logos-codegen` `src/parser/ignore_flags.rs:1` — `use proc_macro2::Ident`
 - `logos-kotlin/logos-codegen` `src/parser/nested.rs:2` — `use proc_macro2::Ident`
 - `logos-kotlin/logos-codegen` `src/parser/type_params.rs:1` — `use proc_macro2::Ident`
+- `pyo3-kotlin/pyo3-ffi-check-macro` `src/lib.rs:7` — `use proc_macro2::Ident`
+- `pyo3-kotlin/pyo3-macros-backend` `src/konst.rs:7` — `use proc_macro2::Ident`
+- `pyo3-kotlin/pyo3-macros-backend` `src/pyclass.rs:3` — `use proc_macro2::Ident`
 - `quote-kotlin/quote` `src/ident_fragment.rs:4` — `use proc_macro2::Ident`
 - `quote-kotlin/quote` `src/runtime.rs:6` — `use proc_macro2::Ident`
 - `quote-kotlin/quote` `src/to_tokens.rs:9` — `use proc_macro2::Ident`
-- `quote-kotlin/quote` `tests/test.rs:10` — `use proc_macro2::Ident`
-- `serde-kotlin/serde_derive` `src/internals/ast.rs:4` — `use proc_macro2::Ident`
-- `serde-kotlin/serde_derive` `src/internals/name.rs:2` — `use proc_macro2::Ident`
-- `serde-kotlin/serde_derive` `src/lib.rs:78` — `use proc_macro2::Ident`
-- _… and 37 more site(s)._
+- _… and 47 more site(s)._
 
-#### `proc_macro2::TokenTree` — 39 site(s) (0 codex, 39 other, 9 caller crates)
+#### `proc_macro2::TokenTree` — 47 site(s) (0 codex, 47 other, 15 caller crates)
 
 - `async-trait-kotlin/async-trait` `src/receiver.rs:1` — `use proc_macro2::TokenTree`
+- `criterion-kotlin/criterion-macro` `src/lib.rs:3` — `use proc_macro2::TokenTree`
 - `logos-kotlin/logos-codegen` `src/lib.rs:35` — `use proc_macro2::TokenTree`
 - `logos-kotlin/logos-codegen` `src/parser/ignore_flags.rs:1` — `use proc_macro2::TokenTree`
 - `logos-kotlin/logos-codegen` `src/parser/mod.rs:1` — `use proc_macro2::TokenTree`
 - `logos-kotlin/logos-codegen` `src/parser/nested.rs:2` — `use proc_macro2::TokenTree`
 - `logos-kotlin/logos-codegen` `src/util.rs:1` — `use proc_macro2::TokenTree`
+- `pyo3-kotlin/pyo3-ffi-check-macro` `src/lib.rs:7` — `use proc_macro2::TokenTree`
+- `pyo3-kotlin/pyo3-macros-backend` `src/utils.rs:2` — `use proc_macro2::TokenTree`
 - `quote-kotlin/quote` `src/ext.rs:3` — `use proc_macro2::TokenTree`
 - `quote-kotlin/quote` `src/runtime.rs:6` — `use proc_macro2::TokenTree`
 - `quote-kotlin/quote` `src/to_tokens.rs:9` — `use proc_macro2::TokenTree`
-- `serde-kotlin/serde_derive` `src/internals/attr.rs:4` — `use proc_macro2::TokenTree`
-- `serde-kotlin/serde_derive` `src/internals/respan.rs:1` — `use proc_macro2::TokenTree`
-- `serde-kotlin/serde_derive_internals` `src/attr.rs:4` — `use proc_macro2::TokenTree`
-- _… and 27 more site(s)._
+- _… and 35 more site(s)._
 
-#### `proc_macro2::Delimiter` — 32 site(s) (0 codex, 32 other, 3 caller crates)
+#### `proc_macro2::Delimiter` — 33 site(s) (0 codex, 33 other, 4 caller crates)
 
 - `quote-kotlin/quote` `tests/test.rs:10` — `use proc_macro2::Delimiter`
+- `rust-lang-kotlin/stdarch-gen-arm` `src/intrinsic.rs:2` — `use proc_macro2::Delimiter`
 - `syn-kotlin/syn` `src/buffer.rs:16` — `use proc_macro2::Delimiter`
 - `syn-kotlin/syn` `src/classify.rs:14` — `use proc_macro2::Delimiter`
 - `syn-kotlin/syn` `src/discouraged.rs:10` — `use proc_macro2::Delimiter`
-- `syn-kotlin/syn` `src/error.rs:12` — `use proc_macro2::Delimiter`
+- `syn-kotlin/syn` `src/error.rs:14` — `use proc_macro2::Delimiter`
 - `syn-kotlin/syn` `src/group.rs:5` — `use proc_macro2::Delimiter`
 - `syn-kotlin/syn` `src/lookahead.rs:10` — `use proc_macro2::Delimiter`
 - `syn-kotlin/syn` `src/mac.rs:9` — `use proc_macro2::Delimiter`
 - `syn-kotlin/syn` `src/mac.rs:203` — `use proc_macro2::Delimiter`
 - `syn-kotlin/syn` `src/parse.rs:201` — `use proc_macro2::Delimiter`
 - `syn-kotlin/syn` `src/scan_expr.rs:2` — `use proc_macro2::Delimiter`
-- `syn-kotlin/syn` `src/span.rs:2` — `use proc_macro2::Delimiter`
-- _… and 20 more site(s)._
+- _… and 21 more site(s)._
 
-#### `proc_macro2::Group` — 26 site(s) (0 codex, 26 other, 6 caller crates)
+#### `proc_macro2::Group` — 29 site(s) (0 codex, 29 other, 9 caller crates)
 
 - `async-trait-kotlin/async-trait` `src/receiver.rs:1` — `use proc_macro2::Group`
 - `quote-kotlin/quote` `src/runtime.rs:6` — `use proc_macro2::Group`
 - `quote-kotlin/quote` `src/to_tokens.rs:9` — `use proc_macro2::Group`
 - `quote-kotlin/quote` `tests/test.rs:10` — `use proc_macro2::Group`
+- `rust-lang-kotlin/stdarch-gen-arm` `src/intrinsic.rs:2` — `use proc_macro2::Group`
 - `serde-kotlin/serde_derive` `src/internals/respan.rs:1` — `use proc_macro2::Group`
 - `serde-kotlin/serde_derive_internals` `src/respan.rs:1` — `use proc_macro2::Group`
+- `serderive-kotlin/serde_derive` `src/internals/respan.rs:1` — `use proc_macro2::Group`
+- `serderive-kotlin/serde_derive_internals` `src/respan.rs:1` — `use proc_macro2::Group`
 - `syn-kotlin/syn` `src/buffer.rs:16` — `use proc_macro2::Group`
-- `syn-kotlin/syn` `src/error.rs:12` — `use proc_macro2::Group`
+- `syn-kotlin/syn` `src/error.rs:14` — `use proc_macro2::Group`
 - `syn-kotlin/syn` `src/lit.rs:222` — `use proc_macro2::Group`
-- `syn-kotlin/syn` `src/parse.rs:201` — `use proc_macro2::Group`
-- `syn-kotlin/syn` `src/span.rs:2` — `use proc_macro2::Group`
-- `syn-kotlin/syn` `src/token.rs:1062` — `use proc_macro2::Group`
-- _… and 14 more site(s)._
+- _… and 17 more site(s)._
 
-#### `proc_macro2::Spacing` — 20 site(s) (0 codex, 20 other, 6 caller crates)
+#### `proc_macro2::Spacing` — 25 site(s) (0 codex, 25 other, 9 caller crates)
 
 - `logos-kotlin/logos-codegen` `src/util.rs:1` — `use proc_macro2::Spacing`
 - `quote-kotlin/quote` `src/runtime.rs:6` — `use proc_macro2::Spacing`
+- `rust-lang-kotlin/stdarch-gen-arm` `src/expression.rs:2` — `use proc_macro2::Spacing`
+- `rust-lang-kotlin/stdarch-gen-arm` `src/intrinsic.rs:2` — `use proc_macro2::Spacing`
 - `serde-kotlin/serde_derive` `src/internals/attr.rs:4` — `use proc_macro2::Spacing`
 - `serde-kotlin/serde_derive_internals` `src/attr.rs:4` — `use proc_macro2::Spacing`
+- `serderive-kotlin/serde_derive` `src/internals/attr.rs:4` — `use proc_macro2::Spacing`
+- `serderive-kotlin/serde_derive_internals` `src/attr.rs:4` — `use proc_macro2::Spacing`
 - `syn-kotlin/syn` `src/buffer.rs:16` — `use proc_macro2::Spacing`
-- `syn-kotlin/syn` `src/error.rs:12` — `use proc_macro2::Spacing`
+- `syn-kotlin/syn` `src/error.rs:14` — `use proc_macro2::Spacing`
 - `syn-kotlin/syn` `src/ext.rs:17` — `use proc_macro2::Spacing`
-- `syn-kotlin/syn` `src/lifetime.rs:145` — `use proc_macro2::Spacing`
-- `syn-kotlin/syn` `src/scan_expr.rs:2` — `use proc_macro2::Spacing`
-- `syn-kotlin/syn` `src/token.rs:982` — `use proc_macro2::Spacing`
-- `syn-kotlin/syn` `src/token.rs:1062` — `use proc_macro2::Spacing`
-- `syn-kotlin/syn` `src/tt.rs:3` — `use proc_macro2::Spacing`
-- _… and 8 more site(s)._
+- `syn-kotlin/syn` `src/lifetime.rs:183` — `use proc_macro2::Spacing`
+- _… and 13 more site(s)._
 
-#### `proc_macro2::Punct` — 17 site(s) (0 codex, 17 other, 3 caller crates)
+#### `proc_macro2::Punct` — 20 site(s) (0 codex, 20 other, 4 caller crates)
 
 - `quote-kotlin/quote` `src/runtime.rs:6` — `use proc_macro2::Punct`
 - `quote-kotlin/quote` `src/to_tokens.rs:9` — `use proc_macro2::Punct`
+- `rust-lang-kotlin/stdarch-gen-arm` `src/expression.rs:2` — `use proc_macro2::Punct`
+- `rust-lang-kotlin/stdarch-gen-arm` `src/intrinsic.rs:2` — `use proc_macro2::Punct`
 - `syn-kotlin/syn` `src/buffer.rs:16` — `use proc_macro2::Punct`
-- `syn-kotlin/syn` `src/error.rs:12` — `use proc_macro2::Punct`
+- `syn-kotlin/syn` `src/error.rs:14` — `use proc_macro2::Punct`
 - `syn-kotlin/syn` `src/ext.rs:17` — `use proc_macro2::Punct`
-- `syn-kotlin/syn` `src/lifetime.rs:145` — `use proc_macro2::Punct`
-- `syn-kotlin/syn` `src/lit.rs:878` — `use proc_macro2::Punct`
+- `syn-kotlin/syn` `src/lifetime.rs:183` — `use proc_macro2::Punct`
+- `syn-kotlin/syn` `src/lit.rs:831` — `use proc_macro2::Punct`
 - `syn-kotlin/syn` `src/parse.rs:201` — `use proc_macro2::Punct`
 - `syn-kotlin/syn` `src/token.rs:117` — `use proc_macro2::Punct`
-- `syn-kotlin/syn` `src/token.rs:1062` — `use proc_macro2::Punct`
-- `syn-kotlin/syn` `tests/test_grouping.rs:11` — `use proc_macro2::Punct`
-- `syn-kotlin/syn` `tests/test_parse_buffer.rs:2` — `use proc_macro2::Punct`
-- _… and 5 more site(s)._
+- `syn-kotlin/syn` `src/token.rs:1071` — `use proc_macro2::Punct`
+- _… and 8 more site(s)._
 
-#### `proc_macro2::Literal` — 15 site(s) (0 codex, 15 other, 5 caller crates)
+#### `proc_macro2::Literal` — 17 site(s) (0 codex, 17 other, 7 caller crates)
 
 - `logos-kotlin/logos-codegen` `src/parser/nested.rs:2` — `use proc_macro2::Literal`
 - `quote-kotlin/quote` `src/to_tokens.rs:9` — `use proc_macro2::Literal`
+- `rust-lang-kotlin/stdarch-gen-arm` `src/expression.rs:2` — `use proc_macro2::Literal`
 - `serde-kotlin/serde_derive` `src/de/identifier.rs:9` — `use proc_macro2::Literal`
+- `serderive-kotlin/serde_derive` `src/de/identifier.rs:9` — `use proc_macro2::Literal`
 - `syn-kotlin/syn` `src/buffer.rs:16` — `use proc_macro2::Literal`
-- `syn-kotlin/syn` `src/error.rs:12` — `use proc_macro2::Literal`
-- `syn-kotlin/syn` `src/expr.rs:3153` — `use proc_macro2::Literal`
+- `syn-kotlin/syn` `src/error.rs:14` — `use proc_macro2::Literal`
+- `syn-kotlin/syn` `src/expr.rs:3239` — `use proc_macro2::Literal`
 - `syn-kotlin/syn` `src/lit.rs:19` — `use proc_macro2::Literal`
-- `syn-kotlin/syn` `src/lit.rs:878` — `use proc_macro2::Literal`
-- `syn-kotlin/syn` `src/lit.rs:1152` — `use proc_macro2::Literal`
+- `syn-kotlin/syn` `src/lit.rs:831` — `use proc_macro2::Literal`
+- `syn-kotlin/syn` `src/lit.rs:1105` — `use proc_macro2::Literal`
 - `syn-kotlin/syn` `src/parse.rs:201` — `use proc_macro2::Literal`
-- `syn-kotlin/syn` `src/token.rs:117` — `use proc_macro2::Literal`
-- `syn-kotlin/syn` `tests/debug/mod.rs:9` — `use proc_macro2::Literal`
-- _… and 3 more site(s)._
+- _… and 5 more site(s)._
 
 #### `proc_macro2::extra::DelimSpan` — 9 site(s) (0 codex, 9 other, 2 caller crates)
 
@@ -183,7 +183,7 @@ Sorted by codex demand, then total demand. The first symbols are the priority qu
 #### `proc_macro2::LexError` — 2 site(s) (0 codex, 2 other, 2 caller crates)
 
 - `logos-kotlin/logos-cli` `src/main.rs:11` — `use proc_macro2::LexError`
-- `syn-kotlin/syn` `src/error.rs:12` — `use proc_macro2::LexError`
+- `syn-kotlin/syn` `src/error.rs:14` — `use proc_macro2::LexError`
 
 #### `proc_macro2::token_stream::IntoIter` — 1 site(s) (0 codex, 1 other, 1 caller crates)
 

@@ -6,7 +6,7 @@
     "lang": "rust"
   },
   "target": {
-    "path": "src/commonMain/kotlin/io/github/kotlinmania/procmacro2",
+    "path": "src/common/commonMain/kotlin/io/github/kotlinmania/procmacro2",
     "lang": "kotlin"
   },
   "checks": {
@@ -18,6 +18,8 @@
   "reexport_modules": [
     "mod.rs",
     "lib.rs",
-    "probe.rs"
+    "probe.rs",
+    "rustc_literal_escaper.rs",
+    "num.rs"
   ]
 }

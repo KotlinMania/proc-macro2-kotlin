@@ -28,13 +28,13 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Set up JDK 21
-        uses: actions/setup-java@v6.0.1
+        uses: actions/setup-java@v6.1.0
         with:
           distribution: zulu
           java-version: '21'
 
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v6.3.0
+        uses: gradle/actions/setup-gradle@v6.4.0
 
       # NOTE: do NOT add a `maxim-lobanov/setup-xcode` step here.
       # KotlinMania's enterprise GitHub Actions policy does not whitelist
@@ -49,10 +49,48 @@ jobs:
           swift --version
           xcodebuild -version
 
-      # This targeted task owns the macOS ARM64 export and three strict Swift tests.
-      # Other platform tests run in their respective reusable workflows.
-      - name: Build and test Swift Export
-        run: ./gradlew swiftExportSmokeTest --no-daemon --max-workers=2 --no-configuration-cache --console=plain
+      # `embedSwiftExportForXcode` is the entry point for Kotlin's Swift
+      # Export pipeline. Outside an `xcodebuild`-driven invocation, the
+      # plugin's `BuildSPMSwiftExportPackage` task fails its property
+      # validation because the environment variables Xcode normally injects
+      # aren't present. The variables below cover what the plugin reads:
+      #
+      #   * SDK_NAME / ARCHS / CONFIGURATION — which slice to build.
+      #   * BUILT_PRODUCTS_DIR / TARGET_BUILD_DIR — where to land the static
+      #     archive and `.swiftmodule` bundles.
+      #   * FRAMEWORKS_FOLDER_PATH — relative path inside BUILT_PRODUCTS_DIR
+      #     where embedded frameworks would land.
+      #   * MACOSX_DEPLOYMENT_TARGET — the minimum macOS version.
+      #   * DEPLOYMENT_TARGET_SETTING_NAME — the indirection variable
+      #     telling the plugin which deployment-target env var to read.
+      #     Xcode sets this automatically per-target; outside Xcode it
+      #     must be set explicitly or the task fails with
+      #     `property 'deploymentTargetSettingName' doesn't have a
+      #     configured value`.
+      #
+      # Output lands in `build/swift-test/`:
+      #   * `lib<Module>.a` — the merged static archive containing every
+      #     `@ExportedBridge`-annotated function emitted by
+      #     `build/SwiftExport/macosArm64/Debug/**/*.kt`. `<Module>` is the
+      #     repo's `project.frameworkName` (the Swift Export module name).
+      #   * Four `.swiftmodule/` directories: <Module>,
+      #     KotlinRuntimeSupport, ExportedKotlinPackages, KotlinRuntime.
+      - name: Build Swift Export package
+        env:
+          BUILT_PRODUCTS_DIR: ${{ github.workspace }}/build/swift-test/Debug
+          TARGET_BUILD_DIR: ${{ github.workspace }}/build/swift-test/Debug
+          SDK_NAME: macosx
+          CONFIGURATION: Debug
+          ARCHS: arm64
+          FRAMEWORKS_FOLDER_PATH: Frameworks
+          MACOSX_DEPLOYMENT_TARGET: "15.0"
+          DEPLOYMENT_TARGET_SETTING_NAME: MACOSX_DEPLOYMENT_TARGET
+          XCODE_XCCONFIG_FILE: ${{ github.workspace }}/verification/strict-swift.xcconfig
+        run: ./gradlew embedSwiftExportForXcode --no-configuration-cache
+
+      - name: Run swift test against Kotlin-exported module
+        working-directory: src/swift/swift-test-harness
+        run: swift test -v -Xswiftc -swift-version -Xswiftc 6 -Xswiftc -warnings-as-errors
 
       - name: Upload Swift Export artifacts
         if: success() || failure()
@@ -60,14 +98,8 @@ jobs:
         with:
           name: swift-export-artifacts
           path: |
-            build/swift-tests.log
-            build/reports/swift-tests.log
-            build/reports/swift-tests.json
-            build/reports/native-cache/
-            build/swift-tooling/verified-worker.json
-            build/swift-tooling/sdk-audit.json
-            build/swift-test/lib*.a
-            build/swift-test/*.swiftmodule/
+            build/swift-test/Debug/lib*.a
+            build/swift-test/Debug/*.swiftmodule/
             build/SPMPackage/macosArm64/Debug/
           retention-days: 7
           if-no-files-found: warn
